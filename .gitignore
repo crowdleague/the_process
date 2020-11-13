@@ -47,5 +47,9 @@ app.*.map.json
 
 ###### Added ignores 
 
-# Updates whenever we hide/show files 
+# Ignored because the file updates whenever we hide/show files 
 .vscode/settings.json
+# Ignored as we use different files locally and in CI 
+web/index.html
+web/index_cdn.html
+web/index_auto.html
