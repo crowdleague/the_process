@@ -53,3 +53,6 @@ app.*.map.json
 web/index.html
 web/index_cdn.html
 web/index_auto.html
+
+# Ignored so credentials are kept private (not strictly neccessary but good practice)
+macos/Runner/GoogleService-Info.plist
