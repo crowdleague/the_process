@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>256145062869-8jom5eake2osb0hno8vre8tm5k0uees1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.256145062869-8jom5eake2osb0hno8vre8tm5k0uees1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAD8YeagX9NJSIN3ptRBPunBTFCCsqtKPE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>256145062869</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>co.enspyr.theProcess</string>
+	<key>PROJECT_ID</key>
+	<string>the-process-tool</string>
+	<key>STORAGE_BUCKET</key>
+	<string>the-process-tool.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:256145062869:ios:35ebca0c25d78aa8b95b5c</string>
+	<key>DATABASE_URL</key>
+	<string>https://the-process-tool.firebaseio.com</string>
+</dict>
+</plist>
