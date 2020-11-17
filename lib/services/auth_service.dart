@@ -124,8 +124,19 @@ class AuthService {
 
     // Initialize the browser oauth2 flow functionality.
     BrowserOAuth2Flow flow = await createImplicitBrowserFlow(id, scopes);
+
+    // HybridFlowResult result = await flow.runHybridFlow(force: true);
+    // print('---------------------------------------');
+    // print(result.authorizationCode);
+    // print('---------------------------------------');
+    // print(result.credentials.accessToken.data);
+    // print('---------------------------------------');
+
     AccessCredentials credentials =
-        await flow.obtainAccessCredentialsViaUserConsent();
+        await flow.obtainAccessCredentialsViaUserConsent(force: true);
+    return credentials.toModel();
+
+    // responseTypes: [ResponseType.code],
 
     // void prompt(String url) {
     //   print('Please go to the following URL and grant access:');
@@ -137,7 +148,5 @@ class AuthService {
     // final accessCredentials =
     //     await obtainAccessCredentialsViaUserConsent(id, scopes, client, prompt);
     // client.close();
-
-    return credentials.toModel();
   }
 }

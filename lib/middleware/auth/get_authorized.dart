@@ -12,11 +12,11 @@ class GetAuthorizedMiddleware extends TypedMiddleware<AppState, GetAuthorized> {
 
           final accessCredentials = await authService.getAuthorized();
 
-          print(accessCredentials);
+          print(accessCredentials.refreshToken);
 
-          databaseService.saveAuthTokens(
-              uid: store.state.authUserData.uid,
-              accessToken: accessCredentials.accessToken,
-              refreshToken: accessCredentials.refreshToken);
+          // databaseService.saveAuthTokens(
+          //     uid: store.state.authUserData.uid,
+          //     accessToken: accessCredentials.accessToken,
+          //     refreshToken: accessCredentials.refreshToken);
         });
 }
