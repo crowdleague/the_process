@@ -22,13 +22,13 @@ export class AuthToken {
     async failed(failures: any[]) {
         const data = {
             'uid': this.uid,
-            'failures': failures
+            'failures': failures,
         };
         await db.collection(`users/${this.uid}/processing_failures`).add({
             'type': 'exchange_code_for_tokens',
             'createdOn': admin.firestore.FieldValue.serverTimestamp,
             'message': JSON.stringify(data),
-            'data': data
+            'data': data,
         });
     }
 }

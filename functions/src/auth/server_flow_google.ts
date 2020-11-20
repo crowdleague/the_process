@@ -9,10 +9,17 @@
 // import * as functions from 'firebase-functions';
 import * as express from 'express';
 import { google } from 'googleapis'; // drive_v3
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+
+const projectName = 'projects/the_process'; // Project for which to manage secrets.
+const secretId = 'UID'; // Secret ID.
+const payload = 'hello world!'; // String source data.
 
 import * as project_credentials from '../project_credentials.json';
 
 export const exchangeCodeWithGoogle = express();
+
+const secretsClient = new SecretManagerServiceClient();
 
 const oauth2Client = new google.auth.OAuth2(
   project_credentials.id,
@@ -38,7 +45,7 @@ const scopes = ['https://www.googleapis.com/auth/documents',
 // access_type is either 'online' (default) or 'offline' (gets refresh_token)
 const url = oauth2Client.generateAuthUrl({  
   access_type: 'offline',
-  scope: scopes
+  scope: scopes,
 });
 
 // Get the code from the request, call retrieveAuthToken and return the response
@@ -51,13 +58,41 @@ const exchangeCodeForToken = async (req: any, res: any) => {
       return res.send(req.originalUrl);
     }
     
-    const response = await oauth2Client.getToken(req.query.code);
+    // const authResponse = await oauth2Client.getToken(req.query.code);
+    // authResponse.tokens
 
-    res.send(JSON.stringify(response.tokens));
+    // Create the secret with automation replication.
+    const [secret] = await secretsClient.createSecret({
+      parent: projectName,
+      secret: {
+        name: secretId,
+        replication: {
+          automatic: {},
+        },
+      },
+      secretId,
+    });
 
-    // Save the token to a document named as the user id
-    // const dbEntry = new database.AuthToken(req.query.state, token_response);
-    // await dbEntry.save();
+    console.info(`Created secret ${secret.name}`);
+
+    // Add a version with a payload onto the secret.
+    const [version] = await secretsClient.addSecretVersion({
+      parent: secret.name,
+      payload: {
+        data: Buffer.from(payload, 'utf8'),
+      },
+    });
+
+    console.info(`Added secret version ${version.name}`);
+
+    // Access the secret.
+    const [accessResponse] = await secretsClient.accessSecretVersion({
+      name: version.name,
+    });
+
+    const responsePayload = accessResponse.payload?.data?.toString();
+
+    res.send(JSON.stringify(`Payload: ${responsePayload}`));
 
     // Close the window, the entry in database will update the UI of the original window 
     // return res.send(`
@@ -74,12 +109,12 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 exchangeCodeWithGoogle.use(exchangeCodeForToken);
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// GET AUTHORIZATION URL 
+// GET AUTHORIZED
 ////////////////////////////////////////////////////////////////////////////////////////
 
-export const getAuthorizationUrl = express();
+export const redirectToAuthorization = express();
 
 // Get the code from the request, call retrieveAuthToken and return the response
-const authorizationUrlCallback = async (req: any, res: any) => res.send('url: '+url);
+const authorizationUrlCallback = async (req: any, res: any) => res.redirect(url);
 
-getAuthorizationUrl.use(authorizationUrlCallback);
+redirectToAuthorization.use(authorizationUrlCallback);
