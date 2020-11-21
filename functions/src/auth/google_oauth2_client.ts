@@ -11,18 +11,23 @@ export const client = new google.auth.OAuth2(
 );
 
 client.on('tokens', async (tokens) => {
-  var uid;
+  let id, refresh, access = '-';
   if(tokens.id_token) {
-    functions.logger.info(`id_token: ${tokens.id_token.substr(0,5)}...`);
+    id = tokens.id_token.substr(0,5)+'...';
+    // decode with the firebase admin lib 
     const decodedToken = await admin.auth().verifyIdToken(tokens.id_token);
-    uid = decodedToken.uid;
+    functions.logger.info(`uid: ${decodedToken.uid}`); 
   }
   
   if (tokens.refresh_token) {
-    functions.logger.info(`refresh_token: ${tokens.refresh_token.substr(0,5)}...`);
-    // TODO: do something with the refresh_token? 
+    refresh = tokens.refresh_token.substr(0,5)+'...';
   }
-  functions.logger.info(`access_token: ${tokens.access_token?.substr(0,5)}...`);
-  // TODO: store the new access token
+  if (tokens.access_token) {
+    access = tokens.access_token.substr(0,5)+'...';
+  }
   
+  functions.logger.info(`id: ${id} \n refresh: ${refresh} \n access: ${access}`); 
+
+  // TODO: store the new access token
+
 });

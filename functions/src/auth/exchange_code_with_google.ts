@@ -19,7 +19,7 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 
     functions.logger.log(`Exchanged code for tokens.`);
 
-    secretManager.save(req.query.state, tokenResponse.tokens);
+    await secretManager.save(req.query.state, tokenResponse.tokens);
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`

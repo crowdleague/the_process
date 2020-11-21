@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { Credentials } from 'google-auth-library';
-import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+import { SecretManagerServiceClient, protos } from '@google-cloud/secret-manager';
 
 // We create the secret with automatic replication, documented as "the right choice in most cases".
 const autoReplication = { automatic: {} };
@@ -9,21 +9,34 @@ class SecretManager {
   client = new SecretManagerServiceClient();
 
   async save(uid: string, tokens: Credentials) {
-    functions.logger.info(`Creating secret: ${uid}`);
+    functions.logger.info(`Saving tokens for: ${uid}`);
 
     // TODO: check if secret with name already exists 
     // if yes, update?  or delete and create new? 
 
-    const [secret] = await this.client.createSecret({
-      parent: 'projects/the-process-tool',
-      secretId: uid,
-      secret: {
-        name: uid,
-        replication: autoReplication,
-      },
-    });
+    let secret: protos.google.cloud.secretmanager.v1.ISecret;
+    
+    try {
+      [secret] = await this.client.getSecret({
+        name: 'projects/the-process-tool/secrets/'+uid,
+      });
 
-    functions.logger.info(`Created secret: ${secret.name}`);
+      functions.logger.info('Retrieved secret: ', secret);
+    }
+    catch {
+      functions.logger.info(`Could not retrieve a secret for: ${uid}`);
+
+      [secret] = await this.client.createSecret({
+        parent: 'projects/the-process-tool',
+        secretId: uid,
+        secret: {
+          name: uid,
+          replication: autoReplication,
+        },
+      });
+
+      functions.logger.info('Created secret: ', secret);
+    }
 
     const tokensJson = {
       "google": {
@@ -42,7 +55,7 @@ class SecretManager {
       },
     });
 
-    functions.logger.info(`Added secret version ${version.name}`);
+    functions.logger.info(`Addeded secret version ${version.name}`);
   }
 }
 
