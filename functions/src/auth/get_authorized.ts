@@ -2,10 +2,6 @@ import * as express from 'express';
 
 import * as google_oauth2 from './google_oauth2_client';
 
-////////////////////////////////////////////////////////////////////////////////////////
-// GET AUTHORIZED
-////////////////////////////////////////////////////////////////////////////////////////
-
 // generate a url that asks permissions for Drive and Docs scopes
 const scopes = ['https://www.googleapis.com/auth/documents',
    'https://www.googleapis.com/auth/documents.readonly',

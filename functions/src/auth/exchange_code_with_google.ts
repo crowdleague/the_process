@@ -2,6 +2,8 @@ import * as functions from 'firebase-functions';
 import * as express from 'express';
 import * as google_oauth2 from './google_oauth2_client';
 
+import { secretManager } from './secret_manager';
+
 // Get the code from the request, call retrieveAuthToken and return the response
 const exchangeCodeForToken = async (req: any, res: any) => {
   try {
@@ -17,14 +19,14 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 
     functions.logger.log(`Exchanged code for tokens.`);
 
-    res.send(JSON.stringify(`expiry_date: ${tokenResponse.tokens.expiry_date}`));
+    secretManager.save(req.query.state, tokenResponse.tokens);
 
     // Close the window, the entry in database will update the UI of the original window 
-    // return res.send(`
-    //   <script>
-    //     window.close();
-    //   </script>
-    // `);
+    return res.send(`
+      <script>
+        window.close();
+      </script>
+    `);
   } catch(error) {
     functions.logger.error(error);
     return res.status(500).send('Something went wrong while exchanging the code.');
