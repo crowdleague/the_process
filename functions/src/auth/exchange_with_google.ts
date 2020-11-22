@@ -1,8 +1,12 @@
 import * as functions from 'firebase-functions';
 import * as express from 'express';
-import * as google_oauth2 from './google_oauth2_client';
+import { firebaseAdmin } from '../utils/firebase_admin';
 
+import * as google_oauth2 from '../google_apis/client';
 import { secretManager } from './secret_manager';
+import { PeopleAPI } from '../google_apis/people';
+
+const auth = firebaseAdmin.getAuth();
 
 // Get the code from the request, call retrieveAuthToken and return the response
 const exchangeCodeForToken = async (req: any, res: any) => {
@@ -17,9 +21,23 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 
     const tokenResponse = await google_oauth2.client.getToken(req.query.code);
 
-    functions.logger.log(`Exchanged code for tokens.`);
+    if(tokenResponse.tokens.access_token == null) {
+      throw Error('No access token in response.');
+    }
 
-    await secretManager.save(req.query.state, tokenResponse.tokens);
+    functions.logger.log('Adding tokens to client.');
+
+    google_oauth2.client.setCredentials(tokenResponse.tokens);
+    
+    functions.logger.log('Requesting an email with PeopleAPI.');
+
+    const peopleAPI = new PeopleAPI(google_oauth2.client);
+    const email = await peopleAPI.getEmail();
+    const userRecord = await auth.getUserByEmail(email);
+
+    functions.logger.log('Saving tokens in SecretManager.');
+    
+    await secretManager.save(userRecord.uid, tokenResponse.tokens);
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`
@@ -29,7 +47,7 @@ const exchangeCodeForToken = async (req: any, res: any) => {
     `);
   } catch(error) {
     functions.logger.error(error);
-    return res.status(500).send('Something went wrong while exchanging the code.');
+    return res.status(500).send(`Something went wrong while exchanging the code. \n ${error}`);
   }
 };
 

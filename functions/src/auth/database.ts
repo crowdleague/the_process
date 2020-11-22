@@ -1,5 +1,7 @@
-import * as admin from 'firebase-admin';
-const db = admin.firestore();
+import { firebaseAdmin } from '../utils/firebase_admin';
+import { firestore } from 'firebase-admin';
+
+const db = firebaseAdmin.getFirestore();
 
 export class AuthToken {
     uid: string;
@@ -26,7 +28,7 @@ export class AuthToken {
         };
         await db.collection(`users/${this.uid}/processing_failures`).add({
             'type': 'exchange_code_for_tokens',
-            'createdOn': admin.firestore.FieldValue.serverTimestamp,
+            'createdOn': firestore.FieldValue.serverTimestamp,
             'message': JSON.stringify(data),
             'data': data,
         });

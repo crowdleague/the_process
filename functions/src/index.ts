@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
-import { exchangeCodeWithGoogle } from './auth/exchange_code_with_google';
-import { redirectToAuthorization } from './auth/get_authorized';
+import { exchangeCodeWithGoogle } from './auth/exchange_with_google';
+import { redirectToAuthorization } from './auth/redirect_to_authorization';
 
 // server flow 
 export const getAuthorized = functions.https.onRequest(redirectToAuthorization);
