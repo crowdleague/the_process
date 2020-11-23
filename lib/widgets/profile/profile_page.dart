@@ -41,7 +41,7 @@ class ProfilePage extends StatelessWidget {
                       AuthorizationStep.gettingAuthorized)
                     CircularProgressIndicator()
                   else
-                    GoogleAuthorizationButton()
+                    GoogleAuthorizationButton(step: profileData.googleAuth)
                 ],
               ),
               MaterialButton(
