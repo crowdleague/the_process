@@ -21,6 +21,8 @@ import 'package:the_process/actions/profile/observe_profile_data.dart';
 import 'package:the_process/actions/profile/store_profile_data.dart';
 import 'package:the_process/actions/settings/update_settings.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
+import 'package:the_process/enums/auth/authorization_step.dart';
+import 'package:the_process/enums/auth/provider.dart';
 import 'package:the_process/enums/navigation/nav_bar_selection.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/enums/settings/brightness_mode.dart';

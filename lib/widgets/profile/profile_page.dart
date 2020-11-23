@@ -6,6 +6,7 @@ import 'package:the_process/actions/profile/observe_profile_data.dart';
 import 'package:the_process/extensions/flutter_extensions.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/profile/profile_data.dart';
+import 'package:the_process/widgets/profile/buttons/google_authorization_button.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage();
@@ -26,9 +27,17 @@ class ProfilePage extends StatelessWidget {
         distinct: true,
         converter: (store) => store.state.profileData,
         builder: (context, profile) {
-          return MaterialButton(
-            child: Text('Sign Out'),
-            onPressed: () => context.dispatch(SignOut()),
+          return Column(
+            children: [
+              Row(
+                children: [
+                  GoogleAuthorizationButton(),
+                ],
+              ),
+              MaterialButton(
+                  child: Text('Sign Out'),
+                  onPressed: () => context.dispatch(SignOut())),
+            ],
           );
         },
       )),

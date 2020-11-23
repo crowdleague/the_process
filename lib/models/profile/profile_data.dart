@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:meta/meta.dart';
+import 'package:the_process/models/profile/google_authorization.dart';
 import 'package:the_process/serializers.dart';
 
 part 'profile_data.g.dart';
@@ -19,6 +20,7 @@ abstract class ProfileData implements Built<ProfileData, ProfileDataBuilder> {
   String get firstName;
   @nullable
   String get lastName;
+  GoogleAuthorization get google;
 
   ProfileData._();
 
