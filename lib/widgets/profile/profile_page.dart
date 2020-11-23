@@ -3,10 +3,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:the_process/actions/auth/sign_out.dart';
 import 'package:the_process/actions/profile/disregard_profile_data.dart';
 import 'package:the_process/actions/profile/observe_profile_data.dart';
+import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/extensions/flutter_extensions.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/profile/profile_data.dart';
 import 'package:the_process/widgets/profile/buttons/google_authorization_button.dart';
+import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage();
@@ -26,12 +28,20 @@ class ProfilePage extends StatelessWidget {
         onDispose: (store) => store.dispatch(DisregardProfileData()),
         distinct: true,
         converter: (store) => store.state.profileData,
-        builder: (context, profile) {
+        builder: (context, profileData) {
+          if (profileData == null) {
+            return WaitingIndicator('Connecting to database...');
+          }
           return Column(
             children: [
+              Text(profileData.displayName),
               Row(
                 children: [
-                  GoogleAuthorizationButton(),
+                  if (profileData.googleAuth ==
+                      AuthorizationStep.gettingAuthorized)
+                    CircularProgressIndicator()
+                  else
+                    GoogleAuthorizationButton()
                 ],
               ),
               MaterialButton(

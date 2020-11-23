@@ -6,14 +6,15 @@ import 'package:the_process/serializers.dart';
 part 'authorization_step.g.dart';
 
 class AuthorizationStep extends EnumClass {
-  static const AuthorizationStep checking = _$checking;
-  static const AuthorizationStep getting = _$getting;
+  static const AuthorizationStep waitingForInput = _$waitingForInput;
+  static const AuthorizationStep gettingAuthorized = _$gettingAuthorized;
+  static const AuthorizationStep authorized = _$authorized;
 
   const AuthorizationStep._(String name) : super(name);
 
   int get index => _$indexMap[this];
-  static final _$indexMap =
-      BuiltMap<AuthorizationStep, int>({checking: 0, getting: 1});
+  static final _$indexMap = BuiltMap<AuthorizationStep, int>(
+      {waitingForInput: 0, gettingAuthorized: 1, authorized: 2});
 
   static BuiltSet<AuthorizationStep> get values => _$values;
   static AuthorizationStep valueOf(String name) => _$valueOf(name);

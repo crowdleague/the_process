@@ -32,6 +32,7 @@ import 'package:the_process/models/auth/auth_provider_data.dart';
 import 'package:the_process/models/auth/auth_user_data.dart';
 import 'package:the_process/models/navigation/page_data/initial_page_data.dart';
 import 'package:the_process/models/navigation/page_data/page_data.dart';
+import 'package:the_process/models/navigation/page_data/profile_page_data.dart';
 import 'package:the_process/models/problems/problem.dart';
 import 'package:the_process/models/profile/profile_data.dart';
 import 'package:the_process/models/settings/settings.dart';
@@ -46,7 +47,6 @@ part 'serializers.g.dart';
 ///
 /// Collection of generated serializers for the AdventuresIn app
 @SerializersFor([
-  TeamMember,
   AddProblem,
   AppState,
   AuthProviderData,
@@ -64,6 +64,7 @@ part 'serializers.g.dart';
   PlumbStreams,
   Problem,
   ProfileData,
+  ProfilePageData,
   PushPage,
   RemoveCurrentPage,
   RemoveProblem,
@@ -75,6 +76,7 @@ part 'serializers.g.dart';
   StoreAuthStep,
   StoreNavBarSelection,
   StoreAuthUserData,
+  TeamMember,
   ThemeBrightness,
   ThemeColors,
   ThemeSet,
