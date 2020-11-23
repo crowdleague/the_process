@@ -41,6 +41,11 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`
+      <head>
+      </head>
+      <body>
+        <div>Credentials have been saved, you can close this window.</div>
+      </body>
       <script>
         window.close();
       </script>
