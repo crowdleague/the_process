@@ -29,21 +29,22 @@ class ProfilePage extends StatelessWidget {
         distinct: true,
         converter: (store) => store.state.profileData,
         builder: (context, profileData) {
-          if (profileData == null) {
-            return WaitingIndicator('Connecting to database...');
-          }
           return Column(
             children: [
-              Text(profileData.displayName),
-              Row(
-                children: [
-                  if (profileData.googleAuth ==
-                      AuthorizationStep.gettingAuthorized)
-                    CircularProgressIndicator()
-                  else
-                    GoogleAuthorizationButton(step: profileData.googleAuth)
-                ],
-              ),
+              if (profileData == null)
+                WaitingIndicator('Connecting to database...')
+              else ...[
+                Text(profileData.displayName),
+                Row(
+                  children: [
+                    if (profileData.googleAuth ==
+                        AuthorizationStep.gettingAuthorized)
+                      CircularProgressIndicator()
+                    else
+                      GoogleAuthorizationButton(step: profileData.googleAuth)
+                  ],
+                ),
+              ],
               MaterialButton(
                   child: Text('Sign Out'),
                   onPressed: () => context.dispatch(SignOut())),
