@@ -52,8 +52,7 @@ class AuthService {
   }
 
   Future<GoogleSignInCredential> getGoogleCredential() async {
-    final _googleSignIn = GoogleSignIn(
-        scopes: ['email', 'https://www.googleapis.com/auth/drive.file']);
+    final _googleSignIn = GoogleSignIn(scopes: ['email']);
 
     final googleSignInAccount = await _googleSignIn.signIn();
     final googleSignInAuthentication = await googleSignInAccount.authentication;
