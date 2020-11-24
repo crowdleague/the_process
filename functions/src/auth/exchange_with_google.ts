@@ -5,6 +5,7 @@ import { firebaseAdmin } from '../utils/firebase_admin';
 import * as google_oauth2 from '../google_apis/client';
 import { secretManager } from './secret_manager';
 import { PeopleAPI } from '../google_apis/people';
+import { ProfileData } from './database';
 
 const auth = firebaseAdmin.getAuth();
 
@@ -21,7 +22,7 @@ const exchangeCodeForToken = async (req: any, res: any) => {
 
     const tokenResponse = await google_oauth2.client.getToken(req.query.code);
 
-    if(tokenResponse.tokens.access_token == null) {
+    if(tokenResponse.tokens.access_token === null) {
       throw Error('No access token in response.');
     }
 
@@ -38,6 +39,11 @@ const exchangeCodeForToken = async (req: any, res: any) => {
     functions.logger.log('Saving tokens in SecretManager.');
     
     await secretManager.save(userRecord.uid, tokenResponse.tokens);
+
+    functions.logger.log('Saving finished state to database.');
+
+    const profileData = new ProfileData(userRecord.uid, 'authorized');
+    await profileData.save();
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`
