@@ -2,11 +2,14 @@ import * as functions from 'firebase-functions';
 import { Credentials } from 'google-auth-library';
 import { SecretManagerServiceClient, protos } from '@google-cloud/secret-manager';
 
+
 // We create the secret with automatic replication, documented as "the right choice in most cases".
 const autoReplication = { automatic: {} };
 
 class SecretManager {
-  client = new SecretManagerServiceClient();
+  secretsClient = new SecretManagerServiceClient();
+
+  constructor() {}
 
   async save(uid: string, tokens: Credentials) {
 
@@ -14,7 +17,7 @@ class SecretManager {
     
     // Check if a secret already exists and only create if not 
     try {
-      [secret] = await this.client.getSecret({
+      [secret] = await this.secretsClient.getSecret({
         name: 'projects/the-process-tool/secrets/'+uid,
       });
 
@@ -23,7 +26,7 @@ class SecretManager {
     catch {
       functions.logger.info(`Could not retrieve a secret for: ${uid}`);
 
-      [secret] = await this.client.createSecret({
+      [secret] = await this.secretsClient.createSecret({
         parent: 'projects/the-process-tool',
         secretId: uid,
         secret: {
@@ -45,7 +48,7 @@ class SecretManager {
     }
 
     // Add a version with a payload onto the secret.
-    const [version] = await this.client.addSecretVersion({
+    const [version] = await this.secretsClient.addSecretVersion({
       parent: secret.name,
       payload: {
         data: Buffer.from(JSON.stringify(tokensJson), 'utf8'),
@@ -53,6 +56,26 @@ class SecretManager {
     });
 
     functions.logger.info(`Addeded secret version ${version.name}`);
+  }
+
+  // 
+  async retrieveCredentials(uid: string) : Promise<Credentials> {
+    // Access the secret.
+    const [accessResponse] = await this.secretsClient.accessSecretVersion({
+      name: 'projects/the-process-tool/secrets/'+uid,
+    });
+
+    const responsePayload = accessResponse.payload?.data?.toString();
+
+    if(responsePayload == null) {
+      throw Error(`When retrieving secret for ${uid}, response payload was null`);
+    }
+
+    const tokensJson = JSON.parse(responsePayload);
+    
+    functions.logger.info('Parsed json: ', tokensJson);
+
+    return tokensJson.google;
   }
 }
 
