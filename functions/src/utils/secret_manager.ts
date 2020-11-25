@@ -9,8 +9,6 @@ const autoReplication = { automatic: {} };
 class SecretManager {
   secretsClient = new SecretManagerServiceClient();
 
-  constructor() {}
-
   async save(uid: string, tokens: Credentials) {
 
     let secret: protos.google.cloud.secretmanager.v1.ISecret;
@@ -62,7 +60,7 @@ class SecretManager {
   async retrieveCredentials(uid: string) : Promise<Credentials> {
     // Access the secret.
     const [accessResponse] = await this.secretsClient.accessSecretVersion({
-      name: 'projects/the-process-tool/secrets/'+uid,
+      name: 'projects/the-process-tool/secrets/'+uid+'/versions/latest',
     });
 
     const responsePayload = accessResponse.payload?.data?.toString();
@@ -73,7 +71,7 @@ class SecretManager {
 
     const tokensJson = JSON.parse(responsePayload);
     
-    functions.logger.info('Parsed json: ', tokensJson);
+    functions.logger.log('Parsed json from responsePayload');
 
     return tokensJson.google;
   }

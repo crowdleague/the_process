@@ -4,7 +4,7 @@ import { Credentials } from 'google-auth-library';
 import { secretManager } from '../utils/secret_manager';
 import * as project_credentials from '../project_credentials.json';
 
-class DriveAPI {
+export class DriveAPI {
   uid : string;
   client = new google.auth.OAuth2(
     project_credentials.id,
@@ -34,11 +34,11 @@ class DriveAPI {
 
     const response = await this.drive.files.create({
       media: {
-        mimeType: 'application/vnd.google-apps.folder'
+        mimeType: 'application/vnd.google-apps.folder',
       },
       requestBody: {
         name: name,
-      }
+      },
     });
 
     return response.data;
