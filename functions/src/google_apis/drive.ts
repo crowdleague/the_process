@@ -32,7 +32,7 @@ export class DriveAPI {
   async createFolder(name: string, parentId: string) : Promise<drive_v3.Schema$File> {
     this.throwIfNotAuthenticated();
 
-    const response = await this.drive.files.create({
+    const filesResponse = await this.drive.files.create({
       requestBody: {
         'name': name,
         'mimeType': 'application/vnd.google-apps.folder',
@@ -40,16 +40,22 @@ export class DriveAPI {
       fields: 'id',
     });
 
-    // const response = await this.drive.files.create({
-    //   media: {
-    //     mimeType: 'application/vnd.google-apps.folder',
-    //   },
-    //   requestBody: {
-    //     name: name,
-    //   },
-    // });
+    if(filesResponse.data.id == null) {
+      throw Error('Creating folder did not return an id.');
+    }
 
-    return response.data;
+    let permissionParams : drive_v3.Params$Resource$Permissions$Create = {
+      fileId: filesResponse.data.id,
+      requestBody: {
+        emailAddress: 'the-crowdleague-process@googlegroups.com',
+        type: 'group',
+        role: 'writer'
+      }
+    }
+
+    const permissionResponse = await this.drive.permissions.create(permissionParams);
+
+    return permissionResponse.data;
   }
 
 }
