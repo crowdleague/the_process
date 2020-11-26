@@ -33,13 +33,21 @@ export class DriveAPI {
     this.throwIfNotAuthenticated();
 
     const response = await this.drive.files.create({
-      media: {
-        mimeType: 'application/vnd.google-apps.folder',
-      },
       requestBody: {
-        name: name,
+        'name': name,
+        'mimeType': 'application/vnd.google-apps.folder',
       },
+      fields: 'id',
     });
+
+    // const response = await this.drive.files.create({
+    //   media: {
+    //     mimeType: 'application/vnd.google-apps.folder',
+    //   },
+    //   requestBody: {
+    //     name: name,
+    //   },
+    // });
 
     return response.data;
   }
