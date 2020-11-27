@@ -40,17 +40,17 @@ export class DriveAPI {
       fields: 'id',
     });
 
-    if(filesResponse.data.id == null) {
+    if (filesResponse.data.id === null || typeof filesResponse.data.id === "undefined") {
       throw Error('Creating folder did not return an id.');
     }
 
-    let permissionParams : drive_v3.Params$Resource$Permissions$Create = {
+    const permissionParams : drive_v3.Params$Resource$Permissions$Create = {
       fileId: filesResponse.data.id,
       requestBody: {
         emailAddress: 'the-crowdleague-process@googlegroups.com',
         type: 'group',
-        role: 'writer'
-      }
+        role: 'writer',
+      },
     }
 
     const permissionResponse = await this.drive.permissions.create(permissionParams);
