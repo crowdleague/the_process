@@ -48,7 +48,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     ..pagesData = ListBuilder<PageData>(<PageData>[InitialPageData()])
     ..settings = Settings.initBuilder()
     ..authStep = AuthStep.checking
-    ..navSelection = NavBarSelection.projects);
+    ..navSelection = NavBarSelection.sections);
 
   factory AppState([void Function(AppStateBuilder) updates]) = _$AppState;
 
