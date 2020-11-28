@@ -19,6 +19,8 @@ import 'package:the_process/actions/problems/remove_problem.dart';
 import 'package:the_process/actions/profile/disregard_profile_data.dart';
 import 'package:the_process/actions/profile/observe_profile_data.dart';
 import 'package:the_process/actions/profile/store_profile_data.dart';
+import 'package:the_process/actions/sections/create_section.dart';
+import 'package:the_process/actions/sections/store_new_section_name.dart';
 import 'package:the_process/actions/settings/update_settings.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
@@ -53,6 +55,7 @@ part 'serializers.g.dart';
   AuthProviderData,
   AuthStep,
   BrightnessMode,
+  CreateSection,
   DetectPlatform,
   DisregardProfileData,
   GetAuthorized,
@@ -75,8 +78,9 @@ part 'serializers.g.dart';
   SignOut,
   StoreProfileData,
   StoreAuthStep,
-  StoreNavBarSelection,
   StoreAuthUserData,
+  StoreNavBarSelection,
+  StoreNewSectionName,
   TeamMember,
   ThemeBrightness,
   ThemeColors,
