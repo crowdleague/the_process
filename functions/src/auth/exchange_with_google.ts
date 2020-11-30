@@ -33,15 +33,14 @@ const exchangeCodeForToken = async (req: any, res: any) => {
     functions.logger.log('Setting credentials in oauth2 client...');
 
     oauth2.setCredentials(tokenResponse.tokens);
-
-    functions.logger.log('Adding tokens to client.');
-
-    oauth2.setCredentials(tokenResponse.tokens);
     
-    functions.logger.log('Requesting an email with PeopleAPI.');
+    functions.logger.log('Requesting an email with PeopleAPI...');
 
     const peopleAPI = new PeopleAPI(oauth2);
     const email = await peopleAPI.getEmail();
+
+    functions.logger.log('Converting email to Firebase UID...');
+
     const userRecord = await auth.getUserByEmail(email);
 
     functions.logger.log('Saving tokens in SecretManager...');

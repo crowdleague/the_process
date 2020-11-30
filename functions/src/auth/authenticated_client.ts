@@ -9,7 +9,7 @@ import { unNull } from '../utils/problem_utils';
 // A Singleton class that provides a single instance 
 export class AuthenticatedClient {
   
-  private static instance: Map<String, AuthenticatedClient>;
+  private static instance = new Map<String, AuthenticatedClient>();
 
   private uid : string;
   private tokens_expiry!: number;

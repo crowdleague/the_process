@@ -9,10 +9,13 @@ export class DocsAPI {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {};
 
-  static async with(uid: string) {
+  static async for(uid: string) : Promise<DocsAPI> {
     const docsAPI = new DocsAPI();
+    
     docsAPI.client = await AuthenticatedClient.getInstanceFor(uid);
     docsAPI.docs = google.docs({version: 'v1', auth: docsAPI.client.getOAuth2Client()});
+
+    return docsAPI;
   }
 
   async createDoc(title: string) : Promise<docs_v1.Schema$Document> {
