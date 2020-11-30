@@ -7,7 +7,7 @@ import * as project_credentials from '../project_credentials.json';
 import { firebaseAdmin } from '../utils/firebase_admin';
 import { secretManager } from '../utils/secret_manager';
 import { PeopleAPI } from '../google_apis/people';
-import { ProfileData } from './database';
+import { ProfileData } from '../utils/database';
 
 const auth = firebaseAdmin.getAuth();
 

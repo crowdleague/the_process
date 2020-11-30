@@ -9,9 +9,9 @@ import * as project_credentials from '../project_credentials.json';
 import { unNull } from '../utils/problem_utils';
 
 // A Singleton class that provides a single instance 
-export class AuthClient {
+export class AuthenticatedClient {
   
-  private static instance: Map<String,AuthClient>;
+  private static instance: Map<String, AuthenticatedClient>;
 
   private oauth2 : OAuth2Client = new google.auth.OAuth2(
     project_credentials.id,
@@ -24,21 +24,21 @@ export class AuthClient {
     // Add a callback to respond to token refresh 
     this.oauth2.on('tokens', async (tokens) => {
       this.logAnonymized(tokens);
-      this.storeIfNew(tokens);
+      await this.storeIfNew(tokens);
     });
   }
 
-  static async getInstanceWithCredentialsFor(uid: string) : Promise<AuthClient> {
+  static async getInstanceFor(uid: string) : Promise<AuthenticatedClient> {
 
-    if (!AuthClient.instance.get(uid)) {
+    if (!AuthenticatedClient.instance.get(uid)) {
       // Create an instance and set the credentials 
-      const client = new AuthClient();
+      const client = new AuthenticatedClient();
       const tokens : Credentials = await secretManager.retrieveCredentials(uid);
       client.oauth2.setCredentials(tokens);
-      AuthClient.instance.set(uid, client);
+      AuthenticatedClient.instance.set(uid, client);
     }
 
-    return AuthClient.instance.get(uid)!; // guaranteed to be set so we bang it
+    return AuthenticatedClient.instance.get(uid)!; // guaranteed to be set so we bang it
   }
 
   getOAuth2Client() : OAuth2Client {
