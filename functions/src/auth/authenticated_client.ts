@@ -2,8 +2,6 @@ import * as functions from 'firebase-functions';
 import { google } from 'googleapis';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 
-import { PeopleAPI } from '../google_apis/people';
-import { firebaseAdmin } from '../utils/firebase_admin';
 import { secretManager } from '../utils/secret_manager';
 import * as project_credentials from '../project_credentials.json';
 import { unNull } from '../utils/problem_utils';
@@ -13,13 +11,16 @@ export class AuthenticatedClient {
   
   private static instance: Map<String, AuthenticatedClient>;
 
+  private uid : string;
+  private tokens_expiry!: number;
   private oauth2 : OAuth2Client = new google.auth.OAuth2(
     project_credentials.id,
     project_credentials.secret,
     project_credentials.redirect_url,
   );
 
-  private constructor() {
+  private constructor(uid: string) {
+    this.uid = uid;
     
     // Add a callback to respond to token refresh 
     this.oauth2.on('tokens', async (tokens) => {
@@ -32,9 +33,14 @@ export class AuthenticatedClient {
 
     if (!AuthenticatedClient.instance.get(uid)) {
       // Create an instance and set the credentials 
-      const client = new AuthenticatedClient();
+      const client = new AuthenticatedClient(uid);
       const tokens : Credentials = await secretManager.retrieveCredentials(uid);
       client.oauth2.setCredentials(tokens);
+
+      // Make sure the expiry is not missing and set 
+      const checkedExpiry = unNull(tokens.expiry_date, 'The expiry in the secret manager\'s credentials was missing.')
+      client.setExpiry(checkedExpiry);
+
       AuthenticatedClient.instance.set(uid, client);
     }
 
@@ -45,30 +51,19 @@ export class AuthenticatedClient {
     return this.oauth2;
   }
 
+  setExpiry(expiry: number) {
+    this.tokens_expiry = expiry;
+  }
+
   async storeIfNew(tokens: Credentials) {
 
-    if(tokens.access_token === null) {
-      throw Error('No access token.');
-    }
-    if(tokens.refresh_token === null) {
-      throw Error('No refresh token.');
-    }
+    unNull(tokens.access_token, 'No access token.');
+    unNull(tokens.refresh_token, 'No refresh token.');
     const newExpiry = unNull(tokens.expiry_date, 'No new expiry date.');
-    const oldExpiry = unNull(this.oauth2.credentials.expiry_date, 'No old expiry date.');    
 
-    if(newExpiry > oldExpiry) {
-      functions.logger.log('Getting email from PeopleAPI...');
-
-      const peopleAPI = new PeopleAPI(this.oauth2);
-      const email = await peopleAPI.getEmail();
-
-      functions.logger.log('Converting email to Firebase UID...');
-
-      const userRecord = await firebaseAdmin.getAuth().getUserByEmail(email);
-
+    if(newExpiry > this.tokens_expiry) {
       functions.logger.log('Saving tokens under UID in SecretManager...');
-      
-      await secretManager.save(userRecord.uid, tokens);
+      await secretManager.save(this.uid, tokens);
     }
   }
 
