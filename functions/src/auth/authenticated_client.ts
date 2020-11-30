@@ -58,8 +58,20 @@ export class AuthenticatedClient {
   async storeIfNew(tokens: Credentials) {
 
     unNull(tokens.access_token, 'No access token.');
-    unNull(tokens.refresh_token, 'No refresh token.');
     const newExpiry = unNull(tokens.expiry_date, 'No new expiry date.');
+
+    if(newExpiry > this.tokens_expiry) {
+      functions.logger.info('The tokens event fired with a new expiry.');
+    }
+    else {
+      functions.logger.info('The tokens event fired but the expiry was not new.');
+      return;
+    }
+
+    if(tokens.refresh_token === null || typeof tokens.refresh_token === "undefined") {
+      functions.logger.log('The tokens event fired but there was no refresh token.');
+      return;
+    }
 
     if(newExpiry > this.tokens_expiry) {
       functions.logger.log('Saving tokens under UID in SecretManager...');
