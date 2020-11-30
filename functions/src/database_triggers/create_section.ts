@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 
 import { DocsAPI } from '../google_apis/docs';
 import { DriveAPI } from '../google_apis/drive';
+import { unNull } from '../utils/problem_utils';
 import { the_process_id } from '../utils/the_process_constants';
 
 export async function createSection(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
@@ -15,10 +16,18 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   
   const folder = await driveAPI.createFolder(name);
 
-  functions.logger.info(`created folder name: ${name}`, folder);
+  const checkedFolderId = unNull(folder.id, 'The created folder id was missing.')
+
+  functions.logger.info(`created folder:`, folder);
 
   const title = 'test doc';
   const doc = await docsAPI.createDoc(title);
+
+  const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.');
+
+  functions.logger.info(`created doc:`, doc);
+
+  await driveAPI.moveDoc(checkedDocId, checkedFolderId);
   
   functions.logger.info(`created doc with title: ${title}`, doc);
 

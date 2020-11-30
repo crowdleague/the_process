@@ -42,9 +42,19 @@ export class DriveAPI {
       },
     }
 
-    const permissionResponse = await this.drive.permissions.create(permissionParams);
+    await this.drive.permissions.create(permissionParams);
 
-    return permissionResponse.data;
+    return filesResponse.data;
+  }
+
+  async moveDoc(docId: string, folderId : string) {
+
+    await this.drive.files.update({ 
+      fileId: docId,
+      addParents: folderId,
+      fields: 'id, parents',
+    });
+
   }
 
 }
