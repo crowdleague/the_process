@@ -42,7 +42,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   /// Sections
   @nullable
-  SectionsVM get sectionsVM;
+  SectionsVM get sections;
 
   /// Settings
   Settings get settings;
@@ -54,8 +54,9 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     ..settings = Settings.initBuilder()
     ..authStep = AuthStep.checking
     ..navSelection = NavBarSelection.sections
-    ..sectionsVM.newSectionName = ''
-    ..sectionsVM.creatingSection = false);
+    ..sections.newSection.name = ''
+    ..sections.newSection.number = 1
+    ..sections.creatingSection = false);
 
   factory AppState([void Function(AppStateBuilder) updates]) = _$AppState;
 

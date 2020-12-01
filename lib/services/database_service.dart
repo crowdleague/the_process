@@ -92,13 +92,16 @@ class DatabaseService {
   }
 
   Future<void> createSection(
-      {@required String uid, @required String name}) async {
+      {@required String uid,
+      @required String name,
+      @required int number}) async {
     assert(uid != null);
 
     try {
       await _firestore.doc('new/$uid').set({
         'section': {
           'name': name,
+          'number': number,
         }
       });
     } catch (error, trace) {
