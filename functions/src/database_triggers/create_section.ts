@@ -31,4 +31,8 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   
   functions.logger.info(`created doc with title: ${title}`, doc);
 
+  // Delete the document that was created in the 'new' collection.
+  // The front end uses this event to change the UI.
+  await snapshot.ref.delete();
+
 }
