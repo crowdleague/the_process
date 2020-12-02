@@ -5,5 +5,5 @@ import 'package:the_process/models/app_state/app_state.dart';
 class CreateSectionReducer extends TypedReducer<AppState, CreateSection> {
   CreateSectionReducer()
       : super((state, action) =>
-            state.rebuild((b) => b..sections.creatingSection = true));
+            state.rebuild((b) => b..sections.newSection.creating = true));
 }

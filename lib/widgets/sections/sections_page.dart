@@ -15,7 +15,7 @@ class SectionsPage extends StatelessWidget {
       distinct: true,
       converter: (store) => store.state.sections,
       builder: (context, vm) {
-        if (vm.creatingSection) {
+        if (vm.newSection.creating) {
           return WaitingIndicator('Creating...');
         }
         return Row(
@@ -25,6 +25,8 @@ class SectionsPage extends StatelessWidget {
               width: 50,
               child: TextField(
                   keyboardType: TextInputType.number,
+                  controller: TextEditingController(
+                      text: vm.newSection.number.toString()),
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),

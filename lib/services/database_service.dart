@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:the_process/actions/profile/store_profile_data.dart';
 import 'package:the_process/actions/redux_action.dart';
+import 'package:the_process/actions/sections/update_new_section_v_m.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/database/database_section.dart';
 import 'package:the_process/extensions/firestore_extensions.dart';
@@ -104,6 +105,20 @@ class DatabaseService {
           'number': number,
         }
       });
+
+      final dbSection = DatabaseSection.newEntries;
+      subscriptions[dbSection] =
+          _firestore.doc('new/$uid').snapshots().listen((doc) {
+        try {
+          if (!doc.exists) {
+            _controller.add(UpdateNewSectionVM(creating: false));
+            subscriptions[dbSection].cancel();
+          }
+        } catch (error, trace) {
+          _controller.addProblem(error, trace);
+          subscriptions[dbSection].cancel();
+        }
+      }, onError: _controller.addProblem, cancelOnError: true);
     } catch (error, trace) {
       _controller.addProblem(error, trace);
     }

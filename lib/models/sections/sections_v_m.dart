@@ -12,13 +12,10 @@ part 'sections_v_m.g.dart';
 
 abstract class SectionsVM implements Built<SectionsVM, SectionsVMBuilder> {
   NewSectionVM get newSection;
-  bool get creatingSection;
 
   SectionsVM._();
 
-  factory SectionsVM(
-      {@required NewSectionVM newSection,
-      @required bool creatingSection}) = _$SectionsVM._;
+  factory SectionsVM({@required NewSectionVM newSection}) = _$SectionsVM._;
 
   factory SectionsVM.by([void Function(SectionsVMBuilder) updates]) =
       _$SectionsVM;

@@ -16,10 +16,12 @@ abstract class UpdateNewSectionVM extends Object
   String get name;
   @nullable
   int get number;
+  @nullable
+  bool get creating;
 
   UpdateNewSectionVM._();
 
-  factory UpdateNewSectionVM({String name, int number}) =
+  factory UpdateNewSectionVM({String name, int number, bool creating}) =
       _$UpdateNewSectionVM._;
 
   factory UpdateNewSectionVM.by(

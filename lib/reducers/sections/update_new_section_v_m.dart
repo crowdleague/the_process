@@ -11,5 +11,7 @@ class UpdateNewSectionVMReducer
           ..sections.newSection.name =
               action.name ?? state.sections.newSection.name
           ..sections.newSection.number =
-              action.number ?? state.sections.newSection.number));
+              action.number ?? state.sections.newSection.number
+          ..sections.newSection.creating =
+              action.creating ?? state.sections.newSection.creating));
 }
