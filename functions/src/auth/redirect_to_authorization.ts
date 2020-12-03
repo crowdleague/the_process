@@ -24,9 +24,9 @@ const scopes = [
 const googleRedirect = async (req: any, res: any) => {
 
   const oauth2 : OAuth2Client = new google.auth.OAuth2(
-    project_credentials.id,
-    project_credentials.secret,
-    project_credentials.redirect_url,
+    project_credentials.google.id,
+    project_credentials.google.secret,
+    project_credentials.google.redirect_url,
   );
 
   // access_type is either 'online' (default) or 'offline' (gets refresh_token)
@@ -49,7 +49,12 @@ export const redirectToGoogle = express().use(googleRedirect);
 
 // Get the code from the request, call retrieveAuthToken and return the response
 const asanaRedirect = async (req: any, res: any) => {
-  res.redirect('https://app.asana.com/-/oauth_authorize?response_type=code&client_id=1198855879928297&redirect_uri=https://us-central1-the-process-tool.cloudfunctions.net/exchangeWithAsana&state='+req.query.state);
+  res.redirect(
+    'https://app.asana.com/-/oauth_authorize?response_type=code&client_id='
+    +project_credentials.asana.client_id
+    +'&redirect_uri='
+    +project_credentials.asana.redirect_uri
+    +'&state='+req.query.state);
 }
 
 // Export an express app that uses the callback we created.
