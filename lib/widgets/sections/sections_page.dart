@@ -5,7 +5,7 @@ import 'package:the_process/enums/database/database_section.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/sections/sections_v_m.dart';
 import 'package:the_process/widgets/sections/new_section_item.dart';
-import 'package:the_process/widgets/sections/sections_list_item.dart';
+import 'package:the_process/widgets/sections/sections_list/item/sections_list_item.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 class SectionsPage extends StatelessWidget {
