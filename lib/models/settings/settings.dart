@@ -7,6 +7,7 @@ import 'package:built_value/serializer.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/enums/settings/brightness_mode.dart';
 import 'package:the_process/enums/settings/theme_brightness.dart';
+import 'package:the_process/models/messages/notification_settings.dart';
 import 'package:the_process/models/settings/theme_colors.dart';
 import 'package:the_process/models/settings/theme_set.dart';
 import 'package:the_process/serializers.dart';
@@ -18,6 +19,8 @@ abstract class Settings implements Built<Settings, SettingsBuilder> {
   ThemeSet get lightTheme;
   BrightnessMode get brightnessMode;
   PlatformEnum get platform;
+  @nullable
+  NotificationSettings get notifications;
 
   Settings._();
 

@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/app_init/plumb_streams.dart';
 import 'package:the_process/actions/auth/observe_auth_state.dart';
+import 'package:the_process/actions/messages/request_permission.dart';
 import 'package:the_process/actions/navigation/remove_current_page.dart';
 import 'package:the_process/actions/platform/detect_platform.dart';
 import 'package:the_process/extensions/page_data_extensions.dart';
@@ -59,6 +60,7 @@ class _AppWidgetState extends State<AppWidget> {
       // dispatch initial actions
       _store.dispatch(ObserveAuthState());
       _store.dispatch(DetectPlatform());
+      _store.dispatch(RequestPermission());
     } catch (e) {
       setState(() {
         _error = e;

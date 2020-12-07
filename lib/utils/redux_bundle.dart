@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/redux_action.dart';
 import 'package:the_process/middleware/app_middleware.dart';
@@ -9,6 +10,7 @@ import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/reducers/app_reducer.dart';
 import 'package:the_process/services/auth_service.dart';
 import 'package:the_process/services/database_service.dart';
+import 'package:the_process/services/messaging_service.dart';
 import 'package:the_process/services/platform_service.dart';
 import 'package:the_process/utils/store_operation.dart';
 
@@ -34,17 +36,21 @@ class ReduxBundle {
   final AuthService _authService;
   final DatabaseService _databaseService;
   final PlatformService _platformService;
+  final MessagingService _messagingService;
 
   ReduxBundle(
       {List<Middleware> extraMiddlewares,
       AuthService authService,
       DatabaseService databaseService,
-      PlatformService platformService})
+      PlatformService platformService,
+      MessagingService messagingService})
       : _authService = authService ??
             AuthService(FirebaseAuth.instance, StreamController<ReduxAction>()),
         _databaseService =
             databaseService ?? DatabaseService(FirebaseFirestore.instance),
-        _platformService = platformService ?? PlatformService();
+        _platformService = platformService ?? PlatformService(),
+        _messagingService =
+            messagingService ?? MessagingService(FirebaseMessaging.instance);
 
   AuthService get auth => _authService;
   DatabaseService get database => _databaseService;
@@ -58,7 +64,8 @@ class ReduxBundle {
         ...createAppMiddleware(
             authService: _authService,
             databaseService: _databaseService,
-            platformService: _platformService),
+            platformService: _platformService,
+            messagingService: _messagingService),
         ..._extraMiddlewares
       ],
     );

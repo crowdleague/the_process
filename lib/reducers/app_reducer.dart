@@ -3,6 +3,7 @@ import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/reducers/auth/sign_out.dart';
 import 'package:the_process/reducers/auth/store_auth_step.dart';
 import 'package:the_process/reducers/auth/store_auth_user_data.dart';
+import 'package:the_process/reducers/messages/store_notification_settings.dart';
 import 'package:the_process/reducers/navigation/push_page.dart';
 import 'package:the_process/reducers/navigation/remove_current_page.dart';
 import 'package:the_process/reducers/navigation/store_nav_bar_selection.dart';
@@ -24,6 +25,8 @@ final appReducer =
   StoreAuthUserDataReducer(),
   StoreAuthStepReducer(),
   SignOutReducer(),
+  // Messages
+  StoreNotificationSettingsReducer(),
   // Navigation
   PushPageReducer(),
   RemoveCurrentPageReducer(),
