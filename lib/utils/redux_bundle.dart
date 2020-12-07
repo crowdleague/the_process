@@ -10,6 +10,7 @@ import 'package:the_process/reducers/app_reducer.dart';
 import 'package:the_process/services/auth_service.dart';
 import 'package:the_process/services/database_service.dart';
 import 'package:the_process/services/platform_service.dart';
+import 'package:the_process/services/web_service.dart';
 import 'package:the_process/utils/store_operation.dart';
 
 /// Services can be injected, or if missing are given default values
@@ -34,17 +35,20 @@ class ReduxBundle {
   final AuthService _authService;
   final DatabaseService _databaseService;
   final PlatformService _platformService;
+  final WebService _webService;
 
   ReduxBundle(
       {List<Middleware> extraMiddlewares,
       AuthService authService,
       DatabaseService databaseService,
-      PlatformService platformService})
+      PlatformService platformService,
+      WebService webService})
       : _authService = authService ??
             AuthService(FirebaseAuth.instance, StreamController<ReduxAction>()),
         _databaseService =
             databaseService ?? DatabaseService(FirebaseFirestore.instance),
-        _platformService = platformService ?? PlatformService();
+        _platformService = platformService ?? PlatformService(),
+        _webService = webService ?? WebService();
 
   AuthService get auth => _authService;
   DatabaseService get database => _databaseService;
@@ -56,9 +60,11 @@ class ReduxBundle {
       initialState: AppState.init(),
       middleware: [
         ...createAppMiddleware(
-            authService: _authService,
-            databaseService: _databaseService,
-            platformService: _platformService),
+          authService: _authService,
+          databaseService: _databaseService,
+          platformService: _platformService,
+          webService: _webService,
+        ),
         ..._extraMiddlewares
       ],
     );

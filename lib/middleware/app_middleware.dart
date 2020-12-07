@@ -5,6 +5,7 @@ import 'package:the_process/middleware/auth/sign_in_with_apple.dart';
 import 'package:the_process/middleware/auth/sign_in_with_google.dart';
 import 'package:the_process/middleware/auth/sign_out.dart';
 import 'package:the_process/middleware/platform/detect_platform.dart';
+import 'package:the_process/middleware/platform/update_d_o_m.dart';
 import 'package:the_process/middleware/profile/disregard_profile_data.dart';
 import 'package:the_process/middleware/profile/get_authorized.dart';
 import 'package:the_process/middleware/profile/observe_profile_data.dart';
@@ -14,6 +15,7 @@ import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/services/auth_service.dart';
 import 'package:the_process/services/database_service.dart';
 import 'package:the_process/services/platform_service.dart';
+import 'package:the_process/services/web_service.dart';
 
 /// Middleware is used for a variety of things:
 /// - Logging
@@ -28,6 +30,7 @@ List<Middleware<AppState>> createAppMiddleware({
   AuthService authService,
   DatabaseService databaseService,
   PlatformService platformService,
+  WebService webService,
 }) {
   return [
     // Auth
@@ -38,6 +41,7 @@ List<Middleware<AppState>> createAppMiddleware({
     SignOutMiddleware(authService),
     // Platform
     DetectPlatformMiddleware(platformService),
+    UpdateDOMMiddleware(webService),
     // Profile
     DisregardProfileDataMiddleware(databaseService),
     GetAuthorizedMiddleware(databaseService, platformService),
