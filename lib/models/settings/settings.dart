@@ -21,6 +21,8 @@ abstract class Settings implements Built<Settings, SettingsBuilder> {
   PlatformEnum get platform;
   @nullable
   NotificationSettings get notifications;
+  @nullable
+  String get deviceToken;
 
   Settings._();
 

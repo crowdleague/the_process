@@ -10,7 +10,9 @@ import 'package:the_process/actions/auth/sign_in_with_google.dart';
 import 'package:the_process/actions/auth/sign_out.dart';
 import 'package:the_process/actions/auth/store_auth_step.dart';
 import 'package:the_process/actions/auth/store_auth_user_data.dart';
-import 'package:the_process/actions/messages/request_permission.dart';
+import 'package:the_process/actions/messages/request_notifications_permission.dart';
+import 'package:the_process/actions/messages/retrieve_device_token.dart';
+import 'package:the_process/actions/messages/store_device_token.dart';
 import 'package:the_process/actions/messages/store_notification_settings.dart';
 import 'package:the_process/actions/navigation/push_page.dart';
 import 'package:the_process/actions/navigation/remove_current_page.dart';
@@ -91,9 +93,10 @@ part 'serializers.g.dart';
   ProfilePageData,
   Provider,
   PushPage,
-  RequestPermission,
+  RequestNotificationsPermission,
   RemoveCurrentPage,
   RemoveProblem,
+  RetrieveDeviceToken,
   Section,
   SectionsVM,
   Settings,
@@ -102,6 +105,7 @@ part 'serializers.g.dart';
   SignOut,
   StoreAuthStep,
   StoreAuthUserData,
+  StoreDeviceToken,
   StoreNavBarSelection,
   StoreNotificationSettings,
   StoreProfileData,

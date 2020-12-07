@@ -24,4 +24,6 @@ class MessagingService {
 
     return notificationSettings.toModel();
   }
+
+  Future<String> getDeviceToken() => _messaging.getToken();
 }
