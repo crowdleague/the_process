@@ -82,6 +82,18 @@ class DatabaseService {
     }
   }
 
+  Future<void> saveDeviceToken(String uid, String token) async {
+    assert(token != null);
+
+    try {
+      await _firestore
+          .doc('profiles/$uid')
+          .set(<String, Object>{'deviceToken': token}, SetOptions(merge: true));
+    } catch (error, trace) {
+      _controller.addProblem(error, trace);
+    }
+  }
+
   Future<void> updateAuthorizationStep(
       {@required Provider provider,
       @required String uid,

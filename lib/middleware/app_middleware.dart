@@ -42,7 +42,7 @@ List<Middleware<AppState>> createAppMiddleware({
     SignOutMiddleware(authService),
     // Messages
     RequestNotificationsPermissionMiddleware(messagingService),
-    RetrieveDeviceTokenMiddleware(messagingService),
+    RetrieveDeviceTokenMiddleware(databaseService, messagingService),
     // Platform
     DetectPlatformMiddleware(platformService),
     // Profile
