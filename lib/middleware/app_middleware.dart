@@ -36,7 +36,7 @@ List<Middleware<AppState>> createAppMiddleware({
   return [
     // Auth
     ObserveAuthStateMiddleware(authService),
-    PlumbStreamsMiddleware(authService, databaseService),
+    PlumbStreamsMiddleware(authService, databaseService, messagingService),
     SignInWithAppleMiddleware(authService),
     SignInWithGoogleMiddleware(authService, databaseService),
     SignOutMiddleware(authService),

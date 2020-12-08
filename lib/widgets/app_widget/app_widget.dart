@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/app_init/plumb_streams.dart';
 import 'package:the_process/actions/auth/observe_auth_state.dart';
+import 'package:the_process/actions/messages/connect_data_messages.dart';
 import 'package:the_process/actions/messages/request_notifications_permission.dart';
 import 'package:the_process/actions/messages/retrieve_device_token.dart';
 import 'package:the_process/actions/navigation/remove_current_page.dart';
@@ -63,6 +64,7 @@ class _AppWidgetState extends State<AppWidget> {
       _store.dispatch(DetectPlatform());
       _store.dispatch(RequestNotificationsPermission());
       _store.dispatch(RetrieveDeviceToken());
+      _store.dispatch(ConnectDataMessages());
     } catch (e) {
       setState(() {
         _error = e;

@@ -4,10 +4,11 @@ import 'package:the_process/extensions/redux_extensions.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/services/auth_service.dart';
 import 'package:the_process/services/database_service.dart';
+import 'package:the_process/services/messaging_service.dart';
 
 class PlumbStreamsMiddleware extends TypedMiddleware<AppState, PlumbStreams> {
-  PlumbStreamsMiddleware(
-      AuthService authService, DatabaseService databaseService)
+  PlumbStreamsMiddleware(AuthService authService,
+      DatabaseService databaseService, MessagingService messagingService)
       : super((store, action, next) async {
           next(action);
 
@@ -17,6 +18,8 @@ class PlumbStreamsMiddleware extends TypedMiddleware<AppState, PlumbStreams> {
             databaseService.storeStream
                 .listen(store.dispatch, onError: store.dispatchProblem);
             authService.storeStream
+                .listen(store.dispatch, onError: store.dispatchProblem);
+            messagingService.storeStream
                 .listen(store.dispatch, onError: store.dispatchProblem);
           } catch (error, trace) {
             store.dispatchProblem(error, trace);

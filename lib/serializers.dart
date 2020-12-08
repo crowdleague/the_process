@@ -10,6 +10,7 @@ import 'package:the_process/actions/auth/sign_in_with_google.dart';
 import 'package:the_process/actions/auth/sign_out.dart';
 import 'package:the_process/actions/auth/store_auth_step.dart';
 import 'package:the_process/actions/auth/store_auth_user_data.dart';
+import 'package:the_process/actions/messages/connect_data_messages.dart';
 import 'package:the_process/actions/messages/request_notifications_permission.dart';
 import 'package:the_process/actions/messages/retrieve_device_token.dart';
 import 'package:the_process/actions/messages/store_device_token.dart';
@@ -74,6 +75,7 @@ part 'serializers.g.dart';
   AuthStep,
   BrightnessMode,
   ConnectDatabase,
+  ConnectDataMessages,
   CreateSection,
   DatabaseSection,
   DetectPlatform,
