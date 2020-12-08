@@ -22,10 +22,16 @@
             ]
         },
         {
-            "name": "the_rdt_process",
+            "name": "the_rdt_local_process",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main_rdt.dart",
+            "program": "lib/main_rdt_local.dart",
+        },
+        {
+            "name": "the_rdt_prod_process",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_rdt_prod.dart",
         },
         {
             "name": "the_webt_rdt_process",

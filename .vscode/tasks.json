@@ -26,7 +26,7 @@
 			],
 			"problemMatcher": [],
 			"group": "test",
-			"label": "firebase emulators:start --import=test/data"
+			"label": "firebase emulators"
 		},
 		{
 			"type": "shell",
@@ -34,6 +34,39 @@
 			"problemMatcher": [],
 			"group": "test",
 			"label": "remotedev"
+		},
+		{
+			"label": "localDev",
+			"group": "test",
+			"dependsOn": ["remotedev", "firebase emulators, chrome for remotedev"]
+		},
+		{
+			"type": "shell",
+			"command": "Chrome",
+			"osx": {
+					"command": "open",
+					"args": [
+						"-a",
+						"Google Chrome",
+						"http://localhost:8000",
+					]
+			},
+			"group": "test",
+			"label": "chrome for remotedev",
+		},
+		{
+			"type": "shell",
+			"command": "Chrome",
+			"osx": {
+					"command": "open",
+					"args": [
+						"-a",
+						"Google Chrome",
+						"http://localhost:4000",
+					]
+			},
+			"group": "test",
+			"label": "chrome for emulators",
 		}
 	]
 }

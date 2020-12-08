@@ -4,6 +4,7 @@ import 'package:the_process/middleware/auth/observe_auth_state.dart';
 import 'package:the_process/middleware/auth/sign_in_with_apple.dart';
 import 'package:the_process/middleware/auth/sign_in_with_google.dart';
 import 'package:the_process/middleware/auth/sign_out.dart';
+import 'package:the_process/middleware/messages/connect_data_messages.dart';
 import 'package:the_process/middleware/messages/request_notifications_permission.dart';
 import 'package:the_process/middleware/messages/retrieve_device_token.dart';
 import 'package:the_process/middleware/platform/detect_platform.dart';
@@ -41,6 +42,7 @@ List<Middleware<AppState>> createAppMiddleware({
     SignInWithGoogleMiddleware(authService, databaseService),
     SignOutMiddleware(authService),
     // Messages
+    ConnectDataMessagesMiddleware(messagingService),
     RequestNotificationsPermissionMiddleware(messagingService),
     RetrieveDeviceTokenMiddleware(databaseService, messagingService),
     // Platform

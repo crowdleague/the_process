@@ -5,7 +5,7 @@ class FirebaseAdmin {
   
   private static instance: FirebaseAdmin;
   
-  private constructor() { 
+  private constructor() {
     admin.initializeApp();
   }
 
@@ -17,9 +17,9 @@ class FirebaseAdmin {
     return FirebaseAdmin.instance;
   }
 
-  getAuth() : admin.auth.Auth { return admin.auth(); }
-
-  getFirestore() : Firestore { return admin.firestore(); }
+  getAuth = () : admin.auth.Auth => admin.auth();
+  getMessaging = () : admin.messaging.Messaging => admin.messaging(); 
+  getFirestore = () : Firestore => admin.firestore();
 }
 
 export const firebaseAdmin = FirebaseAdmin.getInstance();
