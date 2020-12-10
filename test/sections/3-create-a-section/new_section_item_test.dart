@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:the_process/actions/sections/create_section.dart';
 import 'package:the_process/actions/sections/update_new_section_v_m.dart';
 import 'package:the_process/widgets/sections/new_section_item.dart';
-import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 import '../../utils/widget_test_harness.dart';
 
@@ -19,11 +18,9 @@ void main() {
 
     final textField = find.byType(TextField);
     final button = find.byType(MaterialButton);
-    final waitingIndicator = find.byType(WaitingIndicator);
 
     expect(textField, findsOneWidget);
     expect(button, findsOneWidget);
-    expect(waitingIndicator, findsNothing);
 
     await tester.enterText(textField, 'a');
 
@@ -42,11 +39,9 @@ void main() {
 
     final textField = find.byType(TextField);
     final button = find.byType(MaterialButton);
-    final waitingIndicator = find.byType(WaitingIndicator);
 
     expect(textField, findsOneWidget);
     expect(button, findsOneWidget);
-    expect(waitingIndicator, findsNothing);
 
     await tester.tap(button);
 
