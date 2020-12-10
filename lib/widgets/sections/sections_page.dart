@@ -18,13 +18,13 @@ class SectionsPage extends StatelessWidget {
       distinct: true,
       converter: (store) => store.state.sections,
       builder: (context, vm) {
-        if (vm.newSection.creating) {
+        if (vm.creatingNewSection) {
           return WaitingIndicator('Creating...');
         }
         return Column(
           children: [
             SectionsListView(vm.list),
-            NewSectionItem('${vm.newSection.number}'),
+            NewSectionItem(),
           ],
         );
       },

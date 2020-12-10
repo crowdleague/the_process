@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:the_process/actions/profile/store_profile_data.dart';
 import 'package:the_process/actions/redux_action.dart';
 import 'package:the_process/actions/sections/store_sections.dart';
-import 'package:the_process/actions/sections/update_new_section_v_m.dart';
+import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/auth/provider.dart';
 import 'package:the_process/enums/database/database_section.dart';
@@ -98,17 +98,12 @@ class DatabaseService {
   }
 
   Future<void> createSection(
-      {@required String uid,
-      @required String name,
-      @required int number}) async {
+      {@required String uid, @required String name}) async {
     assert(uid != null);
 
     try {
       await _firestore.doc('new/$uid').set(<String, Object>{
-        'section': {
-          'name': name,
-          'number': number,
-        }
+        'section': {'name': name}
       });
 
       final dbSection = DatabaseSection.newEntries;
@@ -116,7 +111,7 @@ class DatabaseService {
           _firestore.doc('new/$uid').snapshots().listen((doc) {
         try {
           if (!doc.exists) {
-            _controller.add(UpdateNewSectionVM(creating: false));
+            _controller.add(UpdateSectionsVM(creatingNewSection: false));
             subscriptions[dbSection].cancel();
           }
         } catch (error, trace) {
