@@ -53,6 +53,7 @@ app.*.map.json
 .vscode/settings.json
 # Ignored as we use different files locally and in CI 
 web/index.html
+web/firebase-messaging-sw.js
 web/index_cdn.html
 web/index_auto.html
 # Ignored so credentials are kept private (not strictly neccessary but good practice)

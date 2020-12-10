@@ -55,5 +55,7 @@ class MessagingService {
 
   void disconnectDataMessages() => onMessageSubscription.cancel();
 
-  Future<String> getDeviceToken() => _messaging.getToken();
+  Future<String> getDeviceToken() => _messaging.getToken(
+      vapidKey:
+          'BPZ5Z3iPTcCQo9hbgpk2jTTA2jJ4Q4SOn-FWiukNmjtA_4OpyPacI-3bZU02mAjujsATjKaqKfxSzio7Z52LMik');
 }
