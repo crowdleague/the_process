@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:the_process/actions/redux_action.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 
-import '../mocks/redux/redux_store_mocks.dart';
+import '../mocks/redux/fake_store.dart';
 
 /// A test harness to wrap a widget under test and provide all the functionality
 /// that a test may want in order to interact with the widget or check for

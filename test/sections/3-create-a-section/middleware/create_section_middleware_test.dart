@@ -4,7 +4,8 @@ import 'package:the_process/actions/sections/create_section.dart';
 import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/middleware/sections/create_section.dart';
 
-import '../../../mocks/redux/redux_store_mocks.dart';
+import '../../../data/models/auth_user_data_example.dart';
+import '../../../mocks/redux/fake_store.dart';
 import '../../../mocks/services/database_service_mocks.dart';
 
 void main() {
@@ -13,11 +14,7 @@ void main() {
         () async {
       final fakeStore = FakeStore(
           updates: (b) => b
-            ..authUserData.uid = 'uid'
-            ..authUserData.createdOn = DateTime.now()
-            ..authUserData.lastSignedInOn = DateTime.now()
-            ..authUserData.isAnonymous = false
-            ..authUserData.emailVerified = false
+            ..authUserData.replace(AuthUserDataExample.minimal)
             ..sections.newSection.name = 'testy');
       final mockDatabaseService = MockDatabaseService();
       final nullDispatcher = (dynamic _) => null;

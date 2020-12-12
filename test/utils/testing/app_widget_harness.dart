@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:redux/redux.dart';
+import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 import 'package:the_process/utils/wrappers/firebase_wrapper.dart';
 import 'package:the_process/widgets/app_widget/app_widget.dart';
@@ -17,9 +19,9 @@ class AppWidgetHarness {
   ReduxBundle _redux;
   AppWidget _appWidget;
 
-  AppWidgetHarness({FirebaseWrapper firebase, ReduxBundle redux}) {
-    _firebase = firebase ?? FakeFirebaseWrapper();
-    _redux = redux ?? FakeReduxBundle();
+  AppWidgetHarness({Store<AppState> store}) {
+    _firebase = FakeFirebaseWrapper();
+    _redux = FakeReduxBundle(store: store);
     _appWidget = AppWidget(firebase: _firebase, redux: _redux);
   }
 

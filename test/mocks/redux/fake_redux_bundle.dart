@@ -9,8 +9,9 @@ import 'package:the_process/services/platform_service.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 
 /// The purpose of this class is to provide the [Store] that it is passed in as
-/// a parameters.  The store will be a fake [Store] with the desired properties.
-class FakeReduxBundle extends ReduxBundle {
+/// a parameter, when createStore() is called.  The store will be a fake with
+/// the desired properties.
+class FakeReduxBundle implements ReduxBundle {
   final Store<AppState> _store;
 
   FakeReduxBundle({@required Store<AppState> store}) : _store = store;
