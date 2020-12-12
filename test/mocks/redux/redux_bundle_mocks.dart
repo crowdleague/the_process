@@ -9,9 +9,9 @@ import 'package:the_process/services/database_service.dart';
 import 'package:the_process/services/platform_service.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 
-import '../mocks/services/auth_service_mocks.dart';
-import '../mocks/services/database_service_mocks.dart';
-import '../mocks/services/platform_service_mocks.dart';
+import '../services/auth_service_mocks.dart';
+import '../services/database_service_mocks.dart';
+import '../services/platform_service_mocks.dart';
 
 class FakeReduxBundle extends ReduxBundle {
   final Completer<Store<AppState>> _reduxCompleter;
