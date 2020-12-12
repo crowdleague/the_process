@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:the_process/actions/sections/create_section.dart';
+import 'package:the_process/actions/sections/update_new_section_v_m.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
@@ -29,12 +31,14 @@ void main() {
     // For now we setup the app state so the app builds the home page and skips
     // the auth page.
 
-    // Build a test harness and tell the tester to build the widget tree.
-    final fakeAuthenticatedStore = FakeStore(
+    // Create a test harness that has a fake store with app state that bipasses
+    // authentication and goes straight to the home page, and tell the tester
+    // to build the widget tree.
+    final fakeStore = FakeStore(
         updates: (b) => b
           ..authUserData.replace(AuthUserDataExample.minimal)
           ..authStep = AuthStep.waitingForInput);
-    final harness = AppWidgetHarness(store: fakeAuthenticatedStore);
+    final harness = AppWidgetHarness(store: fakeStore);
 
     await runApp(harness.widget);
 
@@ -57,6 +61,19 @@ void main() {
       // expect(find.byType(GoogleSignInButton), findsOneWidget);
 
       expect(find.byType(NewSectionItem), findsOneWidget);
+
+      final textField = find.byType(TextFormField);
+      expect(textField, findsOneWidget);
+      await tester.enterText(textField, 'testy');
+
+      expect(fakeStore.dispatchedActions,
+          contains(UpdateNewSectionVM(name: 'testy')));
+
+      final submitButton = find.byType(MaterialButton);
+      expect(submitButton, findsOneWidget);
+      await tester.tap(submitButton);
+
+      expect(fakeStore.dispatchedActions, contains(CreateSection()));
     });
   });
 }
