@@ -2,7 +2,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:the_process/services/database_service.dart';
 
-import '../../../mocks/plugins/firebase_firestore_mocks.dart';
+import '../../../mocks/plugins/mock_firebase_firestore.dart';
 
 void main() {
   group('DatabaseService', () {

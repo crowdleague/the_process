@@ -3,14 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
 
-import '../../../utils/testing/completed_app_widget_harness.dart';
+import '../../../utils/testing/completable_app_widget_harness.dart';
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
       as IntegrationTestWidgetsFlutterBinding;
   testWidgets('create a section', (WidgetTester tester) async {
     // Build a test harness and tell the tester to build the widget tree.
-    final harness = CompletedAppWidgetHarness();
+    // final harness =
+    //     AppWidgetHarness(redux: FakeReduxBundle(store: FakeStore()));
+    final harness = CompletableAppWidgetHarness();
+
     await runApp(harness.widget);
 
     // Trace the timeline of the following operation. The timeline result will

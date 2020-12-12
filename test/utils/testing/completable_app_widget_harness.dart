@@ -8,8 +8,8 @@ import 'package:the_process/utils/redux_bundle.dart';
 import 'package:the_process/utils/wrappers/firebase_wrapper.dart';
 import 'package:the_process/widgets/app_widget/app_widget.dart';
 
-import '../../mocks/redux/redux_bundle_mocks.dart';
-import '../../mocks/wrappers/firebase_wrapper_mocks.dart';
+import '../../mocks/redux/completable_fake_redux_bundle.dart';
+import '../../mocks/wrappers/completable_fake_firebase_wrapper.dart';
 
 /// A test harness to wrap the widget under test, (in this case the
 /// AppWidget), and provide all the functionality
@@ -25,9 +25,12 @@ class CompletableAppWidgetHarness {
   AppWidget _appWidget;
 
   CompletableAppWidgetHarness({FirebaseWrapper firebase, ReduxBundle redux}) {
-    _firebase = firebase ?? FakeFirebaseWrapper(completer: _firebaseCompleter);
-    _redux = redux ?? FakeReduxBundle(completer: _reduxCompleter);
+    _firebase = firebase ??
+        CompletableFakeFirebaseWrapper(completer: _firebaseCompleter);
+    _redux = redux ?? CompletableFakeReduxBundle(completer: _reduxCompleter);
     _appWidget = AppWidget(firebase: _firebase, redux: _redux);
+    _firebaseCompleter.complete();
+    _reduxCompleter.complete();
   }
 
   Widget get widget => _appWidget;
