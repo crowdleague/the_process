@@ -1,23 +1,32 @@
 import * as funcTest from "firebase-functions-test";
-import * as admin from 'firebase-admin';
-import { stubObject } from "ts-sinon";
+import * as sinon from 'sinon';
 
-describe("firebase cloud functions", () => {
-  let myFunctions : any, adminInitStub : any;
+import * as admin from 'firebase-admin';
+import { firebaseAdmin } from '../src/utils/firebase_admin';
+
+describe('Cloud Functions', () => {
+  let myFunctions: any, adminInitStub: any, firebaseAdminStub: any;
   const tester = funcTest();
   before(async () => {
-    adminInitStub = stubObject<any>(admin, { method: "initializeApp" });
-    myFunctions = await import("../src/index");
+    // Stub functions so importing index.ts (which initializes Firebase etc) doesn't break.
+    adminInitStub = sinon.stub(admin, 'initializeApp');
+    firebaseAdminStub = sinon.stub(firebaseAdmin, 'getFirestore');
+
+    // Now that we have mocked FirebaseAdmin etc. we import index.ts so we can call our 
+    // functions in tests. We use an async import so we can mock before the Firebase modules
+    // are accessed.
+    myFunctions = await import('../src/index');
   });
 
   it("createSectionFolder", () => {
-    let input: any;
-    const wrapped = tester.wrap(myFunctions.createSectionFolder(input, context));
-    wrapped(null);
+    const wrapped = tester.wrap(myFunctions.createSectionFolder);
+    const snapshot = tester.firestore.exampleDocumentSnapshot();
+    wrapped(snapshot);
   });
 
   after(() => {
-    // adminInitStub.restore();
+    adminInitStub.restore();
+    firebaseAdminStub.restore();
     tester.cleanup();
   });
 });
