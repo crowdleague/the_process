@@ -3,6 +3,9 @@ import * as sinon from 'sinon';
 
 import * as admin from 'firebase-admin';
 import { firebaseAdmin } from '../src/utils/firebase_admin';
+import { assert } from "chai";
+// import { DriveAPI } from "../src/google_apis/drive";
+
 
 describe('Cloud Functions', () => {
   let myFunctions: any, adminInitStub: any, firebaseAdminStub: any;
@@ -21,7 +24,7 @@ describe('Cloud Functions', () => {
   it("createSectionFolder", () => {
     const wrapped = tester.wrap(myFunctions.createSectionFolder);
     const snapshot = tester.firestore.exampleDocumentSnapshot();
-    wrapped(snapshot);
+    return assert.equal(wrapped(snapshot), true);
   });
 
   after(() => {
