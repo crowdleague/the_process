@@ -7,7 +7,7 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Mocha All",
+      "name": "Mocha Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
           "-r",
@@ -21,9 +21,6 @@
         "${workspaceFolder}/**",
         "!**/node_modules/**"
       ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      // "protocol": "inspector"
-    },
+    }
   ]
 }
