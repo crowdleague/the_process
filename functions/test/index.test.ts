@@ -21,10 +21,11 @@ describe('Cloud Functions', () => {
     myFunctions = await import('../src/index');
   });
 
-  it("createSectionFolder", () => {
+  it("createSectionFolder", async () => {
     const wrapped = tester.wrap(myFunctions.createSectionFolder);
-    const snapshot = tester.firestore.exampleDocumentSnapshot();
-    return assert.equal(wrapped(snapshot), true);
+    const snapshot =  tester.firestore.makeDocumentSnapshot({section: {name: 'testy'}}, 'sections');
+    const result = await wrapped(snapshot);
+    assert.equal(result, true);
   });
 
   after(() => {

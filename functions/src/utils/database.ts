@@ -37,14 +37,12 @@ export class AuthToken {
 
 export class SectionData {
     uid: string;
-    number: number;
     name: string;
     folderId: string;
     useCasesDocId: string;
 
-    constructor(uid: string, number: number, name: string, folderId: string, useCasesDocId: string) {
+    constructor(uid: string, name: string, folderId: string, useCasesDocId: string) {
         this.uid = uid;
-        this.number = number;
         this.name = name;
         this.folderId = folderId;
         this.useCasesDocId = useCasesDocId;
@@ -53,7 +51,6 @@ export class SectionData {
         return db.collection('sections').add({
             'createdOn': firestore.FieldValue.serverTimestamp(),
             'createdBy': this.uid,
-            'number': this.number,
             'name': this.name,
             'folderId': this.folderId,
             'useCasesDocId': this.useCasesDocId,

@@ -11,11 +11,10 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   const data = snapshot.data() ?? {};
   const newSection = data['section'];
   const sectionName = newSection['name'];
-  const sectionNumber = newSection['number'];
     
   const driveAPI = await DriveAPI.for(the_process_id);
   const docsAPI = await DocsAPI.for(the_process_id);
-  const folder = await driveAPI.createFolder(sectionNumber+'. '+sectionName+': Sections Planning (CL)');
+  const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
 
   const checkedFolderId = unNull(folder.id, 'The created folder id was missing.');
 
@@ -32,7 +31,7 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   
   functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
 
-  const sectionData = new SectionData(snapshot.id, sectionNumber, sectionName, checkedFolderId, checkedDocId); 
+  const sectionData = new SectionData(snapshot.id, sectionName, checkedFolderId, checkedDocId); 
 
   functions.logger.info(`created sectionData: `, sectionData);
 
