@@ -3,13 +3,17 @@ import { drive_v3, google } from 'googleapis';
 import { unNull } from '../utils/problem_utils';
 import { AuthenticatedClient } from '../auth/authenticated_client';
 
-export class DriveAPI {
+export interface DriveAPIInterface {
+  createFolder(name: string) : Promise<drive_v3.Schema$File>;
+  moveDoc(docId: string, folderId : string) : Promise<drive_v3.Schema$File>;
+}
+
+export class DriveAPI implements DriveAPIInterface {
   rootFolderId: string = '1poq_tgqfzOF34pJFvdbPgYgI_tD6Mseb';
   client!: AuthenticatedClient;
   drive!: drive_v3.Drive;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
+  private constructor() {}
 
   static async for(uid: string) : Promise<DriveAPI> {
     const driveAPI = new DriveAPI();
@@ -47,13 +51,15 @@ export class DriveAPI {
     return filesResponse.data;
   }
 
-  async moveDoc(docId: string, folderId : string) {
+  async moveDoc(docId: string, folderId : string) : Promise<drive_v3.Schema$File> {
 
-    await this.drive.files.update({ 
+    const response = await this.drive.files.update({ 
       fileId: docId,
       addParents: folderId,
       fields: 'id, parents',
     });
+
+    return response.data;
 
   }
 

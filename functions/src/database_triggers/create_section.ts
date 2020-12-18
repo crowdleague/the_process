@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions';
 
 import { DocsAPI } from '../google_apis/docs';
-import { DriveAPI } from '../google_apis/drive';
 import { SectionData } from '../utils/database';
 import { unNull } from '../utils/problem_utils';
+import * as service_locator from '../utils/service_locator';
 import { the_process_id } from '../utils/the_process_constants';
 
 export async function createSection(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
@@ -12,7 +12,7 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   const newSection = data['section'];
   const sectionName = newSection['name'];
     
-  const driveAPI = await DriveAPI.for(the_process_id);
+  const driveAPI = await service_locator.getDriveAPI(the_process_id);
   const docsAPI = await DocsAPI.for(the_process_id);
   const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
 
