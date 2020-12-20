@@ -1,12 +1,9 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/auth/store_auth_step.dart';
-import 'package:the_process/actions/redux_action.dart';
+import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/middleware/app_middleware.dart';
@@ -23,8 +20,6 @@ import 'package:the_process/widgets/shared/waiting_indicator.dart';
 import '../data/models/auth_user_data_examples.dart';
 import '../mocks/firebase/fake_firebase_auth.dart';
 import '../mocks/firebase/firebase_firestore_mocks.dart';
-import '../mocks/firebase/user_metadata_mocks.dart';
-import '../mocks/firebase/user_mocks.dart';
 import '../mocks/redux/fake_store.dart';
 import '../mocks/services/platform_service_mocks.dart';
 import '../utils/testing/app_widget_harness.dart';
@@ -57,17 +52,12 @@ void main() {
   testWidgets(
       'AppWidget with real services shows NewSectionItem after authentication',
       (WidgetTester tester) async {
-    final authEventsController = StreamController<ReduxAction>();
-    final databaseEventsController = StreamController<ReduxAction>();
-    final authStateEventsController = StreamController<User>();
-    final fakeAuth =
-        FakeFirebaseAuth(authStateEventsController: authStateEventsController);
-    final authService =
-        AuthService(auth: fakeAuth, eventsController: authEventsController);
-    final databaseService = DatabaseService(
-        database: FakeFirebaseFirestore(),
-        eventsController: databaseEventsController);
-
+    // Create an auth object we can later use to emit a user object
+    final fakeAuth = FakeFirebaseAuth();
+    // Create the services using the previous objects
+    final authService = AuthService(auth: fakeAuth);
+    final databaseService = DatabaseService(database: FakeFirebaseFirestore());
+    // We just need the platform service to return a platform so we use a mock.
     final mockPlatformService = MockPlatformService();
     when(mockPlatformService.detectPlatform()).thenReturn(PlatformEnum.iOS);
 
@@ -102,12 +92,8 @@ void main() {
 
     expect(find.byType(AppleSignInButton), findsOneWidget);
 
-    authStateEventsController.add(FakeUser(
-        uid: 'uid',
-        metadata: FakeUserMetada(creationTimestamp: 1000, lastSignInTime: 1000),
-        providerData: [],
-        isAnonymous: false,
-        emailVerified: false));
+    // simulate the state for an authenticated user being emitted
+    fakeAuth.emitUser();
 
     await tester.pump();
 
@@ -117,8 +103,24 @@ void main() {
     expect(textField, findsOneWidget);
     await tester.enterText(textField, 'testy');
 
+    expect(find.byType(WaitingIndicator), findsNothing);
+
     final submitButton = find.byType(MaterialButton);
     expect(submitButton, findsOneWidget);
     await tester.tap(submitButton);
+
+    await tester.pump();
+
+    expect(find.byType(WaitingIndicator), findsOneWidget);
+    expect(find.byType(TextFormField), findsNothing);
+    expect(find.byType(MaterialButton), findsNothing);
+
+    store.dispatch(UpdateSectionsVM(creatingNewSection: false));
+
+    await tester.pump();
+
+    expect(find.byType(WaitingIndicator), findsNothing);
+    expect(find.byType(TextFormField), findsOneWidget);
+    expect(find.byType(MaterialButton), findsOneWidget);
   });
 }

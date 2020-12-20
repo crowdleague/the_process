@@ -76,6 +76,7 @@ void main() {
 
       expect(find.byType(AppleSignInButton), findsOneWidget);
 
+      // simulate the state for an authenticated user being emitted
       fakeAuth.emitUser();
 
       await tester.pump();
@@ -86,9 +87,13 @@ void main() {
       expect(textField, findsOneWidget);
       await tester.enterText(textField, 'testy');
 
+      expect(find.byType(WaitingIndicator), findsOneWidget);
+
       final submitButton = find.byType(MaterialButton);
       expect(submitButton, findsOneWidget);
       await tester.tap(submitButton);
+
+      expect(find.byType(WaitingIndicator), findsOneWidget);
     });
   });
 }
