@@ -109,7 +109,7 @@ void main() {
         isAnonymous: false,
         emailVerified: false));
 
-    await tester.pump(Duration(seconds: 1));
+    await tester.pump();
 
     expect(find.byType(NewSectionItem), findsOneWidget);
 
