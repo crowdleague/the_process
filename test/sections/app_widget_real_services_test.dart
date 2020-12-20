@@ -21,7 +21,7 @@ import 'package:the_process/widgets/sections/new_section_item.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 import '../data/models/auth_user_data_examples.dart';
-import '../mocks/firebase/firebase_auth_mocks.dart';
+import '../mocks/firebase/fake_firebase_auth.dart';
 import '../mocks/firebase/firebase_firestore_mocks.dart';
 import '../mocks/firebase/user_metadata_mocks.dart';
 import '../mocks/firebase/user_mocks.dart';

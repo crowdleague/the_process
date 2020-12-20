@@ -13,6 +13,7 @@ export class DriveAPI implements DriveAPIInterface {
   client!: AuthenticatedClient;
   drive!: drive_v3.Drive;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   static async for(uid: string) : Promise<DriveAPI> {
