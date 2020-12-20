@@ -4,7 +4,7 @@ import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
 import 'package:the_process/widgets/sections/new_section_item.dart';
 
-import '../data/models/auth_user_data_example.dart';
+import '../data/models/auth_user_data_examples.dart';
 import '../mocks/redux/fake_store.dart';
 import '../utils/testing/app_widget_harness.dart';
 
@@ -17,7 +17,7 @@ void main() {
     /// builds the [HomePage].
     final fakeAuthenticatedStore = FakeStore(
         updates: (b) => b
-          ..authUserData.replace(AuthUserDataExample.minimal)
+          ..authUserData.replace(AuthUserDataExamples.minimal)
           ..authStep = AuthStep.waitingForInput);
     final harness = AppWidgetHarness(store: fakeAuthenticatedStore);
 
