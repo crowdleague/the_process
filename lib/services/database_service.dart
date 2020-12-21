@@ -144,6 +144,7 @@ class DatabaseService {
           for (final querySnapshot in collectionSnapshot.docs) {
             list.add(querySnapshot.toSection());
           }
+          _eventsController.add(UpdateSectionsVM(creatingNewSection: false));
           _eventsController.add(StoreSections(list: BuiltList<Section>(list)));
         } catch (error, trace) {
           _eventsController.addProblem(error, trace);
