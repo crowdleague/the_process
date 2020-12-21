@@ -16,40 +16,14 @@ import 'package:the_process/widgets/auth/auth_page_buttons/apple_sign_in_button.
 import 'package:the_process/widgets/sections/new_section_item.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
-import '../data/models/auth_user_data_examples.dart';
-import '../mocks/firebase/fake_firebase_auth.dart';
-import '../mocks/firebase/firebase_firestore_mocks.dart';
-import '../mocks/redux/fake_store.dart';
-import '../mocks/services/platform_service_mocks.dart';
-import '../utils/testing/app_widget_harness.dart';
+import '../../mocks/firebase/fake_firebase_auth.dart';
+import '../../mocks/firebase/firebase_firestore_mocks.dart';
+import '../../mocks/services/platform_service_mocks.dart';
+import '../../utils/testing/app_widget_harness.dart';
 
 void main() {
-  testWidgets('AppWidget shows NewSectionItem after authentication',
-      (WidgetTester tester) async {
-    // Declare the Finders used in the test.
-
-    /// Build a test harness that updates the app state so the [InitialPage]
-    /// builds the [HomePage].
-    final fakeAuthenticatedStore = FakeStore(
-        updates: (b) => b
-          ..authUserData.replace(AuthUserDataExamples.minimal)
-          ..authStep = AuthStep.waitingForInput);
-    final harness = AppWidgetHarness(store: fakeAuthenticatedStore);
-
-    // Build the widget tree.
-    await tester.pumpWidget(harness.widget);
-
-    await tester.pump();
-
-    expect(find.byType(InitializingIndicator), findsNothing);
-
-    expect(find.byType(InitializingErrorPage), findsNothing);
-
-    expect(find.byType(NewSectionItem), findsOneWidget);
-  });
-
   testWidgets(
-      'AppWidget with real services shows NewSectionItem after authentication',
+      'AppWidget (with real services) shows NewSectionItem after authentication',
       (WidgetTester tester) async {
     // Create auth & database objects we can later use to emit various events
     final fakeAuth = FakeFirebaseAuth();
