@@ -4,6 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/auth/store_auth_step.dart';
+import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/middleware/app_middleware.dart';
@@ -87,13 +88,25 @@ void main() {
       expect(textField, findsOneWidget);
       await tester.enterText(textField, 'testy');
 
-      expect(find.byType(WaitingIndicator), findsOneWidget);
+      expect(find.byType(WaitingIndicator), findsNothing);
 
       final submitButton = find.byType(MaterialButton);
       expect(submitButton, findsOneWidget);
       await tester.tap(submitButton);
 
+      await tester.pump();
+
       expect(find.byType(WaitingIndicator), findsOneWidget);
+      expect(find.byType(TextFormField), findsNothing);
+      expect(find.byType(MaterialButton), findsNothing);
+
+      store.dispatch(UpdateSectionsVM(creatingNewSection: false));
+
+      await tester.pump();
+
+      expect(find.byType(WaitingIndicator), findsNothing);
+      expect(find.byType(TextFormField), findsOneWidget);
+      expect(find.byType(MaterialButton), findsOneWidget);
     });
   });
 }
