@@ -4,7 +4,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/auth/store_auth_step.dart';
-import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/middleware/app_middleware.dart';
@@ -27,11 +26,12 @@ void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
       as IntegrationTestWidgetsFlutterBinding;
   testWidgets('create a section', (WidgetTester tester) async {
-    // Create an auth object we can later use to emit a user object
+    // Create auth & database objects we can later use to emit various events
     final fakeAuth = FakeFirebaseAuth();
+    final fakeDatabase = FakeFirebaseFirestore();
     // Create the services using the previous objects
     final authService = AuthService(auth: fakeAuth);
-    final databaseService = DatabaseService(database: FakeFirebaseFirestore());
+    final databaseService = DatabaseService(database: fakeDatabase);
     // We just need the platform service to return a platform so we use a mock.
     final mockPlatformService = MockPlatformService();
     when(mockPlatformService.detectPlatform()).thenReturn(PlatformEnum.iOS);
@@ -100,7 +100,7 @@ void main() {
       expect(find.byType(TextFormField), findsNothing);
       expect(find.byType(MaterialButton), findsNothing);
 
-      store.dispatch(UpdateSectionsVM(creatingNewSection: false));
+      fakeDatabase.emitSectionsSnapshot();
 
       await tester.pump();
 
