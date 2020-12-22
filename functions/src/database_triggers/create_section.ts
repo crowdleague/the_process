@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 
-import { SectionData } from '../utils/database';
 import { unNull } from '../utils/problem_utils';
 import * as service_locator from '../utils/service_locator';
 import { the_process_id } from '../utils/the_process_constants';
