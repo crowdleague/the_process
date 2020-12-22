@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 
-import { DocsAPI } from '../google_apis/docs';
 import { SectionData } from '../utils/database';
 import { unNull } from '../utils/problem_utils';
 import * as service_locator from '../utils/service_locator';
@@ -13,7 +12,7 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   const sectionName = newSection['name'];
     
   const driveAPI = await service_locator.getDriveAPI(the_process_id);
-  const docsAPI = await DocsAPI.for(the_process_id);
+  const docsAPI = await service_locator.getDocsAPI(the_process_id);
   const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
 
   const checkedFolderId = unNull(folder.id, 'The created folder id was missing.');
@@ -31,7 +30,7 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
   
   functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
 
-  const sectionData = new SectionData(snapshot.id, sectionName, checkedFolderId, checkedDocId); 
+  const sectionData = service_locator.getSectionData(snapshot.id, sectionName, checkedFolderId, checkedDocId);
 
   functions.logger.info(`created sectionData: `, sectionData);
 

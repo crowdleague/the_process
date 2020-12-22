@@ -35,7 +35,12 @@ export class AuthToken {
     }
 }
 
-export class SectionData {
+export interface SectionDataInterface {
+    save() : Promise<firestore.DocumentReference<firestore.DocumentData>>;
+    failed(failures: any[])  : Promise<firestore.DocumentReference<firestore.DocumentData>>;
+}
+
+export class SectionData implements SectionDataInterface {
     uid: string;
     name: string;
     folderId: string;

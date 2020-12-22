@@ -1,6 +1,10 @@
 import { docs_v1, google } from 'googleapis';
 import { AuthenticatedClient } from '../auth/authenticated_client';
 
+export interface DocsAPIInterface {
+  createDoc(title: string) : Promise<docs_v1.Schema$Document>;
+}
+
 export class DocsAPI {
   rootFolderId: string = '1poq_tgqfzOF34pJFvdbPgYgI_tD6Mseb';
   client!: AuthenticatedClient;
