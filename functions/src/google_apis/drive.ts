@@ -4,25 +4,28 @@ import { unNull } from '../utils/problem_utils';
 import { AuthenticatedClient } from '../auth/authenticated_client';
 
 export interface DriveAPIInterface {
+  readonly uid: string;
+  readonly client: AuthenticatedClient;
+  readonly rootFolderId: string;
   createFolder(name: string) : Promise<drive_v3.Schema$File>;
   moveDoc(docId: string, folderId : string) : Promise<drive_v3.Schema$File>;
 }
 
 export class DriveAPI implements DriveAPIInterface {
-  rootFolderId: string = '1poq_tgqfzOF34pJFvdbPgYgI_tD6Mseb';
-  client!: AuthenticatedClient;
-  drive!: drive_v3.Drive;
+  readonly uid!: string;
+  readonly client!: AuthenticatedClient;
+  readonly rootFolderId: string = '1poq_tgqfzOF34pJFvdbPgYgI_tD6Mseb';
+  private drive!: drive_v3.Drive;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
+  private constructor(uid: string, client: AuthenticatedClient) {
+    this.uid = uid;
+    this.client = client;
+    this.drive = google.drive({version: 'v3', auth: client.getOAuth2Client()});
+  }
 
   static async for(uid: string) : Promise<DriveAPI> {
-    const driveAPI = new DriveAPI();
-    
-    driveAPI.client = await AuthenticatedClient.getInstanceFor(uid);
-    driveAPI.drive = google.drive({version: 'v3', auth: driveAPI.client.getOAuth2Client()});
-
-    return driveAPI;
+    const client = await AuthenticatedClient.getInstanceFor(uid);
+    return new DriveAPI(uid, client);
   }
 
   async createFolder(name: string) : Promise<drive_v3.Schema$File> {

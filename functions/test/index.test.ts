@@ -1,5 +1,4 @@
 import * as funcTest from "firebase-functions-test";
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as service_locator from '../src/utils/service_locator';
 import { firebaseAdmin } from '../src/utils/firebase_admin';
@@ -7,7 +6,7 @@ import { DriveAPI } from "../src/google_apis/drive";
 import { DocsAPI } from "../src/google_apis/docs";
 import { SectionData } from "../src/utils/database";
 import { mock, when, instance, spy, anyString, anything } from 'ts-mockito';
-import { DocumentData, DocumentReference } from "@google-cloud/firestore";
+import { DocumentData, DocumentReference, DocumentSnapshot } from "@google-cloud/firestore";
 
 describe('Cloud Functions', () => {
   let myFunctions: any;
@@ -17,7 +16,7 @@ describe('Cloud Functions', () => {
   const mockedDocsAPI:DocsAPI = mock(DocsAPI);
   when(mockedDocsAPI.createDoc(anyString())).thenReturn(Promise.resolve({documentId: 'docIdBlam'}));
 
-  const mockedSnapshot:functions.firestore.DocumentSnapshot = mock<functions.firestore.DocumentSnapshot>(); 
+  const mockedSnapshot:DocumentSnapshot = mock<DocumentSnapshot>(); 
   when(mockedSnapshot.data()).thenReturn({section: {name: 'testy'}});
 
   const mockedSectionData:SectionData = mock(SectionData);
