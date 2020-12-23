@@ -1,62 +1,55 @@
 import * as funcTest from "firebase-functions-test";
-import sinon, { stubInterface } from "ts-sinon";
-
 import * as functions from 'firebase-functions';
-
 import * as admin from 'firebase-admin';
 import * as service_locator from '../src/utils/service_locator';
 import { firebaseAdmin } from '../src/utils/firebase_admin';
-import { DriveAPIInterface } from "../src/google_apis/drive";
-import { DocsAPIInterface } from "../src/google_apis/docs";
+import { DriveAPI } from "../src/google_apis/drive";
+import { DocsAPI } from "../src/google_apis/docs";
 import { SectionData } from "../src/utils/database";
-import { mock, when, instance } from 'ts-mockito';
+import { mock, when, instance, spy, anyString, anything } from 'ts-mockito';
+import { DocumentData, DocumentReference } from "@google-cloud/firestore";
 
 describe('Cloud Functions', () => {
-  let myFunctions: any, adminInitStub: any, firebaseAdminStub: any, locatorStub: any;
+  let myFunctions: any;
   
-  const driveAPIStub = stubInterface<DriveAPIInterface>();
-  driveAPIStub.createFolder.returns(Promise.resolve({id: 'folderIdBoop'}));
+  const mockedDriveAPI:DriveAPI = mock(DriveAPI);
+  when(mockedDriveAPI.createFolder(anyString())).thenReturn(Promise.resolve({id: 'folderIdBoop'}));
+  const mockedDocsAPI:DocsAPI = mock(DocsAPI);
+  when(mockedDocsAPI.createDoc(anyString())).thenReturn(Promise.resolve({documentId: 'docIdBlam'}));
 
-  const docsAPIStub = stubInterface<DocsAPIInterface>();
-  docsAPIStub.createDoc.returns(Promise.resolve({documentId: 'docIdBlam'}))
-
-  const exampleData:FirebaseFirestore.DocumentData = {section: {name: 'testy'}};
   const mockedSnapshot:functions.firestore.DocumentSnapshot = mock<functions.firestore.DocumentSnapshot>(); 
-  when(mockedSnapshot.data()).thenReturn(exampleData);
+  when(mockedSnapshot.data()).thenReturn({section: {name: 'testy'}});
 
-  const mockedDocRef:admin.firestore.DocumentReference<admin.firestore.DocumentData> = mock<admin.firestore.DocumentReference<admin.firestore.DocumentData>>();
   const mockedSectionData:SectionData = mock(SectionData);
-  when(mockedSectionData.save()).thenReturn(Promise.resolve(mockedDocRef));
+  const mockedDocRef:DocumentReference<DocumentData> = mock(DocumentReference);
+  when(mockedSectionData.save()).thenReturn(); // Promise.resolve(instance(mockedDocRef))
 
-  when(mockedSnapshot.ref).thenReturn(mockedDocRef);
+  when(mockedSnapshot.ref).thenReturn(instance(mockedDocRef));
 
-  // const mockedSnapshotDocRef:admin.firestore.DocumentReference<admin.firestore.DocumentData> = mock<admin.firestore.DocumentReference<admin.firestore.DocumentData>>();
-  // when(mockedSnapshotDocRef.delete()).thenReturn(Promise.resolve(mockedDocRef));
+  const spiedServiceLocator = spy(service_locator);
+  when(spiedServiceLocator.getDriveAPI(anyString())).thenReturn(Promise.resolve(instance(mockedDriveAPI)));
+  when(spiedServiceLocator.getDocsAPI(anyString())).thenReturn(Promise.resolve(instance(mockedDocsAPI)));
+  when(spiedServiceLocator.createSectionData(anything())).thenReturn(instance(mockedSectionData));
+
+  const spiedAdmin = spy(admin);
+  when(spiedAdmin.initializeApp(anything())).thenReturn(instance(mock(admin.app)))
+
+  const spiedFirebaseAdmin = spy(firebaseAdmin);
+  when(spiedFirebaseAdmin.getFirestore()).thenReturn(instance(mock(admin.firestore)));
 
   const tester = funcTest();
+
   before(async () => {
-    // Stub functions so importing index.ts (which initializes Firebase etc) doesn't break.
-    adminInitStub = sinon.stub(admin, 'initializeApp');
-    firebaseAdminStub = sinon.stub(firebaseAdmin, 'getFirestore');
-    locatorStub = sinon.stub(service_locator, 'getDriveAPI').callsFake(() => Promise.resolve(driveAPIStub));
-    locatorStub = sinon.stub(service_locator, 'getDocsAPI').callsFake(() => Promise.resolve(docsAPIStub));
-    locatorStub = sinon.stub(service_locator, 'getSectionData').callsFake(() => mockedSectionData);
-    
-    // Now that we have mocked FirebaseAdmin etc. we import index.ts so we can call our 
-    // functions in tests. We use an async import so we can mock before the Firebase modules
-    // are accessed.
+    // Import index.ts with an async import so we can mock before the Firebase modules are accessed.
     myFunctions = await import('../src/index');
   });
 
-  it("createSectionFolder", async () => {
+  it("should successfully run createSectionFolder", async () => {
     const wrapped = tester.wrap(myFunctions.createSectionFolder);    
     await wrapped(instance(mockedSnapshot));
   });
 
   after(() => {
-    adminInitStub.restore();
-    firebaseAdminStub.restore();
-    locatorStub.restore();
     tester.cleanup();
   });
 });

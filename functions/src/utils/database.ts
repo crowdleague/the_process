@@ -1,5 +1,5 @@
+import { DocumentData, DocumentReference, FieldValue } from '@google-cloud/firestore';
 import { firebaseAdmin } from './firebase_admin';
-import { firestore } from 'firebase-admin';
 
 const db = firebaseAdmin.getFirestore();
 
@@ -28,7 +28,7 @@ export class AuthToken {
         };
         await db.collection(`users/${this.uid}/processing_failures`).add({
             'type': 'exchange_code_for_tokens',
-            'createdOn': firestore.FieldValue.serverTimestamp(),
+            'createdOn': FieldValue.serverTimestamp(),
             'message': JSON.stringify(data),
             'data': data,
         });
@@ -47,23 +47,23 @@ export class SectionData {
         this.folderId = folderId;
         this.useCasesDocId = useCasesDocId;
     }
-    async save() : Promise<firestore.DocumentReference<firestore.DocumentData>> {
+    async save() : Promise<DocumentReference<DocumentData>> {
         return db.collection('sections').add({
-            'createdOn': firestore.FieldValue.serverTimestamp(),
+            'createdOn': FieldValue.serverTimestamp(),
             'createdBy': this.uid,
             'name': this.name,
             'folderId': this.folderId,
             'useCasesDocId': this.useCasesDocId,
         });
     }
-    async failed(failures: any[])  : Promise<firestore.DocumentReference<firestore.DocumentData>> {
+    async failed(failures: any[])  : Promise<DocumentReference<DocumentData>> {
         const data = {
             'uid': this.uid,
             'failures': failures,
         };
         return db.collection(`users/${this.uid}/processing_failures`).add({
             'type': 'SectionData',
-            'createdOn': firestore.FieldValue.serverTimestamp(),
+            'createdOn': FieldValue.serverTimestamp(),
             'message': JSON.stringify(data),
             'data': data,
         });
@@ -93,7 +93,7 @@ export class ProfileData {
         };
         await db.collection(`users/${this.uid}/processing_failures`).add({
             'type': 'ProfileData',
-            'createdOn': firestore.FieldValue.serverTimestamp(),
+            'createdOn': FieldValue.serverTimestamp(),
             'message': JSON.stringify(data),
             'data': data,
         });

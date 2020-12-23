@@ -14,6 +14,6 @@ export const getDocsAPI = async function(uid: string) : Promise<DocsAPIInterface
   return api;
 }
 
-export const getSectionData = function(uid: string, name: string, folderId: string, useCasesDocId: string): SectionData {
-  return new SectionData(uid, name, folderId, useCasesDocId);
+export const createSectionData = function(data: {uid: string, name: string, folderId: string, useCasesDocId: string}): SectionData {
+  return new SectionData(data.uid, data.name, data.folderId, data.useCasesDocId);
 }
