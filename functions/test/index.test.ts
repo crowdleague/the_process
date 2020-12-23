@@ -5,11 +5,18 @@ import { firebaseAdmin } from '../src/utils/firebase_admin';
 import { DriveAPI } from "../src/google_apis/drive";
 import { DocsAPI } from "../src/google_apis/docs";
 import { SectionData } from "../src/utils/database";
-import { mock, when, instance, spy, anyString, anything } from 'ts-mockito';
+import { mock, when, instance, spy, anyString, anything, reset } from 'ts-mockito';
 import { DocumentData, DocumentReference, DocumentSnapshot } from "@google-cloud/firestore";
 
 describe('Cloud Functions', () => {
   let myFunctions: any;
+  const tester = funcTest();
+
+  const spiedAdmin = spy(admin);
+  when(spiedAdmin.initializeApp(anything())).thenReturn(instance(mock(admin.app)))
+
+  const spiedFirebaseAdmin = spy(firebaseAdmin);
+  when(spiedFirebaseAdmin.getFirestore()).thenReturn(instance(mock(admin.firestore)));
   
   const mockedDriveAPI:DriveAPI = mock(DriveAPI);
   when(mockedDriveAPI.createFolder(anyString())).thenReturn(Promise.resolve({id: 'folderIdBoop'}));
@@ -30,25 +37,20 @@ describe('Cloud Functions', () => {
   when(spiedServiceLocator.getDocsAPI(anyString())).thenReturn(Promise.resolve(instance(mockedDocsAPI)));
   when(spiedServiceLocator.createSectionData(anything())).thenReturn(instance(mockedSectionData));
 
-  const spiedAdmin = spy(admin);
-  when(spiedAdmin.initializeApp(anything())).thenReturn(instance(mock(admin.app)))
-
-  const spiedFirebaseAdmin = spy(firebaseAdmin);
-  when(spiedFirebaseAdmin.getFirestore()).thenReturn(instance(mock(admin.firestore)));
-
-  const tester = funcTest();
-
   before(async () => {
     // Import index.ts with an async import so we can mock before the Firebase modules are accessed.
     myFunctions = await import('../src/index');
   });
 
-  it("should successfully run createSectionFolder", async () => {
+  it('should successfully run createSectionFolder', async () => {
     const wrapped = tester.wrap(myFunctions.createSectionFolder);    
     await wrapped(instance(mockedSnapshot));
   });
 
   after(() => {
+    reset(spiedAdmin);
+    reset(spiedFirebaseAdmin);
+    reset(spiedServiceLocator);
     tester.cleanup();
   });
 });
