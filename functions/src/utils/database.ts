@@ -35,11 +35,21 @@ export class AuthToken {
     }
 }
 
-export class SectionData {
-    uid: string;
-    name: string;
-    folderId: string;
-    useCasesDocId: string;
+export interface SectionDataInterface {
+    readonly uid: string;
+    readonly name: string;
+    readonly folderId: string;
+    readonly useCasesDocId: string;
+
+    save() : Promise<DocumentReference<DocumentData>>;
+    failed(failures: any[])  : Promise<DocumentReference<DocumentData>>;
+}
+
+export class SectionData implements SectionDataInterface {
+    readonly uid: string;
+    readonly name: string;
+    readonly folderId: string;
+    readonly useCasesDocId: string;
 
     constructor(uid: string, name: string, folderId: string, useCasesDocId: string) {
         this.uid = uid;
