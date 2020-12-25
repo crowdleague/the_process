@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import { ProcessingFailure } from '../utils/database/processing_failure';
 
 import { unNull } from '../utils/null_safety_utils';
 import * as service_locator from '../utils/service_locator';
@@ -6,42 +7,52 @@ import { the_process_id } from '../utils/the_process_constants';
 
 export async function createSection(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
 
-  const data = snapshot.data();
+  // We wrap the whole function in a try/catch and add a ProcessingFailure to the database on any failures
+  try {
 
-  const checkedData = unNull(data, 'There was no data in the snapshot.');
+    const data = snapshot.data();
 
-  const newSection = checkedData['section'];
-  const sectionName = newSection['name'];
+    const checkedData = unNull(data, 'There was no data in the snapshot.');
+
+    const newSection = checkedData['section'];
+    const sectionName = newSection['name'];
+      
+    const driveAPI = await service_locator.getDriveAPI(the_process_id);
+    const docsAPI = await service_locator.getDocsAPI(the_process_id);
+    const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
+
+    const checkedFolderId = unNull(folder.id, 'The created folder id was missing.');
+
+    functions.logger.info(`created folder:`, folder);
+
+    const title = '0 - Use Cases < '+sectionName+' (CL)';
+    const doc = await docsAPI.createDoc(title);
+
+    const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.');
+
+    functions.logger.info(`created doc:`, doc);
+
+    await driveAPI.moveDoc(checkedDocId, checkedFolderId);
     
-  const driveAPI = await service_locator.getDriveAPI(the_process_id);
-  const docsAPI = await service_locator.getDocsAPI(the_process_id);
-  const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
+    functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
 
-  const checkedFolderId = unNull(folder.id, 'The created folder id was missing.');
+    const sectionData = service_locator.createSectionData({uid: snapshot.id, name: sectionName, folderId: checkedFolderId, useCasesDocId: checkedDocId});
 
-  functions.logger.info(`created folder:`, folder);
+    functions.logger.info(`created sectionData: `, sectionData);
 
-  const title = '0 - Use Cases < '+sectionName+' (CL)';
-  const doc = await docsAPI.createDoc(title);
+    const docRef = await sectionData.save();
 
-  const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.');
+    functions.logger.info(`added database entry for section: `, docRef);
 
-  functions.logger.info(`created doc:`, doc);
-
-  await driveAPI.moveDoc(checkedDocId, checkedFolderId);
+    // Delete the document that was created in the 'new' collection.
+    // The front end uses this event to change the UI.
+    await snapshot.ref.delete();
   
-  functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
+  } catch (error) {
 
-  const sectionData = service_locator.createSectionData({uid: snapshot.id, name: sectionName, folderId: checkedFolderId, useCasesDocId: checkedDocId});
+    const processingFailure = new ProcessingFailure(error);
+    processingFailure.save();
 
-  functions.logger.info(`created sectionData: `, sectionData);
-
-  const docRef = await sectionData.save();
-
-  functions.logger.info(`added database entry for section: `, docRef);
-
-  // Delete the document that was created in the 'new' collection.
-  // The front end uses this event to change the UI.
-  await snapshot.ref.delete();
+  }
 
 }

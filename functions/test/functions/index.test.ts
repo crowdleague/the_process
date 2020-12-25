@@ -4,9 +4,9 @@ import * as service_locator from '../../src/utils/service_locator';
 import { firebaseAdmin } from '../../src/utils/firebase_admin';
 import { DriveAPI } from "../../src/google_apis/drive";
 import { DocsAPI } from "../../src/google_apis/docs";
-import { SectionData } from "../../src/utils/database";
 import { mock, when, instance, spy, anyString, anything, reset } from 'ts-mockito';
 import { DocumentData, DocumentReference, DocumentSnapshot } from "@google-cloud/firestore";
+import { SectionData } from "../../src/utils/database/section_data";
 
 describe('Cloud Functions', () => {
   let myFunctions: any;

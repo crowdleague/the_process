@@ -3,18 +3,18 @@ import { db } from "../firebase_admin";
 
 export interface ProcessingFailureInterface {
   readonly error: Error;
-  readonly uid: string;
-  readonly info: Map<String, Object>;
+  readonly uid?: string | undefined;
+  readonly info?: Map<String, Object> | undefined;
 
   save() : Promise<DocumentReference<DocumentData>>;
 }
 
 export class ProcessingFailure implements ProcessingFailureInterface {
   readonly error: Error;
-  readonly uid: string;
-  readonly info: Map<String, Object>;
+  readonly uid?: string | undefined;
+  readonly info?: Map<String, Object> | undefined;
 
-  constructor(error: Error, uid: string, info: Map<String, Object>) {
+  constructor(error: Error, uid?: string, info?: Map<String, Object>) {
     this.error = error;
     this.uid = uid;
     this.info = info;
