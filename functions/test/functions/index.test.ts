@@ -1,10 +1,10 @@
 import * as funcTest from "firebase-functions-test";
 import * as admin from 'firebase-admin';
-import * as service_locator from '../src/utils/service_locator';
-import { firebaseAdmin } from '../src/utils/firebase_admin';
-import { DriveAPI } from "../src/google_apis/drive";
-import { DocsAPI } from "../src/google_apis/docs";
-import { SectionData } from "../src/utils/database";
+import * as service_locator from '../../src/utils/service_locator';
+import { firebaseAdmin } from '../../src/utils/firebase_admin';
+import { DriveAPI } from "../../src/google_apis/drive";
+import { DocsAPI } from "../../src/google_apis/docs";
+import { SectionData } from "../../src/utils/database";
 import { mock, when, instance, spy, anyString, anything, reset } from 'ts-mockito';
 import { DocumentData, DocumentReference, DocumentSnapshot } from "@google-cloud/firestore";
 
@@ -39,7 +39,7 @@ describe('Cloud Functions', () => {
 
   before(async () => {
     // Import index.ts with an async import so we can mock before the Firebase modules are accessed.
-    myFunctions = await import('../src/index');
+    myFunctions = await import('../../src/index');
   });
 
   it('should successfully run createSectionFolder', async () => {
