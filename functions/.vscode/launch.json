@@ -15,7 +15,7 @@
           "--timeout",
           "999999",
           "--colors",
-          "${workspaceFolder}/test/service_locator.test.ts",
+          "${workspaceFolder}/test/unit/functions/create_section.test.ts",
       ],
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",

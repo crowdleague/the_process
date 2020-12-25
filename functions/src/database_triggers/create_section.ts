@@ -54,7 +54,7 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
     await snapshot.ref.delete();
   
   } catch (error) {
-    sectionData.saveFailure();
+    sectionData.onFailureSave(error);
   }
 
 }

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { anyString, spy, when } from 'ts-mockito';
-import { DocsAPIInterface } from '../../src/google_apis/docs';
-import { DriveAPIInterface } from '../../src/google_apis/drive';
-import { secretManager } from '../../src/utils/credentials/secret_manager';
-import * as service_locator from '../../src/utils/service_locator';
-import { example_user_credentials } from '../data/example_user_credentials';
+import { DocsAPIInterface } from '../../../src/google_apis/docs';
+import { DriveAPIInterface } from '../../../src/google_apis/drive';
+import { secretManager } from '../../../src/utils/credentials/secret_manager';
+import * as service_locator from '../../../src/utils/service_locator';
+import { example_user_credentials } from '../../data/example_user_credentials';
 
 describe('Service Locator', () => {
   
