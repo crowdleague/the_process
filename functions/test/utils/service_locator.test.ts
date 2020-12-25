@@ -13,7 +13,10 @@ describe('Service Locator', () => {
   });
 
   it('locates services with expected properties', async () => {
-    const sectionData = service_locator.createSectionData({uid: 'uid', name: 'name', folderId: 'folderId', useCasesDocId: 'useCasesDocId'});
+    const sectionData = service_locator.createSectionData('uid');
+    sectionData.name = 'name';
+    sectionData.folderId = 'folderId';
+    sectionData.useCasesDocId = 'useCasesDocId';
     expect(sectionData.uid).equals('uid');
     expect(sectionData.name).equals('name');
     expect(sectionData.folderId).equals('folderId');
