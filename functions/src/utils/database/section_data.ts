@@ -3,25 +3,22 @@ import { db } from "../firebase_admin";
 
 export interface SectionDataInterface {
   readonly uid: string;
-  readonly name: string;
-  readonly folderId: string;
-  readonly useCasesDocId: string;
+  name: string | null;
+  folderId: string | null;
+  useCasesDocId: string | null;
 
   save() : Promise<DocumentReference<DocumentData>>;
-  failed(failures: any[])  : Promise<DocumentReference<DocumentData>>;
+  saveFailure(failures: any[])  : Promise<DocumentReference<DocumentData>>;
 }
 
 export class SectionData implements SectionDataInterface {
   readonly uid: string;
-  readonly name: string;
-  readonly folderId: string;
-  readonly useCasesDocId: string;
+  name: string | null = null;
+  folderId: string | null = null;
+  useCasesDocId: string| null = null;
 
-  constructor(uid: string, name: string, folderId: string, useCasesDocId: string) {
+  constructor(uid: string) {
       this.uid = uid;
-      this.name = name;
-      this.folderId = folderId;
-      this.useCasesDocId = useCasesDocId;
   }
   async save() : Promise<DocumentReference<DocumentData>> {
       return db.collection('sections').add({
@@ -32,16 +29,16 @@ export class SectionData implements SectionDataInterface {
           'useCasesDocId': this.useCasesDocId,
       });
   }
-  async failed(failures: any[])  : Promise<DocumentReference<DocumentData>> {
-      const data = {
-          'uid': this.uid,
-          'failures': failures,
-      };
-      return db.collection(`users/${this.uid}/processing_failures`).add({
+  async saveFailure() : Promise<DocumentReference<DocumentData>> {
+      return db.collection(`processing_failures`).add({
           'type': 'SectionData',
           'createdOn': FieldValue.serverTimestamp(),
-          'message': JSON.stringify(data),
-          'data': data,
+          'data': {
+            uid: this.uid,
+            name: this.name,
+            folderId: this.folderId,
+            useCasesDocId: this.useCasesDocId,
+          },
       });
   }
 }
