@@ -7,14 +7,18 @@ export class FakeSectionData implements SectionDataInterface {
   folderId: string | null = null;
   useCasesDocId: string| null = null;
 
+  error: Error | null;
+
   constructor(uid: string) {
       this.uid = uid;
+      this.error = null;
   }
   async save() : Promise<DocumentReference<DocumentData>> {
     return ({ 'doc': 'abc' } as unknown) as any;
 
   }
   async onFailureSave(error: Error) : Promise<DocumentReference<DocumentData>> {
+    this.error = error;
     return ({ 'doc': 'abc' } as unknown) as any;
   }
 }
