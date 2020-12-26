@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { anyString, spy, when } from 'ts-mockito';
+import { anyString, reset, spy, when } from 'ts-mockito';
 import { DocsAPIInterface } from '../../../src/google_apis/docs';
 import { DriveAPIInterface } from '../../../src/google_apis/drive';
 import { secretManager } from '../../../src/utils/credentials/secret_manager';
@@ -8,21 +8,21 @@ import { example_user_credentials } from '../../data/example_user_credentials';
 
 describe('Service Locator', () => {
   
-  before(async () => {
-    
-  });
+  const sectionData = service_locator.createSectionData('uid');
+  const spiedSecretManager = spy(secretManager);
 
-  it('locates services with expected properties', async () => {
-    const sectionData = service_locator.createSectionData('uid');
+  before(async () => {
     sectionData.name = 'name';
     sectionData.folderId = 'folderId';
     sectionData.useCasesDocId = 'useCasesDocId';
+  });
+
+  it('locates services with expected properties', async () => {
     expect(sectionData.uid).equals('uid');
     expect(sectionData.name).equals('name');
     expect(sectionData.folderId).equals('folderId');
     expect(sectionData.useCasesDocId).equals('useCasesDocId');
 
-    const spiedSecretManager = spy(secretManager);
     when(spiedSecretManager.retrieveCredentials(anyString())).thenReturn(Promise.resolve(example_user_credentials));
 
     const docsAPI:DocsAPIInterface = await service_locator.getDocsAPI('docsUid');
@@ -36,6 +36,6 @@ describe('Service Locator', () => {
   });
 
   after(() => {
-    
+    reset(spiedSecretManager);
   });
 });

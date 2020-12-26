@@ -33,7 +33,7 @@ export class SectionData implements SectionDataInterface {
   
   async onFailureSave(error: Error) : Promise<DocumentReference<DocumentData>> {
     return db.collection(`processing_failures`).add({
-      error: error, // JSON.stringify(
+      error: JSON.stringify(error, Object.getOwnPropertyNames(error)),
       type: 'SectionData',
       createdOn: FieldValue.serverTimestamp(),
       data: {

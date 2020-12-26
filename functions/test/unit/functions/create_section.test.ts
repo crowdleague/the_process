@@ -22,7 +22,7 @@ describe('Cloud Functions', () => {
   const mockedSnapshot:DocumentSnapshot = mock<DocumentSnapshot>(); 
   const mockedDocRef:DocumentReference<DocumentData> = mock(DocumentReference);
   
-  let fakeSectionData = new FakeSectionData('uid');
+  const fakeSectionData = new FakeSectionData('uid');
 
   before(async () => {
 

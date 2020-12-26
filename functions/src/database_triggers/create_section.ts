@@ -4,9 +4,9 @@ import * as service_locator from '../utils/service_locator';
 import { unNull } from '../utils/null_safety_utils';
 import { SectionData } from '../utils/database/section_data';
 
-export async function createSection(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
+export async function createSectionCallback(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
 
-  let sectionData: SectionData = service_locator.createSectionData(snapshot.id);
+  const sectionData: SectionData = service_locator.createSectionData(snapshot.id);
 
   // We wrap the whole function in a try/catch and add a ProcessingFailure to the database on any failures
   try {
@@ -54,7 +54,8 @@ export async function createSection(snapshot : functions.firestore.DocumentSnaps
     await snapshot.ref.delete();
   
   } catch (error) {
-    sectionData.onFailureSave(error);
+    await sectionData.onFailureSave(error);
+    await snapshot.ref.delete();
   }
 
 }
