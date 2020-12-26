@@ -46,7 +46,7 @@ describe('Cloud Functions', () => {
   });
 
   it('should successfully run createSectionFolder', async () => {
-    const wrapped = tester.wrap(myFunctions.createSectionFolder);    
+    const wrapped = tester.wrap(myFunctions.createSection);
     await wrapped(instance(mockedSnapshot));
 
     expect(fakeSectionData.name).equals('testy');
