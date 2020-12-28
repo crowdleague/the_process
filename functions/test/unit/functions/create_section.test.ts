@@ -9,7 +9,7 @@ import { DriveAPIInterface } from "../../../src/google_apis/drive";
 import { DocsAPIInterface } from "../../../src/google_apis/docs";
 
 describe('CloudFunction', () => {
-  let myFunctions: any;
+  let myFunctions: typeof import("../../../src/index");
   const tester = funcTest();
   
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('CloudFunction', () => {
 
   it('.createSection saves failures to database', async () => {
     const fakeSectionData = new FakeSectionData('uid');
-    jest.spyOn(service_locator, 'createSectionData').mockImplementationOnce((uid: string) => fakeSectionData);
+    jest.spyOn(service_locator, 'createSectionData').mockImplementationOnce(() => fakeSectionData);
 
     // setup the test harness and call the function 
     const wrapped = tester.wrap(myFunctions.createSection);
@@ -47,9 +47,9 @@ describe('CloudFunction', () => {
 
     // Replace service_locator functions to return our mocked services.
 
-    jest.spyOn(service_locator, 'createSectionData').mockImplementationOnce((uid: string) => fakeSectionData);
-    jest.spyOn(service_locator, 'getDriveAPI').mockImplementationOnce((uid: string) => Promise.resolve(driveAPIMock));
-    jest.spyOn(service_locator, 'getDocsAPI').mockImplementationOnce((uid: string) => Promise.resolve(docsAPIMock));
+    jest.spyOn(service_locator, 'createSectionData').mockImplementationOnce(() => fakeSectionData);
+    jest.spyOn(service_locator, 'getDriveAPI').mockImplementationOnce(() => Promise.resolve(driveAPIMock));
+    jest.spyOn(service_locator, 'getDocsAPI').mockImplementationOnce(() => Promise.resolve(docsAPIMock));
 
     // Create a mocked DocumentSnapshot to pass in to the function under test.
 

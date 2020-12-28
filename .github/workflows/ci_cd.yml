@@ -45,5 +45,7 @@ jobs:
     - run: npm ci
     # build the project if necessary
     - run: npm run build --if-present
+    # run the linter 
+    - run: npx eslint . --ext .ts --max-warnings=0
     # finally run the tests
     - run: npm test

@@ -14,11 +14,13 @@ export class FakeSectionData implements SectionDataInterface {
       this.error = null;
   }
   async save() : Promise<DocumentReference<DocumentData>> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return ({ 'doc': 'abc' } as unknown) as any;
 
   }
   async onFailureSave(error: Error) : Promise<DocumentReference<DocumentData>> {
     this.error = error;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return ({ 'doc': 'abc' } as unknown) as any;
   }
 }

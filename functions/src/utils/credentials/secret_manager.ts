@@ -11,15 +11,65 @@ const autoReplication = { automatic: {} };
 export interface SecretManagerInterface {
   secretsClient: SecretManagerServiceClient;
 
-  save(uid: string, provider: string, tokens: {}) : void;
-  retrieveCredentials(uid: string) : Promise<UserCredentials>;
+  saveGoogleCredentials(uid: string, credentials: GoogleCredentials) : void;
+  saveAsanaCredentials(uid: string, credentials: AsanaCredentials) : void;
+  retrieveUserCredentials(uid: string) : Promise<UserCredentials>;
 }
 
 class SecretManager implements SecretManagerInterface {
   secretsClient = new SecretManagerServiceClient();
 
-  async save(uid: string, provider: string, tokens: {}) {
+  async saveAsanaCredentials(uid: string, asanaCredentials: AsanaCredentials) : Promise<void> {
 
+    const secret = await this.retrieveSecret(uid);
+
+    const [versions] = await this.secretsClient.listSecretVersions({
+      parent: secret.name,
+    });
+
+    let userCredentials;
+    if(versions.length > 0) {
+      userCredentials = await this.retrieveUserCredentials(uid);
+    }
+    else {
+      userCredentials = new UserCredentials();
+    }
+
+    // update the credentials with the new data 
+    userCredentials.asana = asanaCredentials;
+
+    // Add a version with a payload onto the secret.
+    const [version] = await this.secretsClient.addSecretVersion({
+      parent: secret.name,
+      payload: {
+        data: Buffer.from(JSON.stringify(userCredentials), 'utf8'),
+      },
+    });
+
+    functions.logger.info(`Addeded secret version ${version.name}`);
+  }
+
+  async saveGoogleCredentials(uid: string, googleCredentials: GoogleCredentials) {
+    
+    const secret = await this.retrieveSecret(uid);
+
+    const userCredentials = await this.retrieveUserCredentials(uid);
+
+    // Update the credentials with the new data.
+    userCredentials.google = googleCredentials;
+
+    // Add a version with a payload onto the secret.
+    const [version] = await this.secretsClient.addSecretVersion({
+      parent: secret.name,
+      payload: {
+        data: Buffer.from(JSON.stringify(userCredentials), 'utf8'),
+      },
+    });
+
+    functions.logger.info(`Addeded secret version ${version.name}`);
+  }
+
+  async retrieveSecret(uid: string) : Promise<protos.google.cloud.secretmanager.v1.ISecret> {
     let secret: protos.google.cloud.secretmanager.v1.ISecret;
     
     // Retrieve the user's secret (or create one if none exists) 
@@ -45,31 +95,10 @@ class SecretManager implements SecretManagerInterface {
       functions.logger.info('Created secret: ', secret);
     }
 
-    const [versions] = await this.secretsClient.listSecretVersions({
-      parent: secret.name,
-    });
-
-    let tokensJson = {}; 
-    if(versions.length > 0) {
-      tokensJson = await this.retrieveCredentials(uid);
-    }
-    
-    // update the json with the new data 
-    tokensJson = { ...tokensJson, [provider]: tokens};
-
-    // Add a version with a payload onto the secret.
-    const [version] = await this.secretsClient.addSecretVersion({
-      parent: secret.name,
-      payload: {
-        data: Buffer.from(JSON.stringify(tokensJson), 'utf8'),
-      },
-    });
-
-    functions.logger.info(`Addeded secret version ${version.name}`);
+    return secret;
   }
-
-  // 
-  async retrieveCredentials(uid: string) : Promise<UserCredentials> {
+  
+  async retrieveUserCredentials(uid: string) : Promise<UserCredentials> {
     // Access the secret.
     const [accessResponse] = await this.secretsClient.accessSecretVersion({
       name: 'projects/the-process-tool/secrets/'+uid+'/versions/latest',
@@ -77,7 +106,7 @@ class SecretManager implements SecretManagerInterface {
 
     const responsePayload = accessResponse.payload?.data?.toString();
 
-    const checkedPayload = unNull(responsePayload, `When retrieving secret for ${uid}, response payload was null`);
+    const checkedPayload = unNull(responsePayload, `When retrieving secret for ${uid}, response payload was null`) as string;
 
     const payloadJson = JSON.parse(checkedPayload);
 
@@ -85,7 +114,7 @@ class SecretManager implements SecretManagerInterface {
 
     const googleCredentials : GoogleCredentials = new GoogleCredentials(payloadJson.google);
     const asanaCredentials : AsanaCredentials = payloadJson.asana;
-    const userCredentials = new UserCredentials({google: googleCredentials, asana: asanaCredentials});
+    const userCredentials = new UserCredentials(googleCredentials, asanaCredentials);
     
     return userCredentials;
   }

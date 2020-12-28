@@ -2,11 +2,11 @@ import { AsanaCredentials } from './asana_credentials';
 import { GoogleCredentials } from './google_credentials';
 
 export class UserCredentials {
-  readonly google: GoogleCredentials;
-  readonly asana: AsanaCredentials;
+  google: GoogleCredentials | undefined;
+  asana: AsanaCredentials | undefined;
 
-  constructor(data: {google: GoogleCredentials, asana: AsanaCredentials}) {
-    this.google = data.google;
-    this.asana = data.asana;
+  constructor(google?: GoogleCredentials, asana?: AsanaCredentials) {
+    this.google = google;
+    this.asana = asana;
   }
 }

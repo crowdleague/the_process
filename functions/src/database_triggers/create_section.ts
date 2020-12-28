@@ -4,7 +4,7 @@ import * as service_locator from '../utils/service_locator';
 import { unNull } from '../utils/null_safety_utils';
 import { SectionData } from '../utils/database/section_data';
 
-export async function createSectionCallback(snapshot : functions.firestore.DocumentSnapshot, context : functions.EventContext) {
+export async function createSectionCallback(snapshot : functions.firestore.DocumentSnapshot) : Promise<void> {
 
   const sectionData: SectionData = service_locator.createSectionData(snapshot.id);
 
@@ -13,7 +13,7 @@ export async function createSectionCallback(snapshot : functions.firestore.Docum
 
     const data = snapshot.data();
 
-    const checkedData = unNull(data, 'There was no data in the snapshot.');
+    const checkedData = unNull(data, 'There was no data in the snapshot.') as FirebaseFirestore.DocumentData;
 
     const newSection = checkedData['section'];
     const sectionName = newSection['name'];
@@ -24,7 +24,7 @@ export async function createSectionCallback(snapshot : functions.firestore.Docum
     const docsAPI = await service_locator.getDocsAPI(the_process_id);
     const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
 
-    const checkedFolderId = unNull(folder.id, 'The created folder id was missing.');
+    const checkedFolderId = unNull(folder.id, 'The created folder id was missing.') as string;
 
     sectionData.folderId = checkedFolderId;
 
@@ -33,7 +33,7 @@ export async function createSectionCallback(snapshot : functions.firestore.Docum
     const title = '0 - Use Cases < '+sectionName+' (CL)';
     const doc = await docsAPI.createDoc(title);
 
-    const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.');
+    const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.') as string;
 
     sectionData.useCasesDocId = checkedDocId;
 

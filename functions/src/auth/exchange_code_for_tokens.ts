@@ -14,6 +14,7 @@ import { ProfileData } from '../utils/database/profile_data';
 const auth = firebaseAdmin.getAuth();
 
 // Get the code from the request, call retrieveAuthToken and return the response
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
   try {
 
@@ -29,8 +30,8 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
       project_credentials.google.secret,
       project_credentials.google.redirect_url,
     );
-
-    const tokenResponse = await oauth2.getToken(req.query.code);
+    
+    const tokenResponse = await oauth2.getToken(req.query.code.toString());
 
     functions.logger.log('Setting credentials in oauth2 client...');
 
@@ -77,6 +78,7 @@ export const exchangeCodeWithGoogle = express().use(exchangeCodeForGoogleTokens)
 
 
 // Get the code from the request, call retrieveAuthToken and return the response
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const exchangeCodeForAsanaTokens = async (req: any, res: any) => {
   try {
 

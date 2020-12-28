@@ -20,7 +20,8 @@ const scopes = [
   'https://www.googleapis.com/auth/drive.readonly',
 ];
 
-// Generate a redirect URL and respond with a redirect. 
+// Generate a redirect URL and respond with a redirect.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const googleRedirect = async (req: any, res: any) => {
 
   const oauth2 : OAuth2Client = new google.auth.OAuth2(
@@ -47,7 +48,8 @@ export const redirectToGoogle = express().use(googleRedirect);
 // Asana 
 ////////////////////////////////////////////////////////////////////////////////
 
-// Get the code from the request, call retrieveAuthToken and return the response
+// Get the code from the request, call retrieveAuthToken and return the response.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const asanaRedirect = async (req: any, res: any) => {
   res.redirect(
     'https://app.asana.com/-/oauth_authorize?response_type=code&client_id='

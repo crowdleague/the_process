@@ -1,4 +1,4 @@
-import { FieldValue } from "@google-cloud/firestore";
+import { DocumentData, DocumentReference, FieldValue, WriteResult } from "@google-cloud/firestore";
 import { db } from "../firebase_admin";
 
 export class ProfileData {
@@ -11,22 +11,22 @@ export class ProfileData {
       this.provider = provider;
       this.authState = authState;
   }
-  async save() {
+
+  async save() : Promise<WriteResult> {
       const providerName = this.provider+'Auth';
-      await db.doc(`profiles/${this.uid}`).set({
+      return db.doc(`profiles/${this.uid}`).set({
           [providerName] : this.authState,
       }, {merge: true});
   }
-  async failed(failures: any[]) {
-      const data = {
-          'uid': this.uid,
-          'failures': failures,
-      };
-      await db.collection(`users/${this.uid}/processing_failures`).add({
-          'type': 'ProfileData',
-          'createdOn': FieldValue.serverTimestamp(),
-          'message': JSON.stringify(data),
-          'data': data,
-      });
+
+  async onFailureSave(error: Error) : Promise<DocumentReference<DocumentData>> {
+    return db.collection(`processing_failures`).add({
+      error: JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      type: 'ProfileData',
+      createdOn: FieldValue.serverTimestamp(),
+      data: {
+        uid: this.uid,
+      },
+    });
   }
 }
