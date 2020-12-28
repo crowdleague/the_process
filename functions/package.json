@@ -36,5 +36,10 @@
     "ts-jest": "^26.4.4",
     "typescript": "^3.9.7"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src/", "<rootDir>/test/"]
+  }
 }
