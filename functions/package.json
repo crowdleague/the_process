@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "ts-mocha ./test/unit/**/*.ts"
+    "test": "npx jest"
   },
   "engines": {
     "node": "12"
