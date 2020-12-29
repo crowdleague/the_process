@@ -21,8 +21,8 @@ export class PeopleAPI {
       personFields: 'emailAddresses',
     });
 
-    const checkedEmailAddresses = unNull(res.data.emailAddresses, 'There were no email addresses in the retrieved Person data.');
-    const checkedValue = unNull(checkedEmailAddresses[0].value, 'There was no email address value in the email addresses list.');
+    const checkedEmailAddresses = unNull(res.data.emailAddresses, 'There were no email addresses in the retrieved Person data.') as people_v1.Schema$EmailAddress[];
+    const checkedValue = unNull(checkedEmailAddresses[0].value, 'There was no email address value in the email addresses list.') as string;
 
     return checkedValue;
   }

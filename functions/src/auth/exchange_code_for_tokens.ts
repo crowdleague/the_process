@@ -48,7 +48,7 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
 
     functions.logger.log('Saving tokens in SecretManager...');
     
-    await secretManager.save(userRecord.uid, 'google', tokenResponse.tokens);
+    await secretManager.saveGoogleCredentials(userRecord.uid, tokenResponse.tokens);
 
     functions.logger.log('Saving finished state to database...');
 
@@ -114,7 +114,7 @@ const exchangeCodeForAsanaTokens = async (req: any, res: any) => {
       expires_in: resp.data.expires_in,
     }
 
-    await secretManager.save(userRecord.uid, 'asana', tokens);
+    await secretManager.saveAsanaCredentials(userRecord.uid, tokens);
 
     functions.logger.log('Saving finished state to database...');
 

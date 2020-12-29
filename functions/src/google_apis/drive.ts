@@ -39,7 +39,7 @@ export class DriveAPI implements DriveAPIInterface {
       fields: 'id',
     });
 
-    const id = unNull(filesResponse.data.id, 'Creating folder did not return an id.');
+    const id = unNull(filesResponse.data.id, 'Creating folder did not return an id.') as string;
 
     const permissionParams : drive_v3.Params$Resource$Permissions$Create = {
       fileId: id,
