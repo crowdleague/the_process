@@ -1,12 +1,13 @@
-import { the_process_id } from '../utils/the_process_constants';
+import { the_process_id } from '../../utils/the_process_constants';
 import * as functions from 'firebase-functions';
-import * as service_locator from '../utils/service_locator';
-import { unNull } from '../utils/null_safety_utils';
-import { SectionData } from '../utils/database/section_data';
+import * as service_locator from '../../utils/service_locator';
+import { unNull } from '../../utils/null_safety_utils';
+import { SectionData } from '../../models/database/section_data';
 
 export async function createSectionCallback(snapshot : functions.firestore.DocumentSnapshot) : Promise<void> {
 
-  const sectionData: SectionData = service_locator.createSectionData(snapshot.id);
+  const sectionData = new SectionData();
+  const databaseService = await service_locator.getDatabaseService(snapshot.id);
 
   // We wrap the whole function in a try/catch and add a ProcessingFailure to the database on any failures
   try {
@@ -45,7 +46,7 @@ export async function createSectionCallback(snapshot : functions.firestore.Docum
 
     functions.logger.info(`Saving sectionData: `, sectionData);
 
-    const docRef = await sectionData.save();
+    const docRef = await databaseService.save(sectionData);
 
     functions.logger.info(`added database entry for section: `, docRef);
 
@@ -54,7 +55,7 @@ export async function createSectionCallback(snapshot : functions.firestore.Docum
     await snapshot.ref.delete();
   
   } catch (error) {
-    await sectionData.onFailureSave(error);
+    await databaseService.saveFailure(error, sectionData);
     await snapshot.ref.delete();
   }
 

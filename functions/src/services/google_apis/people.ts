@@ -1,6 +1,6 @@
 import { google, people_v1 } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
-import { unNull } from '../utils/null_safety_utils';
+import { unNull } from '../../utils/null_safety_utils';
 
 // adapted from: https://github.com/googleapis/google-api-nodejs-client/blob/bd0accce744ddd55abdd400efbe2bccd96dc6cdf/samples/people/me.js
 // see api docs: https://developers.google.com/people/api/rest/v1/people/get 

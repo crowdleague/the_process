@@ -2,10 +2,10 @@ import * as functions from 'firebase-functions';
 import { google } from 'googleapis';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 
-import { secretManager } from '../utils/credentials/secret_manager';
+import { secretManager } from './secret_manager';
 import * as project_credentials from '../project_credentials.json';
 import { unNull } from '../utils/null_safety_utils';
-import { GoogleCredentials } from '../utils/credentials/google_credentials';
+import { GoogleCredentials } from '../models/credentials/google_credentials';
 
 /// An [OAuth2Client] 
 // 

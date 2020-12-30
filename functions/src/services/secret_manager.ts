@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions';
 import { SecretManagerServiceClient, protos } from '@google-cloud/secret-manager';
-import { unNull } from '../null_safety_utils';
-import { UserCredentials } from './user_credentials';
-import { AsanaCredentials } from './asana_credentials';
-import { GoogleCredentials } from './google_credentials';
+import { unNull } from '../utils/null_safety_utils';
+import { UserCredentials } from '../models/credentials/user_credentials';
+import { AsanaCredentials } from '../models/credentials/asana_credentials';
+import { GoogleCredentials } from '../models/credentials/google_credentials';
 
 // We create the secret with automatic replication, documented as "the right choice in most cases".
 const autoReplication = { automatic: {} };

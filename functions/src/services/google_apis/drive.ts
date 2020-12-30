@@ -1,7 +1,7 @@
 import { drive_v3, google } from 'googleapis';
 
-import { unNull } from '../utils/null_safety_utils';
-import { AuthenticatedClient } from '../auth/authenticated_client';
+import { unNull } from '../../utils/null_safety_utils';
+import { AuthenticatedClient } from '../authenticated_client';
 
 export interface DriveAPIInterface {
   readonly uid: string;
