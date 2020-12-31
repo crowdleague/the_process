@@ -6,9 +6,9 @@ import { OAuth2Client } from 'google-auth-library';
 
 import * as project_credentials from '../../project_credentials.json';
 import { firebaseAdmin } from '../../utils/firebase_admin';
-import { secretManager } from '../../services/secret_manager';
 import { PeopleAPI } from '../../services/google_apis/people';
 import { ProfileData } from '../../models/database/profile_data';
+import { SecretManager } from '../../services/secret_manager';
 
 const auth = firebaseAdmin.getAuth();
 
@@ -47,7 +47,7 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
 
     functions.logger.log('Saving tokens in SecretManager...');
     
-    await secretManager.saveGoogleCredentials(userRecord.uid, tokenResponse.tokens);
+    await SecretManager.getInstance().saveGoogleCredentials(userRecord.uid, tokenResponse.tokens);
 
     functions.logger.log('Saving finished state to database...');
 

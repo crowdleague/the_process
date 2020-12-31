@@ -9,21 +9,32 @@ import { GoogleCredentials } from '../models/credentials/google_credentials';
 const autoReplication = { automatic: {} };
 
 export interface SecretManagerInterface {
-  secretsClient: SecretManagerServiceClient;
-
   saveGoogleCredentials(uid: string, credentials: GoogleCredentials) : void;
   saveAsanaCredentials(uid: string, credentials: AsanaCredentials) : void;
   retrieveUserCredentials(uid: string) : Promise<UserCredentials>;
 }
 
-class SecretManager implements SecretManagerInterface {
-  secretsClient = new SecretManagerServiceClient();
+export class SecretManager implements SecretManagerInterface {
+  private client : SecretManagerServiceClient;
+  
+  private static privateInstance: SecretManager;
+
+  private constructor(client?: SecretManagerServiceClient) {
+    this.client = client ?? new SecretManagerServiceClient();
+  }
+
+  static getInstance(client?: SecretManagerServiceClient) : SecretManager {
+    if (!SecretManager.privateInstance) {
+      SecretManager.privateInstance = new SecretManager(client);
+    }
+    return SecretManager.privateInstance;
+  }
 
   async saveAsanaCredentials(uid: string, asanaCredentials: AsanaCredentials) : Promise<void> {
 
     const secret = await this.retrieveSecret(uid);
 
-    const [versions] = await this.secretsClient.listSecretVersions({
+    const [versions] = await this.client.listSecretVersions({
       parent: secret.name,
     });
 
@@ -39,7 +50,7 @@ class SecretManager implements SecretManagerInterface {
     userCredentials.asana = asanaCredentials;
 
     // Add a version with a payload onto the secret.
-    const [version] = await this.secretsClient.addSecretVersion({
+    const [version] = await this.client.addSecretVersion({
       parent: secret.name,
       payload: {
         data: Buffer.from(JSON.stringify(userCredentials), 'utf8'),
@@ -49,7 +60,7 @@ class SecretManager implements SecretManagerInterface {
     functions.logger.info(`Addeded secret version ${version.name}`);
   }
 
-  async saveGoogleCredentials(uid: string, googleCredentials: GoogleCredentials) {
+  async saveGoogleCredentials(uid: string, googleCredentials: GoogleCredentials) : Promise<void> {
     
     const secret = await this.retrieveSecret(uid);
 
@@ -59,7 +70,7 @@ class SecretManager implements SecretManagerInterface {
     userCredentials.google = googleCredentials;
 
     // Add a version with a payload onto the secret.
-    const [version] = await this.secretsClient.addSecretVersion({
+    const [version] = await this.client.addSecretVersion({
       parent: secret.name,
       payload: {
         data: Buffer.from(JSON.stringify(userCredentials), 'utf8'),
@@ -74,7 +85,7 @@ class SecretManager implements SecretManagerInterface {
     
     // Retrieve the user's secret (or create one if none exists) 
     try {
-      [secret] = await this.secretsClient.getSecret({
+      [secret] = await this.client.getSecret({
         name: 'projects/the-process-tool/secrets/'+uid,
       });
 
@@ -83,7 +94,7 @@ class SecretManager implements SecretManagerInterface {
     catch {
       functions.logger.info(`Could not retrieve a secret for: ${uid}`);
 
-      [secret] = await this.secretsClient.createSecret({
+      [secret] = await this.client.createSecret({
         parent: 'projects/the-process-tool',
         secretId: uid,
         secret: {
@@ -100,7 +111,7 @@ class SecretManager implements SecretManagerInterface {
   
   async retrieveUserCredentials(uid: string) : Promise<UserCredentials> {
     // Access the secret.
-    const [accessResponse] = await this.secretsClient.accessSecretVersion({
+    const [accessResponse] = await this.client.accessSecretVersion({
       name: 'projects/the-process-tool/secrets/'+uid+'/versions/latest',
     });
 
@@ -119,5 +130,3 @@ class SecretManager implements SecretManagerInterface {
     return userCredentials;
   }
 }
-
-export const secretManager = new SecretManager();

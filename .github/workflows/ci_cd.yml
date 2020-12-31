@@ -42,7 +42,7 @@ jobs:
     # Install dependencies, build, lint and test.
     ##############################################
     - run: npm install
-    - run: npx run build
+    - run: npm run build
     - run: npm run lint
     - run: npm run test
     

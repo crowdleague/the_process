@@ -5,9 +5,9 @@ import * as service_locator from '../../utils/service_locator';
 import axios from 'axios';
 
 import * as project_credentials from '../../project_credentials.json';
-import { secretManager } from '../../services/secret_manager';
 import { ProfileData } from '../../models/database/profile_data';
 import { firebaseAdmin } from '../../utils/firebase_admin';
+import { SecretManager } from '../../services/secret_manager';
 
 const auth = firebaseAdmin.getAuth();
 
@@ -48,7 +48,7 @@ const exchangeCodeForAsanaTokens = async (req: any, res: any) => {
       expires_in: resp.data.expires_in,
     }
 
-    await secretManager.saveAsanaCredentials(userRecord.uid, tokens);
+    await SecretManager.getInstance().saveAsanaCredentials(userRecord.uid, tokens);
 
     functions.logger.log('Saving finished state to database...');
 

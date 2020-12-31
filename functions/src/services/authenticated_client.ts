@@ -2,10 +2,10 @@ import * as functions from 'firebase-functions';
 import { google } from 'googleapis';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 
-import { secretManager } from './secret_manager';
 import * as project_credentials from '../project_credentials.json';
 import { unNull } from '../utils/null_safety_utils';
 import { GoogleCredentials } from '../models/credentials/google_credentials';
+import { SecretManager } from './secret_manager';
 
 /// An [OAuth2Client] 
 // 
@@ -37,7 +37,7 @@ export class AuthenticatedClient {
     if (!AuthenticatedClient.instance.get(uid)) {
       // Create an instance and set the credentials 
       const newClient = new AuthenticatedClient(uid);
-      const userCredentials = await secretManager.retrieveUserCredentials(uid);
+      const userCredentials = await SecretManager.getInstance().retrieveUserCredentials(uid);
 
       if(userCredentials.google !== undefined) {
         
@@ -86,7 +86,7 @@ export class AuthenticatedClient {
 
     if(newExpiry > this.tokens_expiry) {
       functions.logger.log('Saving tokens under UID in SecretManager...');
-      await secretManager.saveGoogleCredentials(this.uid, credentials);
+      await SecretManager.getInstance().saveGoogleCredentials(this.uid, credentials);
     }
   }
 
