@@ -1,15 +1,22 @@
-// import { expect } from 'chai';
-// import { DocsAPI } from '../../../src/google_apis/docs';
+import { docs_v1 } from "googleapis";
+import { mock, mockDeep } from "jest-mock-extended";
+import { AuthenticatedClient } from "../../../src/services/authenticated_client";
+import { DocsAPI } from "../../../src/services/google_apis/docs";
 
-// context('DocsAPI', () => {
-//   specify('has expected values', async () => {
-//     const docsAPI = await DocsAPI.for('uid');
+describe('DocsAPI', () => {
+  test('has expected values', async () => {
+
+    const mockClient = mock<AuthenticatedClient>();
+    const docsMock = mockDeep<docs_v1.Docs>();
+
+    (docsMock.documents.create as jest.Mock).mockResolvedValueOnce({data: 'hello'});
     
-//     expect(docsAPI.uid).equals('uid');
+    const docsAPI = await DocsAPI.for('uid', mockClient, docsMock);
 
-//   });
-// });
+    const result = await docsAPI.createDoc('testy');
+    
+    expect(docsAPI.uid).toBe('uid');
+    expect(result).toBe('hello');
 
-test('empty passing test', async () => {
-  expect(true).toBe(true);
+  });
 });

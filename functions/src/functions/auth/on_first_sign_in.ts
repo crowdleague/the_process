@@ -1,9 +1,10 @@
-import { firebaseAdmin } from '../../utils/firebase_admin';
-import * as admin from 'firebase-admin';
+import { auth } from 'firebase-admin';
+import { FirebaseAdmin } from '../../services/firebase_admin';
 
-const db = firebaseAdmin.getFirestore();
+export async function saveDetails(user : auth.UserRecord) : Promise<void> {
 
-export async function saveDetails(user : admin.auth.UserRecord) : Promise<void> {
+    const db = FirebaseAdmin.getInstance().getFirestore();
+
     // add all auth data to the profile doc
     await db.doc('/profiles/'+user.uid).set({
         displayName: user.displayName ?? null,
