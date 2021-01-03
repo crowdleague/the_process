@@ -4,7 +4,7 @@ import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 
 import * as project_credentials from '../../project_credentials.json';
-import { PeopleAPI } from '../../services/google_apis/people';
+import { PeopleAPI } from '../../services/google_apis/people_api';
 import { ProfileData } from '../../models/database/profile_data';
 import { CredentialsService } from '../../services/credentials_service';
 import { FirebaseAdmin } from '../../services/firebase_admin';

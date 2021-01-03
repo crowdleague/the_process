@@ -2,8 +2,8 @@ import * as funcTest from "firebase-functions-test";
 import { DocumentReference, DocumentSnapshot, WriteResult } from "@google-cloud/firestore";
 import { mock, mockDeep } from "jest-mock-extended";
 
-import { DriveAPI } from "../../../src/services/google_apis/drive";
-import { DocsAPI } from "../../../src/services/google_apis/docs";
+import { DriveAPI } from "../../../src/services/google_apis/drive_api";
+import { DocsAPI } from "../../../src/services/google_apis/docs_api";
 import { DatabaseService } from "../../../src/services/database_service";
 import { SectionData } from "../../../src/models/database/section_data";
 import { FirebaseAdmin } from "../../../src/services/firebase_admin";

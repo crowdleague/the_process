@@ -3,8 +3,8 @@ import * as functions from 'firebase-functions';
 import { unNull } from '../../utils/null_safety_utils';
 import { SectionData } from '../../models/database/section_data';
 import { DatabaseService } from '../../services/database_service';
-import { DriveAPI } from '../../services/google_apis/drive';
-import { DocsAPI } from '../../services/google_apis/docs';
+import { DriveAPI } from '../../services/google_apis/drive_api';
+import { DocsAPI } from '../../services/google_apis/docs_api';
 
 export async function createSectionCallback(snapshot : functions.firestore.DocumentSnapshot) : Promise<void> {
 

@@ -1,7 +1,7 @@
 import { docs_v1 } from "googleapis";
 import { mock, mockDeep } from "jest-mock-extended";
 import { AuthenticatedClient } from "../../../src/services/authenticated_client";
-import { DocsAPI } from "../../../src/services/google_apis/docs";
+import { DocsAPI } from "../../../src/services/google_apis/docs_api";
 
 describe('DocsAPI', () => {
   test('has expected values', async () => {
