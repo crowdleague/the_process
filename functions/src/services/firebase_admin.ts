@@ -1,4 +1,9 @@
 import * as admin from 'firebase-admin';
+declare let process : {
+  env: {
+    GCP_PROJECT: string
+  }
+}
 
 export class FirebaseAdmin {
   
@@ -7,8 +12,16 @@ export class FirebaseAdmin {
   private constructor() { 
     admin.initializeApp();
 
+    const settingsValues : { [field: string] : unknown } = { 
+      ignoreUndefinedProperties: true,
+    };
+    // if(!process.env.GCP_PROJECT) {
+    //   settingsValues.host = 'localhost:8080';
+    //   settingsValues.ssl = false;
+    // }
     // Configure firestore settings.
-    admin.firestore().settings({ ignoreUndefinedProperties: true });
+    admin.firestore().settings(settingsValues);
+
   }
 
   public static getInstance(): FirebaseAdmin {
@@ -26,21 +39,5 @@ export class FirebaseAdmin {
   public getAuth() : admin.auth.Auth {
     return admin.auth();
   }
-
-
-  // private static initialized = false;
-
-  // private static initialize() { 
-  //   admin.initializeApp();
-  //   this.initialized = true;
-  // }
-
-  // public static getFirestore() : FirebaseFirestore.Firestore {
-  //   if (!this.initialized) this.initialize();
-
-  //   return admin.firestore();
-  // }
-    
-  // }
 
 }

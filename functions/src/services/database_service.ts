@@ -3,7 +3,7 @@ import { FirebaseAdmin } from "./firebase_admin";
 import { unNull } from "../utils/null_safety_utils";
 
 export class DatabaseService {
-  readonly uid: string;
+  readonly uid : string;
   readonly db : FirebaseFirestore.Firestore;
   private static readonly instances = new Map<string, DatabaseService>();
 

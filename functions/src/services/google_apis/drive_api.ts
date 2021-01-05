@@ -24,9 +24,9 @@ export class DriveAPI implements DriveAPIInterface {
     this.drive = google.drive({version: 'v3', auth: client.getOAuth2Client()});
   }
 
-  static async for(uid: string) : Promise<DriveAPI> {
-    const client = await AuthenticatedClient.getInstanceFor(uid);
-    return new DriveAPI(uid, client);
+  static async for(uid: string, client?: AuthenticatedClient) : Promise<DriveAPI> {
+    const ourClient = client ?? await AuthenticatedClient.getInstanceFor(uid);
+    return new DriveAPI(uid, ourClient);
   }
 
   async createFolder(name: string) : Promise<drive_v3.Schema$File> {
