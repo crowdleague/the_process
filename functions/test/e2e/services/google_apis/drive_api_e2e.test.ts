@@ -4,8 +4,6 @@ describe('DriveAPI', () => {
 
   const uid = 'uid';
 
-  // "/test/e2e/",
-
   test('createFolder() creates a folder and returns the id.', async () => {
 
     const driveAPI = await DriveAPI.for(uid);
