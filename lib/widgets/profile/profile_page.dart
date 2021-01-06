@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
         builder: (context, profileData) {
           return Column(
             children: [
-              if (profileData == null || !profileData.exists)
+              if (profileData == null)
                 WaitingIndicator('Connecting to database...')
               else ...[
                 Text(
