@@ -10,6 +10,6 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "include": [ "src", "test" ],
-  "exclude": [ "node_modules", "lib" ],
+  "include": [ "functions/src", "functions/test" ],
+  "exclude": [ "functions/node_modules", "functions/lib" ],
 }
