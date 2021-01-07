@@ -1,4 +1,6 @@
+import { Firestore } from '@google-cloud/firestore';
 import * as admin from 'firebase-admin';
+import { auth } from 'firebase-admin/lib/auth';
 declare let process : {
   env: {
     GCP_PROJECT: string
@@ -32,11 +34,11 @@ export class FirebaseAdmin {
     return FirebaseAdmin.instance;
   }
 
-  public getFirestore() : FirebaseFirestore.Firestore {
+  public getFirestore() : Firestore {
     return admin.firestore();
   }
 
-  public getAuth() : admin.auth.Auth {
+  public getAuth() : auth.Auth {
     return admin.auth();
   }
 

@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import * as logger from "firebase-functions/lib/logger";
 import * as express from 'express';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
@@ -6,7 +6,7 @@ import { OAuth2Client } from 'google-auth-library';
 import * as project_credentials from '../../project_credentials.json';
 import { PeopleAPI } from '../../services/google_apis/people_api';
 import { ProfileData } from '../../models/database/profile_data';
-import { CredentialsService } from '../../services/credentials_service';
+import { AuthService } from '../../services/auth_service';
 import { FirebaseAdmin } from '../../services/firebase_admin';
 import { DatabaseService } from '../../services/database_service';
 
@@ -15,15 +15,15 @@ import { DatabaseService } from '../../services/database_service';
 const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
   try {
 
-    const authService = FirebaseAdmin.getInstance().getAuth();
-    const credentialsService = CredentialsService.getInstance();
+    const firebaseAuthService = FirebaseAdmin.getInstance().getAuth();
+    const authService = AuthService.getInstance();
 
     // If we can't get both the code and state from the request it's probably an error message, just send back the original url
     if(req.query.code === null || typeof req.query.code === "undefined" || req.query.state === null || typeof req.query.state === "undefined") {
       return res.send(req.originalUrl);
     }
 
-    functions.logger.log(`Exchanging code for tokens...`);
+    logger.log(`Exchanging code for tokens...`);
 
     const oauth2 : OAuth2Client = new google.auth.OAuth2(
       project_credentials.google.id,
@@ -33,26 +33,26 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
     
     const tokenResponse = await oauth2.getToken(req.query.code.toString());
 
-    functions.logger.log('Setting credentials in oauth2 client...');
+    logger.log('Setting credentials in oauth2 client...');
 
     oauth2.setCredentials(tokenResponse.tokens);
     
-    functions.logger.log('Requesting an email with PeopleAPI...');
+    logger.log('Requesting an email with PeopleAPI...');
 
     const peopleAPI = new PeopleAPI(oauth2);
     const email = await peopleAPI.getEmail();
 
-    functions.logger.log('Converting email to Firebase UID...');
+    logger.log('Converting email to Firebase UID...');
 
-    const userRecord = await authService.getUserByEmail(email);
+    const userRecord = await firebaseAuthService.getUserByEmail(email);
 
     const databaseService = await DatabaseService.getInstanceFor(userRecord.uid);
 
-    functions.logger.log('Saving tokens...');
+    logger.log('Saving tokens...');
     
-    await credentialsService.saveGoogleCredentials(userRecord.uid, {...tokenResponse.tokens});
+    await authService.saveGoogleCredentials(userRecord.uid, {...tokenResponse.tokens});
 
-    functions.logger.log('Saving finished state to database...');
+    logger.log('Saving finished state to database...');
 
     const profileData = new ProfileData({uid: userRecord.uid, provider: 'google', authState: 'authorized'});
     await databaseService.save(profileData);
@@ -69,7 +69,7 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
       </script>
     `);
   } catch(error) {
-    functions.logger.error(error);
+    logger.error(error);
     return res.status(500).send(`Something went wrong while exchanging the code. \n ${error}`);
   }
 };
