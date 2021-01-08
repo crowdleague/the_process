@@ -66,20 +66,6 @@ class DatabaseService {
   void disconnect(DatabaseSection dbSection) =>
       subscriptions[dbSection]?.cancel();
 
-  Future<void> saveAuthTokens(
-      {required String uid,
-      required String accessToken,
-      required String refreshToken}) async {
-    try {
-      await _firestore.doc('profiles/$uid').set(<String, Object>{
-        'accessToken': accessToken,
-        'refreshToken': refreshToken
-      }, SetOptions(merge: true));
-    } catch (error, trace) {
-      _eventsController.addProblem(error, trace);
-    }
-  }
-
   Future<void> updateAuthorizationStep(
       {required ProviderName provider,
       required String uid,
