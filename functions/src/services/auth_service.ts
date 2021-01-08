@@ -6,6 +6,8 @@ import { unNull } from "../utils/null_safety_utils";
 import { GoogleCredentials } from "../models/credentials/google_credentials";
 import { AsanaCredentials } from "../models/credentials/asana_credentials";
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { ProviderName } from '../enums/auth/provider_name';
+import { AuthorizationStep } from '../enums/auth/authorization_step';
 
 export class AuthService {
   private readonly firestore: Firestore;
@@ -41,8 +43,10 @@ export class AuthService {
     return this.firestore.doc('credentials/'+uid).set({asana : {...credentials}}, {merge: true});
   }
 
-  public async updateAuthorizationStep(uid: string, provider: string, value: string) : Promise<WriteResult> {
-    return this.firestore.doc('profiles/'+uid).set({provider : value}, {merge: true});
+  public async updateAuthorizationStatus(uid: string, provider: ProviderName, step: AuthorizationStep) : Promise<WriteResult> {
+    return this.firestore.doc('profiles/'+uid).update({
+      [`authorizationStatus.${provider}`] : step,
+    })
   }
 
   public async retrieveCredentials(uid: string) : Promise<UserCredentials> {

@@ -4,9 +4,9 @@ import * as querystring from 'querystring';
 import axios from 'axios';
 
 import * as project_credentials from '../../project_credentials.json';
-import { ProfileData } from '../../models/database/profile_data';
 import { AuthService } from '../../services/auth_service';
-import { DatabaseService } from '../../services/database_service';
+import { ProviderName } from "../../enums/auth/provider_name";
+import { AuthorizationStep } from "../../enums/auth/authorization_step";
 
 // Get the code from the request, call retrieveAuthToken and return the response
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,8 +39,6 @@ const exchangeCodeForAsanaTokens = async (req: any, res: any) => {
 
     const userRecord = await authService.getUserRecordByEmail(email);
 
-    const databaseService = await DatabaseService.getInstanceFor(userRecord.uid);
-
     logger.log('Saving tokens...');
     
     const tokens = {
@@ -53,9 +51,7 @@ const exchangeCodeForAsanaTokens = async (req: any, res: any) => {
 
     logger.log('Saving finished state to database...');
 
-    const profileData = new ProfileData({uid: userRecord.uid, provider: 'asana', authState: 'authorized'});
-
-    await databaseService.save(profileData);
+    await authService.updateAuthorizationStatus(userRecord.uid, ProviderName.Asana, AuthorizationStep.Authorized);
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`

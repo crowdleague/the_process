@@ -5,10 +5,10 @@ import { OAuth2Client } from 'google-auth-library';
 
 import * as project_credentials from '../../project_credentials.json';
 import { PeopleAPI } from '../../services/google_apis/people_api';
-import { ProfileData } from '../../models/database/profile_data';
 import { AuthService } from '../../services/auth_service';
 import { FirebaseAdmin } from '../../services/firebase_admin';
-import { DatabaseService } from '../../services/database_service';
+import { ProviderName } from "../../enums/auth/provider_name";
+import { AuthorizationStep } from "../../enums/auth/authorization_step";
 
 // Get the code from the request, call retrieveAuthToken and return the response
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,17 +45,14 @@ const exchangeCodeForGoogleTokens = async (req: any, res: any) => {
     logger.log('Converting email to Firebase UID...');
 
     const userRecord = await firebaseAuthService.getUserByEmail(email);
-
-    const databaseService = await DatabaseService.getInstanceFor(userRecord.uid);
-
+    
     logger.log('Saving tokens...');
     
     await authService.saveGoogleCredentials(userRecord.uid, {...tokenResponse.tokens});
 
     logger.log('Saving finished state to database...');
 
-    const profileData = new ProfileData({uid: userRecord.uid, provider: 'google', authState: 'authorized'});
-    await databaseService.save(profileData);
+    await authService.updateAuthorizationStatus(userRecord.uid, ProviderName.Google, AuthorizationStep.Authorized);
 
     // Close the window, the entry in database will update the UI of the original window 
     return res.send(`
