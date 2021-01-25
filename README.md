@@ -2,6 +2,12 @@
 
 A tool to automate "the process".
 
+## Microservices with Dart Functions Framework on Cloud Run
+
+### Logs
+
+<https://console.cloud.google.com/run/detail/australia-southeast1/service-name/logs?project=the-process-tool>
+
 ## Test Cloud Functions Locally
 
 Open the `functions/` folder with VS Code and run the Typescript compiler in watch mode:
@@ -22,7 +28,7 @@ Run a Cloud Functions shell:
 
 > firebase functions:shell
 
-## Build & Depoy Web
+## Build & Deploy Web
 
 - make sure index.html is the auto version, not the cdn version
 
