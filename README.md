@@ -4,6 +4,13 @@ A tool to automate "the process".
 
 ## Microservices with Dart Functions Framework on Cloud Run
 
+### Cloud Code Emulator
+
+- Open the desired microservice folder so the Dockerfile is at the top level
+- Cmd-P... Cloud Code: Run on Cloud Run Emulator
+- Shift-Cmd-U to open the Output panel
+- (optionally) select the Detailed option in the dropdown at the top of the Output panel
+
 ### Logs
 
 <https://console.cloud.google.com/run/detail/australia-southeast1/service-name/logs?project=the-process-tool>
