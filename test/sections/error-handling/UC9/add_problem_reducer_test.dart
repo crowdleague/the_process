@@ -25,7 +25,7 @@ void main() {
       final newState = reducer.reducer(
           initialState, AddProblem(errorString: problem.errorString));
 
-      expect(newState.problems.first, problem);
+      expect(newState.problems.first.errorString, problem.errorString);
       expect(newState.pagesData.length, 2);
       expect((newState.pagesData[1] as ProblemPageData).problem.errorString,
           problem.errorString);
