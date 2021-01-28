@@ -6,9 +6,10 @@ part 'asana_project_credentials.g.dart';
 @freezed
 abstract class AsanaProjectCredentials with _$AsanaProjectCredentials {
   factory AsanaProjectCredentials(
-      {required String clientId,
-      required String clientSecret,
-      required String redirectURI}) = _AsanaProjectCredentials;
+          {@JsonKey(name: 'client_id') required String clientId,
+          @JsonKey(name: 'client_secret') required String clientSecret,
+          @JsonKey(name: 'redirect_uri') required String redirectURI}) =
+      _AsanaProjectCredentials;
 
   factory AsanaProjectCredentials.fromJson(Map<String, dynamic> json) =>
       _$AsanaProjectCredentialsFromJson(json);

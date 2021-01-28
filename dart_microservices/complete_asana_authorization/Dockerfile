@@ -1,7 +1,7 @@
 ################
 # FROM google/dart:2.10
 FROM google/dart
-# RUN apt -y update && apt -y upgrade
+RUN apt -y update && apt -y upgrade
 
 WORKDIR /app
 COPY pubspec.yaml /app/pubspec.yaml

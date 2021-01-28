@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:complete_asana_authorization/src/auth_credentials/auth_provider_project_credentials.dart';
+import 'package:complete_asana_authorization/src/models/auth_provider_project_credentials.dart';
 import 'package:functions_framework/functions_framework.dart';
 
 import 'package:shelf/shelf.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 
@@ -31,33 +31,40 @@ FutureOr<Response> function(Request request) async {
       .projects.secrets.versions
       .access('projects/256145062869/secrets/auth-providers/versions/latest');
 
-  final credentials = AuthProviderProjectCredentials.fromJson(
-      utf8.decode(accessSecretVersionResponse.payload.dataAsBytes));
+  final jsonString =
+      utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
 
-  print(credentials.toJson());
+  final projectCredentials =
+      AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
 
   print('Exchanging code for tokens...');
 
   // Build the post string from an object
-  // final queryParameters = {
-  //   'grant_type': 'authorization_code',
-  //   'client_id': project_credentials.asana.client_id,
-  //   'client_secret': project_credentials.asana.client_secret,
-  //   'redirect_uri': project_credentials.asana.redirect_uri,
-  //   'code': codeParam,
-  // };
+  final queryParameters = {
+    'grant_type': 'authorization_code',
+    'client_id': projectCredentials.asana.clientId,
+    'client_secret': projectCredentials.asana.clientSecret,
+    'redirect_uri': projectCredentials.asana.redirectURI,
+    'code': codeParam,
+  };
 
-  // final uri =
-  //   Uri.https('https://app.asana.com', '/-/oauth_token', queryParameters);
+  final uri =
+      Uri.https('https://app.asana.com', '/-/oauth_token', queryParameters);
 
-  // final response = await http.post(uri);
-
-  // final resp =
-  //     await http.post( + postData);
+  final asanaResponse = await http.post(uri);
 
   // return Response.seeOther(location);
 
-  return Response.ok('Yo!');
+  return Response.ok('''
+    <head>
+    </head>
+    <body>
+      <div>Credentials have been saved, you can close this window.</div>
+    </body>
+    <script>
+      window.close();
+    </script>
+    ''');
 }
 
 //   const email = resp.data.data.email;
