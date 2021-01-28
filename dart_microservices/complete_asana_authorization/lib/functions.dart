@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:authorization/src/auth_credentials/auth_provider_project_credentials.dart';
+import 'package:complete_asana_authorization/src/auth_credentials/auth_provider_project_credentials.dart';
 import 'package:functions_framework/functions_framework.dart';
 
 import 'package:shelf/shelf.dart';

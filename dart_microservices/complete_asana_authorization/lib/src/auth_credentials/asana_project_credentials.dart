@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:authorization/src/serializers.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:meta/meta.dart';
 
 part 'asana_project_credentials.g.dart';
 
