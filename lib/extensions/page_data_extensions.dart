@@ -10,26 +10,30 @@ import 'package:the_process/widgets/shared/problem_page.dart';
 
 /// We are using extensions in order to keep models as PODOs and avoid other
 /// dependencies in the app state.
-///
 extension NavigatorEntriesExt on BuiltList<PageData> {
+  
+  /// Creates a list of [MaterialPage]s from [PagesData] used as the history
+  /// for [Navigator]
   List<MaterialPage> toPages() {
     final materialPages = <MaterialPage>[];
 
     for (final pageData in this) {
-      MaterialPage materialPage;
       if (pageData is InitialPageData) {
-        materialPage = MaterialPage<InitialPage>(
-            key: ValueKey(InitialPage), child: InitialPage());
+        materialPages.add(MaterialPage<InitialPage>(
+          key: ValueKey(InitialPage),
+          child: InitialPage(),
+        ));
       } else if (pageData is ProfilePageData) {
-        materialPage = MaterialPage<ProfilePage>(
-            key: ValueKey(ProfilePage), child: ProfilePage());
-      } else {
-        // ProblemPageData
-        materialPage = MaterialPage<ProblemPage>(
-            key: ValueKey(ProblemPage),
-            child: ProblemPage((pageData as ProblemPageData).problem));
+        materialPages.add(MaterialPage<ProfilePage>(
+          key: ValueKey(ProfilePage),
+          child: ProfilePage(),
+        ));
+      } else if ((pageData is ProblemPageData)) {
+        materialPages.add(MaterialPage<ProblemPage>(
+          key: ValueKey(ProblemPage),
+          child: ProblemPage(pageData.problem),
+        ));
       }
-      materialPages.add(materialPage);
     }
 
     return materialPages;
