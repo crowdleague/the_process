@@ -13,7 +13,7 @@ build/
 doc/api/
 
 # Ignore generated files.
-dart_microservices/complete_asana_authorization/bin/server.dart
+bin/server.dart
 *.freezed.dart
 *.g.dart
 
