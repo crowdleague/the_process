@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:functions_framework/functions_framework.dart';
-import 'package:googleapis/drive/v2.dart';
+import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/firestore/v1.dart';
 
 import 'package:shelf/shelf.dart';
@@ -10,32 +10,35 @@ import 'package:googleapis_auth/auth_io.dart';
 
 @CloudFunction()
 FutureOr<Response> function(Request request) async {
-  // // Extract the query parameters.
-  // final codeParam = request.requestedUri.queryParameters['code'];
-  // final stateParam = request.requestedUri.queryParameters['state'];
+  // Extract the query parameters.
+  final sectionName = request.requestedUri.queryParameters['name'];
 
-  // print('code: $codeParam, state: $stateParam');
-
-  // // If we can't get both the code and state from the request it's probably an
-  // // error message so just send back the original url.
-  // if (codeParam == null || stateParam == null) {
-  //   return Response.ok(request.requestedUri.toString());
-  // }
+  print('name: $sectionName');
 
   final autoRefreshingClient =
-      await clientViaApplicationDefaultCredentials(scopes: []);
+      await clientViaApplicationDefaultCredentials(scopes: [
+    'https://www.googleapis.com/auth/drive',
+  ]);
 
   final driveApi = DriveApi(autoRefreshingClient);
-  final someResponse = await driveApi.about;
 
-  final documentParent = 'projects/{project_id}/databases/{database_id}/documents/chatrooms/{chatroom_id}';
-  final document = Document();
-  final firestoreApi = FirestoreApi(autoRefreshingClient);
-  firestoreApi.projects.databases.documents.createDocument(, documentParent, collectionId)
+  final newFile = File()
+    ..name = 'testName'
+    ..mimeType = 'application/vnd.google-apps.folder'
+    ..parents = ['rootFolderId'];
+
+  final apiResponse = await driveApi.files.create(newFile);
+
+  print(apiResponse);
+
+  // final documentParent =
+  //     'projects/{project_id}/databases/{database_id}/documents/chatrooms/{chatroom_id}';
+  // final document = Document();
+  // final firestoreApi = FirestoreApi(autoRefreshingClient);
+  // firestoreApi.projects.databases.documents.createDocument(, documentParent, collectionId)
 
   return Response.ok('');
 }
-
 
 // const sectionData = new SectionData();
 // const databaseService = await DatabaseService.getInstanceFor(snapshot.id);
@@ -51,7 +54,7 @@ FutureOr<Response> function(Request request) async {
 //   const sectionName = newSection['name'];
 
 //   sectionData.name = sectionName;
-    
+
 //   const driveAPI = await DriveAPI.for(the_process_id);
 //   const docsAPI = await DocsAPI.for(the_process_id);
 //   const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
@@ -72,7 +75,7 @@ FutureOr<Response> function(Request request) async {
 //   functions.logger.info(`created doc:`, {documentId: doc.documentId, title: doc.title});
 
 //   await driveAPI.moveDoc(checkedDocId, checkedFolderId);
-  
+
 //   functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
 
 //   functions.logger.info(`Saving sectionData: `, sectionData);
