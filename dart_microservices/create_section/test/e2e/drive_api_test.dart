@@ -6,8 +6,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('DriveAPI', () async {
-    final autoRefreshingClient =
-        await clientViaApplicationDefaultCredentials(scopes: []);
+    final autoRefreshingClient = await clientViaApplicationDefaultCredentials(
+        scopes: ['https://www.googleapis.com/auth/drive']);
 
     final driveApi = DriveApi(autoRefreshingClient);
 

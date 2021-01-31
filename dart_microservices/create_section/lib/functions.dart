@@ -15,27 +15,34 @@ FutureOr<Response> function(Request request) async {
 
   print('name: $sectionName');
 
+  // get a client for accessing the firestore
+
   final autoRefreshingClient =
-      await clientViaApplicationDefaultCredentials(scopes: [
-    'https://www.googleapis.com/auth/drive',
-  ]);
+      await clientViaApplicationDefaultCredentials(scopes: []);
 
-  final driveApi = DriveApi(autoRefreshingClient);
+  final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
+  final documentName =
+      'projects/the-process-tool/databases/(default)/documents/credentials/$enspyrTesterId';
 
-  final newFile = File()
-    ..name = 'testName'
-    ..mimeType = 'application/vnd.google-apps.folder'
-    ..parents = ['rootFolderId'];
+  final firestoreApi = FirestoreApi(autoRefreshingClient);
+  final credentialsDoc =
+      await firestoreApi.projects.databases.documents.get(documentName);
 
-  final apiResponse = await driveApi.files.create(newFile);
+  print(credentialsDoc.fields);
 
-  print(apiResponse);
-
-  // final documentParent =
-  //     'projects/{project_id}/databases/{database_id}/documents/chatrooms/{chatroom_id}';
   // final document = Document();
-  // final firestoreApi = FirestoreApi(autoRefreshingClient);
   // firestoreApi.projects.databases.documents.createDocument(, documentParent, collectionId)
+
+  // final driveApi = DriveApi(autoRefreshingClient);
+
+  // final newFile = File()
+  //   ..name = 'testName'
+  //   ..mimeType = 'application/vnd.google-apps.folder'
+  //   ..parents = ['rootFolderId'];
+
+  // final apiResponse = await driveApi.files.create(newFile);
+
+  // print(apiResponse);
 
   return Response.ok('');
 }
