@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:googleapis/firestore/v1.dart';
+import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
-import 'package:shared_models/shared_models.dart' show GoogleUserCredentials;
+import 'package:shared_models/shared_models.dart'
+    show
+        AuthProviderProjectCredentials,
+        GoogleProjectCredentials,
+        GoogleUserCredentials;
 
 class AuthenticationService {
   AuthenticationService();
@@ -30,5 +37,37 @@ class AuthenticationService {
     );
 
     return credentials;
+  }
+
+  static Future<AuthProviderProjectCredentials>
+      getAuthProviderProjectCredentials() async {
+    final autoRefreshingClient =
+        await clientViaApplicationDefaultCredentials(scopes: []);
+
+    final secretManagerApi = SecretmanagerApi(autoRefreshingClient);
+    final accessSecretVersionResponse = await secretManagerApi
+        .projects.secrets.versions
+        .access('projects/256145062869/secrets/auth-providers/versions/latest');
+
+    final jsonString =
+        utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
+
+    return AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
+  }
+
+  static Future<GoogleProjectCredentials> getGoogleProjectCredentials() async {
+    final autoRefreshingClient =
+        await clientViaApplicationDefaultCredentials(scopes: []);
+
+    final secretManagerApi = SecretmanagerApi(autoRefreshingClient);
+    final accessSecretVersionResponse = await secretManagerApi
+        .projects.secrets.versions
+        .access('projects/256145062869/secrets/auth-providers/versions/latest');
+
+    final jsonString =
+        utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
+
+    return AuthProviderProjectCredentials.fromJson(json.decode(jsonString))
+        .google;
   }
 }

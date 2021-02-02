@@ -13,7 +13,9 @@ FutureOr<Response> function(Request request) async {
   // Extract the query parameters.
   final sectionName = request.requestedUri.queryParameters['name'];
 
-  print('name: $sectionName');
+  final docTitle = '0 - Use Cases < $sectionName (CL)';
+
+  print('titile: $docTitle');
 
   // get a client for accessing the firestore
 
