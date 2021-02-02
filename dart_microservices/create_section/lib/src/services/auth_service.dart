@@ -4,22 +4,21 @@ import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
+import 'package:http/io_client.dart' as http;
+
 import 'package:shared_models/shared_models.dart'
-    show
-        AuthProviderProjectCredentials,
-        GoogleProjectCredentials,
-        GoogleUserCredentials;
+    show AuthProviderProjectCredentials, GoogleUserCredentials;
 
-class AuthenticationService {
-  AuthenticationService();
+class AuthService {
+  AuthService();
 
-  static Future<GoogleUserCredentials> getGoogleUserCredentials() async {
+  static Future<GoogleUserCredentials> getGoogleUserCredentials(
+      String userId) async {
     final autoRefreshingClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
 
-    final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
     final credentialsDocumentName =
-        'projects/the-process-tool/databases/(default)/documents/credentials/$enspyrTesterId';
+        'projects/the-process-tool/databases/(default)/documents/credentials/$userId';
 
     final firestoreApi = FirestoreApi(autoRefreshingClient);
     final credentialsDoc = await firestoreApi.projects.databases.documents
@@ -55,19 +54,25 @@ class AuthenticationService {
     return AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
   }
 
-  static Future<GoogleProjectCredentials> getGoogleProjectCredentials() async {
-    final autoRefreshingClient =
-        await clientViaApplicationDefaultCredentials(scopes: []);
+  static Future<AutoRefreshingAuthClient> getAuthenticatedClient(
+      String userId) async {
+    final userCredentials = await AuthService.getGoogleUserCredentials(userId);
 
-    final secretManagerApi = SecretmanagerApi(autoRefreshingClient);
-    final accessSecretVersionResponse = await secretManagerApi
-        .projects.secrets.versions
-        .access('projects/256145062869/secrets/auth-providers/versions/latest');
+    final accessToken = AccessToken(
+        userCredentials.tokenType,
+        userCredentials.accessToken,
+        DateTime.fromMillisecondsSinceEpoch(userCredentials.expiryDate)
+            .toUtc());
 
-    final jsonString =
-        utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
+    final accessCredentials = AccessCredentials(accessToken,
+        userCredentials.refreshToken, userCredentials.scope.split(' '));
 
-    return AuthProviderProjectCredentials.fromJson(json.decode(jsonString))
-        .google;
+    final googleProjectCredentials =
+        (await AuthService.getAuthProviderProjectCredentials()).google;
+
+    final clientId =
+        ClientId(googleProjectCredentials.id, googleProjectCredentials.secret);
+
+    return autoRefreshingClient(clientId, accessCredentials, http.IOClient());
   }
 }
