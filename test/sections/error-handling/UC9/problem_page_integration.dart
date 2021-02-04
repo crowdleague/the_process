@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/middleware/app_middleware.dart';
 import 'package:the_process/models/app_state/app_state.dart';
@@ -25,11 +26,15 @@ void main() {
       // Create auth & database objects we can later use to emit various events
       final fakeAuth = FirebaseAuthFake();
       final fakeDatabase = FirebaseFirestoreFake();
+
       // Create the services using the previous objects
       final authService = AuthService(auth: fakeAuth);
       final databaseService = DatabaseService(database: fakeDatabase);
+
       // We just need the platform service to return a platform so we use a mock.
       final mockPlatformService = PlatformServiceMock();
+      when(mockPlatformService.detectPlatform())
+          .thenThrow('Just an error for a ProblemPage');
 
       final store = Store<AppState>(
         appReducer,
@@ -52,7 +57,3 @@ void main() {
     });
   });
 }
-// --enable-experiment=non-nullable --no-sound-null-safety
-// flutter drive \
-//   --driver=test/driver/integration_test_driver.dart \
-//   --target=test/sections/error-handling/UC9/problem_page_integration.dart
