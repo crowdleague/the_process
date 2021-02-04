@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
-import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/middleware/app_middleware.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/navigation/page_data/problem_page_data.dart';
@@ -57,7 +56,8 @@ void main() {
       final databaseService = DatabaseService(database: fakeDatabase);
       // We just need the platform service to return a platform so we use a mock.
       final mockPlatformService = PlatformServiceMock();
-      when(mockPlatformService.detectPlatform()).thenReturn(PlatformEnum.iOS);
+      when(mockPlatformService.detectPlatform())
+          .thenThrow('Just an error for a ProblemPage');
 
       final store = Store<AppState>(
         appReducer,
@@ -75,7 +75,7 @@ void main() {
       runApp(harness.widget);
 
       await widget.pump();
-      
+
       print(store.state.pagesData); // for testing, delete before PR
 
       expect(find.byType(ProblemPage), findsOneWidget);
