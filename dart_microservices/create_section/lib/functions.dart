@@ -1,97 +1,58 @@
 import 'dart:async';
 
+import 'package:create_section/src/services/auth_service.dart';
+import 'package:create_section/src/services/drive_service.dart';
+import 'package:create_section/src/services/firestore_service.dart';
 import 'package:functions_framework/functions_framework.dart';
-import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/firestore/v1.dart';
-
-import 'package:shelf/shelf.dart';
-import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:shelf/shelf.dart';
+
+const enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
+const parentFolderId = '1sxujioDIdBpaLdwzwdn6rxSH9NbpZorF';
 
 @CloudFunction()
 FutureOr<Response> function(Request request) async {
-  // Extract the query parameters.
-  final sectionName = request.requestedUri.queryParameters['name'];
+  try {
+    // create a database entry object that will be added to and finally saved
+    final sectionDoc = Document()
+      ..fields['createdBy'] = (Value()..stringValue = enspyrTesterId);
 
-  final docTitle = '0 - Use Cases < $sectionName (CL)';
+    final adcClient = await clientViaApplicationDefaultCredentials(scopes: []);
 
-  print('titile: $docTitle');
+    // Extract the query parameters and create file names.
+    final sectionName = request.requestedUri.queryParameters['name']!;
 
-  // get a client for accessing the firestore
+    sectionDoc.name = sectionName;
 
-  final autoRefreshingClient =
-      await clientViaApplicationDefaultCredentials(scopes: []);
+    final folderTitle = '$sectionName: Sections Planning (CL)';
+    final docTitle = '0 - Use Cases < $sectionName (CL)';
 
-  final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
-  final documentName =
-      'projects/the-process-tool/databases/(default)/documents/credentials/$enspyrTesterId';
+    // create a client that will authenticated as the given user
+    final userClient =
+        await AuthService.getUserClient(adcClient, enspyrTesterId);
 
-  final firestoreApi = FirestoreApi(autoRefreshingClient);
-  final credentialsDoc =
-      await firestoreApi.projects.databases.documents.get(documentName);
+    // create a folder for the section
+    final folder = await DriveService.createFolder(userClient,
+        name: folderTitle, parentId: parentFolderId);
 
-  print(credentialsDoc.fields);
+    sectionDoc.fields['folderId'] = Value()..stringValue = folder.id;
 
-  // final document = Document();
-  // firestoreApi.projects.databases.documents.createDocument(, documentParent, collectionId)
+    // create the use cases doc inside the folder
+    final doc = await DriveService.saveDoc(userClient,
+        parentId: folder.id, docTitle: docTitle);
 
-  // final driveApi = DriveApi(autoRefreshingClient);
+    sectionDoc.fields['useCasesDocId'] = Value()..stringValue = doc.id;
 
-  // final newFile = File()
-  //   ..name = 'testName'
-  //   ..mimeType = 'application/vnd.google-apps.folder'
-  //   ..parents = ['rootFolderId'];
+    await FirestoreService.saveSection(userClient, sectionDoc);
 
-  // final apiResponse = await driveApi.files.create(newFile);
-
-  // print(apiResponse);
-
-  return Response.ok('');
+    return Response.ok('');
+  } catch (error) {
+    // We add a ProcessingFailure to the database on any failures
+    print(error);
+    return Response.internalServerError(body: error);
+  }
 }
-
-// const sectionData = new SectionData();
-// const databaseService = await DatabaseService.getInstanceFor(snapshot.id);
-
-// // We wrap the whole function in a try/catch and add a ProcessingFailure to the database on any failures
-// try {
-
-//   const data = snapshot.data();
-
-//   const checkedData = unNull(data, 'There was no data in the snapshot.') as FirebaseFirestore.DocumentData;
-
-//   const newSection = checkedData['section'];
-//   const sectionName = newSection['name'];
-
-//   sectionData.name = sectionName;
-
-//   const driveAPI = await DriveAPI.for(the_process_id);
-//   const docsAPI = await DocsAPI.for(the_process_id);
-//   const folder = await driveAPI.createFolder(sectionName+': Sections Planning (CL)');
-
-//   const checkedFolderId = unNull(folder.id, 'The created folder id was missing.') as string;
-
-//   sectionData.folderId = checkedFolderId;
-
-//   functions.logger.info(`created folder:`, folder);
-
-//   const title = '0 - Use Cases < '+sectionName+' (CL)';
-//   const doc = await docsAPI.createDoc(title);
-
-//   const checkedDocId = unNull(doc.documentId, 'The created doc id was missing.') as string;
-
-//   sectionData.useCasesDocId = checkedDocId;
-
-//   functions.logger.info(`created doc:`, {documentId: doc.documentId, title: doc.title});
-
-//   await driveAPI.moveDoc(checkedDocId, checkedFolderId);
-
-//   functions.logger.info(`moved doc to folder with id: ${checkedFolderId}`);
-
-//   functions.logger.info(`Saving sectionData: `, sectionData);
-
-//   const docRef = await databaseService.save(sectionData);
-
-//   functions.logger.info(`added database entry for section: `, docRef);
 
 //   // Delete the document that was created in the 'new' collection.
 //   // The front end uses this event to change the UI.

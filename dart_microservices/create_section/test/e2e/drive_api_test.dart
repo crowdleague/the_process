@@ -3,16 +3,20 @@ import 'dart:io';
 import 'package:create_section/src/services/auth_service.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/docs/v1.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
+
+final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
 void main() {
   test('DriveAPI', () async {
-    final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
+    final adcClient = await clientViaApplicationDefaultCredentials(scopes: []);
 
-    final client = await AuthService.getAuthenticatedClient(enspyrTesterId);
+    final userClient =
+        await AuthService.getUserClient(adcClient, enspyrTesterId);
 
-    final driveApi = DriveApi(client);
-    final docsApi = DocsApi(client);
+    final driveApi = DriveApi(userClient);
+    final docsApi = DocsApi(userClient);
 
     // create a top level folder
     final testFolder = File()
@@ -25,11 +29,9 @@ void main() {
     final useCasesDocument = Document()..title = 'Test Title';
     final savedDoc = await docsApi.documents.create(useCasesDocument);
 
-    final updatedFile = File();
     // move the doc inside the folder
-    final responseFile = await driveApi.files.update(
-        updatedFile, savedDoc.documentId,
-        addParents: savedTestFolder.id);
+    final updatedFile = await driveApi.files
+        .update(File(), savedDoc.documentId, addParents: savedTestFolder.id);
 
     // check the doc has the folder as a parent
     expect(updatedFile.parents, contains(savedTestFolder.id));
