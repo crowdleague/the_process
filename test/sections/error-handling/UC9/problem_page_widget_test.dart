@@ -51,9 +51,11 @@ void main() {
       // Create auth & database objects we can later use to emit various events
       final fakeAuth = FirebaseAuthFake();
       final fakeDatabase = FirebaseFirestoreFake();
+
       // Create the services using the previous objects
       final authService = AuthService(auth: fakeAuth);
       final databaseService = DatabaseService(database: fakeDatabase);
+
       // We just need the platform service to return a platform so we use a mock.
       final mockPlatformService = PlatformServiceMock();
       when(mockPlatformService.detectPlatform())
@@ -75,8 +77,6 @@ void main() {
       runApp(harness.widget);
 
       await widget.pump();
-
-      print(store.state.pagesData); // for testing, delete before PR
 
       expect(find.byType(ProblemPage), findsOneWidget);
     });
