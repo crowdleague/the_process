@@ -6,6 +6,8 @@ import 'package:googleapis/docs/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
+import '../test-doubles/firestore_service_fake.dart';
+
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
 void main() {
@@ -13,7 +15,9 @@ void main() {
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
     final authService = await AuthService(serviceClient);
-    final userClient = await authService.getUserClient(enspyrTesterId);
+    final fakeFirestoreService = FirestoreServiceFake();
+    final userClient =
+        await authService.getUserClient(enspyrTesterId, fakeFirestoreService);
 
     final driveApi = DriveApi(userClient);
     final docsApi = DocsApi(userClient);

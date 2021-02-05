@@ -13,8 +13,8 @@ class AuthService {
 
   AuthService(this._serviceClient);
 
-  Future<AutoRefreshingAuthClient> getUserClient(String userId) async {
-    final firestoreService = FirestoreService(_serviceClient);
+  Future<AutoRefreshingAuthClient> getUserClient(
+      String userId, FirestoreService firestoreService) async {
     final userCredentials = await firestoreService.getUserCredential(userId);
 
     final accessToken = AccessToken(

@@ -17,6 +17,7 @@ FutureOr<Response> function(Request request) async {
   // create a database entry object that will be added to and finally saved
   final firestoreSectionDoc = Document();
   try {
+    // Add the id of the user creating the section to the firestore document.
     firestoreSectionDoc.fields['createdBy'] = enspyrTesterId.asValue();
 
     // Extract section name, update firestore doc and construct title strings
@@ -25,34 +26,35 @@ FutureOr<Response> function(Request request) async {
     final folderTitle = '$sectionName: Sections Planning (CL)';
     final docTitle = '0 - Use Cases < $sectionName (CL)';
 
+    // Create services and a client that will authenticate as the given user.
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-
     final authService = AuthService(serviceClient);
-    // Create a client that will authenticate as the given user.
-    final userClient = await authService.getUserClient(enspyrTesterId);
-
+    final firestoreService = FirestoreService(serviceClient);
+    final userClient =
+        await authService.getUserClient(enspyrTesterId, firestoreService);
     final driveService = DriveService(userClient);
 
-    // Create a folder for the section.
+    // Use Drive API to create a folder for the section.
     final folder = await driveService.createFolder(
         name: folderTitle, parentId: parentFolderId);
 
+    // Add the folder id to the firestore document for saving to db.
     firestoreSectionDoc.fields['folderId'] = folder.id.asValue();
 
-    // create the use cases doc inside the folder
+    // Create our use cases doc and move inside the section folder.
     final useCasesDriveDoc =
         await driveService.saveDoc(parentId: folder.id, docTitle: docTitle);
 
+    // Add the doc id to and save the firestore document.
     firestoreSectionDoc.fields['useCasesDocId'] = useCasesDriveDoc.id.asValue();
-
-    final firestoreService = FirestoreService(serviceClient);
     final savedFirestoreSectionDoc =
         await firestoreService.saveSection(firestoreSectionDoc);
 
+    // Return the document id to the client.
     return Response.ok(savedFirestoreSectionDoc.name);
   } catch (error) {
-    // Log and return any errors
+    // Log and return any errors.
     print('$error\n\nSection doc fields: ${firestoreSectionDoc.fields}');
     return Response.internalServerError(body: error);
   }
