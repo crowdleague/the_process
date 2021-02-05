@@ -5,7 +5,6 @@ import 'package:create_section/src/services/drive_service.dart';
 import 'package:create_section/src/services/firestore_service.dart';
 import 'package:functions_framework/functions_framework.dart';
 import 'package:googleapis/firestore/v1.dart';
-import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
 
 const enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
@@ -18,8 +17,6 @@ FutureOr<Response> function(Request request) async {
     final sectionDoc = Document()
       ..fields['createdBy'] = (Value()..stringValue = enspyrTesterId);
 
-    final adcClient = await clientViaApplicationDefaultCredentials(scopes: []);
-
     // Extract the query parameters and create file names.
     final sectionName = request.requestedUri.queryParameters['name']!;
 
@@ -28,11 +25,13 @@ FutureOr<Response> function(Request request) async {
     final folderTitle = '$sectionName: Sections Planning (CL)';
     final docTitle = '0 - Use Cases < $sectionName (CL)';
 
-    // create a client that will authenticated as the given user
-    final userClient =
-        await AuthService.getUserClient(adcClient, enspyrTesterId);
+    // final authService = await AuthService.getInstance();
 
-    // create a folder for the section
+    // Create a client that will authenticated as the given user.
+    final userClient = await AuthService.getInstance()
+        .then((authService) => authService.getUserClient(enspyrTesterId));
+
+    // Create a folder for the section.
     final folder = await DriveService.createFolder(userClient,
         name: folderTitle, parentId: parentFolderId);
 

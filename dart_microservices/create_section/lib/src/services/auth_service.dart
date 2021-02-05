@@ -14,9 +14,13 @@ class AuthService {
   ///
   static AuthService? _instance;
 
-  static AuthService getInstance(String userId) {
+  /// Optionally takes an [AutoRefreshingAuthClient] to allow mocking in tests
+  static Future<AuthService> getInstance(
+      {AutoRefreshingAuthClient? client}) async {
     if (_instance == null) {
-      _instance = AuthService(userId);
+      final serviceClient =
+          client ?? await clientViaApplicationDefaultCredentials(scopes: []);
+      _instance = AuthService(serviceClient);
       return _instance!;
     }
     return _instance!;
@@ -24,16 +28,13 @@ class AuthService {
 
   /// Instance parts
   ///
-  AuthService(this._userId) : _secretManagerApi = SecretmanagerApi(client);
+  AuthService(this._serviceClient);
 
-  final String _userId;
-  final SecretmanagerApi _secretManagerApi;
-  final AutoRefreshingAuthClient _client;
+  final AutoRefreshingAuthClient _serviceClient;
 
-  static Future<AutoRefreshingAuthClient> getUserClient(
-      AutoRefreshingAuthClient client, String userId) async {
+  Future<AutoRefreshingAuthClient> getUserClient(String userId) async {
     final userCredentials =
-        await FirestoreService.getUserCredential(client, userId);
+        await FirestoreService.getUserCredential(_serviceClient, userId);
 
     final accessToken = AccessToken(
         userCredentials.tokenType,
@@ -44,17 +45,7 @@ class AuthService {
     final accessCredentials = AccessCredentials(accessToken,
         userCredentials.refreshToken, userCredentials.scope.split(' '));
 
-    final googleProjectCredentials =
-        (await AuthService.getAuthProviderProjectCredentials(client)).google;
-
-    final clientId =
-        ClientId(googleProjectCredentials.id, googleProjectCredentials.secret);
-
-    return autoRefreshingClient(clientId, accessCredentials, http.IOClient());
-  }
-
-  static Future<AuthProviderProjectCredentials>
-      getAuthProviderProjectCredentials(AutoRefreshingAuthClient client) async {
+    final secretManagerApi = SecretmanagerApi(_serviceClient);
     final accessSecretVersionResponse = await secretManagerApi
         .projects.secrets.versions
         .access('projects/256145062869/secrets/auth-providers/versions/latest');
@@ -62,6 +53,11 @@ class AuthService {
     final jsonString =
         utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
 
-    return AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
+    final credentials =
+        AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
+
+    final clientId = ClientId(credentials.google.id, credentials.google.secret);
+
+    return autoRefreshingClient(clientId, accessCredentials, http.IOClient());
   }
 }
