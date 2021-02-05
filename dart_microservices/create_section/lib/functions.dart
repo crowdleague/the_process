@@ -53,12 +53,3 @@ FutureOr<Response> function(Request request) async {
     return Response.internalServerError(body: error);
   }
 }
-
-//   // Delete the document that was created in the 'new' collection.
-//   // The front end uses this event to change the UI.
-//   await snapshot.ref.delete();
-
-// } catch (error) {
-//   await databaseService.saveFailure(error, sectionData);
-//   await snapshot.ref.delete();
-// }

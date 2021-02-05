@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:create_section/src/services/firestore_service.dart';
-import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
@@ -11,6 +10,26 @@ import 'package:shared_models/shared_models.dart'
     show AuthProviderProjectCredentials;
 
 class AuthService {
+  /// Static parts
+  ///
+  static AuthService? _instance;
+
+  static AuthService getInstance(String userId) {
+    if (_instance == null) {
+      _instance = AuthService(userId);
+      return _instance!;
+    }
+    return _instance!;
+  }
+
+  /// Instance parts
+  ///
+  AuthService(this._userId) : _secretManagerApi = SecretmanagerApi(client);
+
+  final String _userId;
+  final SecretmanagerApi _secretManagerApi;
+  final AutoRefreshingAuthClient _client;
+
   static Future<AutoRefreshingAuthClient> getUserClient(
       AutoRefreshingAuthClient client, String userId) async {
     final userCredentials =
@@ -36,7 +55,6 @@ class AuthService {
 
   static Future<AuthProviderProjectCredentials>
       getAuthProviderProjectCredentials(AutoRefreshingAuthClient client) async {
-    final secretManagerApi = SecretmanagerApi(client);
     final accessSecretVersionResponse = await secretManagerApi
         .projects.secrets.versions
         .access('projects/256145062869/secrets/auth-providers/versions/latest');
