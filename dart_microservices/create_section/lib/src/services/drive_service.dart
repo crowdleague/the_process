@@ -3,10 +3,14 @@ import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 class DriveService {
-  static Future<File> saveDoc(AutoRefreshingAuthClient client,
+  final AutoRefreshingAuthClient _userClient;
+
+  DriveService(this._userClient);
+
+  Future<File> saveDoc(
       {required String parentId, required String docTitle}) async {
-    final driveApi = DriveApi(client);
-    final docsApi = DocsApi(client);
+    final driveApi = DriveApi(_userClient);
+    final docsApi = DocsApi(_userClient);
 
     // create a google doc
     final doc = Document()..title = docTitle;
@@ -18,15 +22,15 @@ class DriveService {
   }
 
   /// If the [parentId] parameter is not passed, the folder will be top-level
-  static Future<File> createFolder(AutoRefreshingAuthClient client,
-      {required String name, String? parentId}) async {
+  Future<File> createFolder({required String name, String? parentId}) async {
     final newFolder = File()
       ..name = name
       ..mimeType = 'application/vnd.google-apps.folder';
+
     if (parentId != null) {
       newFolder.parents = [parentId];
     }
 
-    return await DriveApi(client).files.create(newFolder);
+    return await DriveApi(_userClient).files.create(newFolder);
   }
 }

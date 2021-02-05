@@ -18,8 +18,8 @@ void main() {
           'useCasesDocId': Value()..stringValue = 'testUseCasesDocId',
         };
 
-      final responseDoc =
-          await FirestoreService.saveSection(adcClient, requestDoc);
+      final firestoreService = FirestoreService(adcClient);
+      final responseDoc = await firestoreService.saveSection(requestDoc);
 
       print(responseDoc);
     });

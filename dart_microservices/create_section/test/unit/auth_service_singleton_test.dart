@@ -1,4 +1,4 @@
-import 'package:create_section/src/services/auth_service.dart';
+import 'package:create_section/src/services/auth_service_singleton.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
@@ -10,7 +10,7 @@ void main() {
   group('AuthService', () {
     test('', () async {
       final fake = AutoRefreshingAuthClientFake();
-      final userClient = await AuthService.getInstance(client: fake)
+      final userClient = await AuthServiceSingleton.getInstance(client: fake)
           .then((authService) => authService.getUserClient(enspyrTesterId));
     });
   });

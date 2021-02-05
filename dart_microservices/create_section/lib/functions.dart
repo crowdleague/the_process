@@ -5,50 +5,55 @@ import 'package:create_section/src/services/drive_service.dart';
 import 'package:create_section/src/services/firestore_service.dart';
 import 'package:functions_framework/functions_framework.dart';
 import 'package:googleapis/firestore/v1.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
+import 'package:create_section/src/extensions/string_extensions.dart';
 
 const enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 const parentFolderId = '1sxujioDIdBpaLdwzwdn6rxSH9NbpZorF';
 
 @CloudFunction()
 FutureOr<Response> function(Request request) async {
+  // create a database entry object that will be added to and finally saved
+  final firestoreSectionDoc = Document();
   try {
-    // create a database entry object that will be added to and finally saved
-    final sectionDoc = Document()
-      ..fields['createdBy'] = (Value()..stringValue = enspyrTesterId);
+    firestoreSectionDoc.fields['createdBy'] = enspyrTesterId.asValue();
 
-    // Extract the query parameters and create file names.
+    // Extract section name, update firestore doc and construct title strings
     final sectionName = request.requestedUri.queryParameters['name']!;
-
-    sectionDoc.name = sectionName;
-
+    firestoreSectionDoc.name = sectionName;
     final folderTitle = '$sectionName: Sections Planning (CL)';
     final docTitle = '0 - Use Cases < $sectionName (CL)';
 
-    // final authService = await AuthService.getInstance();
+    final serviceClient =
+        await clientViaApplicationDefaultCredentials(scopes: []);
 
-    // Create a client that will authenticated as the given user.
-    final userClient = await AuthService.getInstance()
-        .then((authService) => authService.getUserClient(enspyrTesterId));
+    final authService = AuthService(serviceClient);
+    // Create a client that will authenticate as the given user.
+    final userClient = await authService.getUserClient(enspyrTesterId);
+
+    final driveService = DriveService(userClient);
 
     // Create a folder for the section.
-    final folder = await DriveService.createFolder(userClient,
+    final folder = await driveService.createFolder(
         name: folderTitle, parentId: parentFolderId);
 
-    sectionDoc.fields['folderId'] = Value()..stringValue = folder.id;
+    firestoreSectionDoc.fields['folderId'] = folder.id.asValue();
 
     // create the use cases doc inside the folder
-    final doc = await DriveService.saveDoc(userClient,
-        parentId: folder.id, docTitle: docTitle);
+    final useCasesDriveDoc =
+        await driveService.saveDoc(parentId: folder.id, docTitle: docTitle);
 
-    sectionDoc.fields['useCasesDocId'] = Value()..stringValue = doc.id;
+    firestoreSectionDoc.fields['useCasesDocId'] = useCasesDriveDoc.id.asValue();
 
-    await FirestoreService.saveSection(userClient, sectionDoc);
+    final firestoreService = FirestoreService(serviceClient);
+    final savedFirestoreSectionDoc =
+        await firestoreService.saveSection(firestoreSectionDoc);
 
-    return Response.ok('');
+    return Response.ok(savedFirestoreSectionDoc.name);
   } catch (error) {
-    // We add a ProcessingFailure to the database on any failures
-    print(error);
+    // Log and return any errors
+    print('$error\n\nSection doc fields: ${firestoreSectionDoc.fields}');
     return Response.internalServerError(body: error);
   }
 }

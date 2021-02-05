@@ -1,13 +1,15 @@
-import 'package:googleapis/androidpublisher/v3.dart';
 import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 import 'package:shared_models/shared_models.dart' show GoogleUserCredentials;
 
 class FirestoreService {
-  static Future<GoogleUserCredentials> getUserCredential(
-      AutoRefreshingAuthClient client, String userId) async {
-    final firestoreApi = FirestoreApi(client);
+  AutoRefreshingAuthClient _client;
+
+  FirestoreService(this._client);
+
+  Future<GoogleUserCredentials> getUserCredential(String userId) async {
+    final firestoreApi = FirestoreApi(_client);
 
     final credentialsDocumentName =
         'projects/the-process-tool/databases/(default)/documents/credentials/$userId';
@@ -27,9 +29,8 @@ class FirestoreService {
     );
   }
 
-  static Future<Document> saveSection(
-          AutoRefreshingAuthClient client, Document doc) =>
-      FirestoreApi(client).projects.databases.documents.createDocument(
+  Future<Document> saveSection(Document doc) =>
+      FirestoreApi(_client).projects.databases.documents.createDocument(
           doc..fields.addAll({}),
           'projects/the-process-tool/databases/(default)/documents',
           'sections');

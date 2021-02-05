@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:create_section/src/services/auth_service.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/docs/v1.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
 void main() {
   test('DriveAPI', () async {
-    final userClient = await AuthService.getInstance()
-        .then((authService) => authService.getUserClient(enspyrTesterId));
+    final serviceClient =
+        await clientViaApplicationDefaultCredentials(scopes: []);
+    final authService = await AuthService(serviceClient);
+    final userClient = await authService.getUserClient(enspyrTesterId);
 
     final driveApi = DriveApi(userClient);
     final docsApi = DocsApi(userClient);
