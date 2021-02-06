@@ -18,11 +18,12 @@ FutureOr<Response> function(Request request) async {
   final firestoreSectionDoc = Document();
   try {
     // Add the id of the user creating the section to the firestore document.
+    firestoreSectionDoc.fields = {};
     firestoreSectionDoc.fields['createdBy'] = enspyrTesterId.asValue();
 
     // Extract section name, update firestore doc and construct title strings
     final sectionName = request.requestedUri.queryParameters['name']!;
-    firestoreSectionDoc.name = sectionName;
+    firestoreSectionDoc.fields['name'] = sectionName.asValue();
     final folderTitle = '$sectionName: Sections Planning (CL)';
     final docTitle = '0 - Use Cases < $sectionName (CL)';
 

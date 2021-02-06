@@ -31,7 +31,7 @@ class FirestoreService {
 
   Future<Document> saveSection(Document doc) =>
       FirestoreApi(_client).projects.databases.documents.createDocument(
-          doc..fields.addAll({}),
+          doc,
           'projects/the-process-tool/databases/(default)/documents',
           'sections');
 }

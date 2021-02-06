@@ -1,6 +1,12 @@
 {
   "configurations": [
     {
+      "name": "create_section",
+      "request": "launch",
+      "type": "dart",
+      "program": "bin/server.dart"
+    },
+    {
       "name": "Cloud Run: Run/Debug Locally",
       "type": "cloudcode.cloudrun",
       "request": "launch",
