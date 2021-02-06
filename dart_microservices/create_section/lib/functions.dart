@@ -5,6 +5,7 @@ import 'package:create_section/src/services/drive_service.dart';
 import 'package:create_section/src/services/firestore_service.dart';
 import 'package:functions_framework/functions_framework.dart';
 import 'package:googleapis/firestore/v1.dart';
+import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
 import 'package:create_section/src/extensions/string_extensions.dart';
@@ -30,7 +31,7 @@ FutureOr<Response> function(Request request) async {
     // Create services and a client that will authenticate as the given user.
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-    final authService = AuthService(serviceClient);
+    final authService = AuthService(SecretmanagerApi(serviceClient));
     final firestoreService = FirestoreService(serviceClient);
     final userClient =
         await authService.getUserClient(enspyrTesterId, firestoreService);

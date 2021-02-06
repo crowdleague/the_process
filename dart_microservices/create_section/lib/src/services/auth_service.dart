@@ -9,9 +9,9 @@ import 'package:shared_models/shared_models.dart'
     show AuthProviderProjectCredentials;
 
 class AuthService {
-  final AutoRefreshingAuthClient _serviceClient;
+  final SecretmanagerApi _secretmanagerApi;
 
-  AuthService(this._serviceClient);
+  AuthService(this._secretmanagerApi);
 
   Future<AutoRefreshingAuthClient> getUserClient(
       String userId, FirestoreService firestoreService) async {
@@ -26,8 +26,7 @@ class AuthService {
     final accessCredentials = AccessCredentials(accessToken,
         userCredentials.refreshToken, userCredentials.scope.split(' '));
 
-    final secretManagerApi = SecretmanagerApi(_serviceClient);
-    final accessSecretVersionResponse = await secretManagerApi
+    final accessSecretVersionResponse = await _secretmanagerApi
         .projects.secrets.versions
         .access('projects/256145062869/secrets/auth-providers/versions/latest');
 

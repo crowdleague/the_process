@@ -1,4 +1,5 @@
 import 'package:create_section/src/services/auth_service.dart';
+import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/test.dart';
 
 import '../test-data/auth_test_data.dart' as test_data;
@@ -12,7 +13,8 @@ void main() {
     test('', () async {
       final fake =
           AutoRefreshingAuthClientFake(credentials: test_data.credentials);
-      final authService = await AuthService(fake);
+      final secretmanagerApi = SecretmanagerApi(fake);
+      final authService = await AuthService(secretmanagerApi);
       final fakeFirestoreService = FirestoreServiceFake();
 
       final userClient =

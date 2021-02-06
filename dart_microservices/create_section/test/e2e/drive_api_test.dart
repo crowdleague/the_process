@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:create_section/src/services/auth_service.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:googleapis/docs/v1.dart';
+import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
@@ -14,7 +15,8 @@ void main() {
   test('DriveAPI', () async {
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-    final authService = await AuthService(serviceClient);
+    final secretManagerApi = SecretmanagerApi(serviceClient);
+    final authService = await AuthService(secretManagerApi);
     final fakeFirestoreService = FirestoreServiceFake();
     final userClient =
         await authService.getUserClient(enspyrTesterId, fakeFirestoreService);
