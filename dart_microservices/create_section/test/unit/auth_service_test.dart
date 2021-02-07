@@ -14,11 +14,14 @@ void main() {
       final fake =
           AutoRefreshingAuthClientFake(credentials: test_data.credentials);
       final secretmanagerApi = SecretmanagerApi(fake);
-      final authService = await AuthService(secretmanagerApi);
+      final authService = await AuthService();
       final fakeFirestoreService = FirestoreServiceFake();
 
-      final userClient =
-          await authService.getUserClient('testUserId', fakeFirestoreService);
+      final userClient = await authService.getUserClient(
+        'testUserId',
+        fakeFirestoreService,
+        secretmanagerApi,
+      );
 
       expect(userClient.credentials, test_data.credentials);
     });

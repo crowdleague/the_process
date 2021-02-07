@@ -18,6 +18,18 @@ FutureOr<Response> function(Request request) async {
   // create a database entry object that will be added to and finally saved
   final firestoreSectionDoc = Document();
   try {
+    // Create services and a client that will authenticate as the given user.
+    final serviceClient =
+        await clientViaApplicationDefaultCredentials(scopes: []);
+    final firestoreService = FirestoreService(serviceClient);
+    final authService = AuthService();
+    final userClient = await authService.getUserClient(
+      enspyrTesterId,
+      firestoreService,
+      SecretmanagerApi(serviceClient),
+    );
+    final driveService = DriveService(userClient);
+
     // Add the id of the user creating the section to the firestore document.
     firestoreSectionDoc.fields = {};
     firestoreSectionDoc.fields['createdBy'] = enspyrTesterId.asValue();
@@ -27,15 +39,6 @@ FutureOr<Response> function(Request request) async {
     firestoreSectionDoc.fields['name'] = sectionName.asValue();
     final folderTitle = '$sectionName: Sections Planning (CL)';
     final docTitle = '0 - Use Cases < $sectionName (CL)';
-
-    // Create services and a client that will authenticate as the given user.
-    final serviceClient =
-        await clientViaApplicationDefaultCredentials(scopes: []);
-    final authService = AuthService(SecretmanagerApi(serviceClient));
-    final firestoreService = FirestoreService(serviceClient);
-    final userClient =
-        await authService.getUserClient(enspyrTesterId, firestoreService);
-    final driveService = DriveService(userClient);
 
     // Use Drive API to create a folder for the section.
     final folder = await driveService.createFolder(

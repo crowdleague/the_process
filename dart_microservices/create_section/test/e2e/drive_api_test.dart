@@ -16,10 +16,13 @@ void main() {
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
     final secretManagerApi = SecretmanagerApi(serviceClient);
-    final authService = await AuthService(secretManagerApi);
+    final authService = await AuthService();
     final fakeFirestoreService = FirestoreServiceFake();
-    final userClient =
-        await authService.getUserClient(enspyrTesterId, fakeFirestoreService);
+    final userClient = await authService.getUserClient(
+      enspyrTesterId,
+      fakeFirestoreService,
+      secretManagerApi,
+    );
 
     final driveApi = DriveApi(userClient);
     final docsApi = DocsApi(userClient);
