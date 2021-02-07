@@ -14,7 +14,7 @@ class FirestoreServiceFake extends Fake implements FirestoreService {
                 idToken: 'idToken',
                 refreshToken: 'refreshToken',
                 scope: 'scope',
-                tokenType: 'tokenType');
+                tokenType: 'Bearer');
 
   @override
   Future<GoogleUserCredentials> getUserCredential(String userId) =>

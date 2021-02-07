@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/fake.dart';
+
+import '../test-data/auth_test_data.dart';
 
 // .projects.secrets.versions.access
 class SecretmanagerApiFake extends Fake implements SecretmanagerApi {
@@ -23,7 +27,8 @@ class ProjectsSecretsVersionsResourceApiFake extends Fake
     implements ProjectsSecretsVersionsResourceApi {
   @override
   Future<AccessSecretVersionResponse> access(String name, {String? $fields}) =>
-      Future.value(AccessSecretVersionResponse());
+      Future.value(AccessSecretVersionResponseFake('name',
+          SecretPayloadFake(base64.encode(utf8.encode(credentialsJson)))));
 }
 
 class AccessSecretVersionResponseFake extends Fake
@@ -35,4 +40,14 @@ class AccessSecretVersionResponseFake extends Fake
 
   @override
   SecretPayload payload;
+}
+
+class SecretPayloadFake extends Fake implements SecretPayload {
+  SecretPayloadFake(this.data);
+
+  @override
+  String data;
+
+  @override
+  List<int> get dataAsBytes => base64.decode(data);
 }
