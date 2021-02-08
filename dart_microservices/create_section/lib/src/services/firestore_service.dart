@@ -11,7 +11,7 @@ class FirestoreService {
 
   /// Retrieves the user credentials from the Firestore and creates a
   /// [GoogleUserCredentials] for returning.
-  Future<GoogleUserCredentials> getGoogleUserCredential(String userId) async {
+  Future<GoogleUserCredentials> getGoogleUserCredentials(String userId) async {
     final credentialsDocumentName =
         'projects/the-process-tool/databases/(default)/documents/credentials/$userId';
     final Document credentialsDoc = await _firestoreApi

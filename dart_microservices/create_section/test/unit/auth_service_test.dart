@@ -11,11 +11,22 @@ final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 void main() {
   group('AuthService', () {
     test('getUserClient ', () async {
+      // -- Order of evnts we want to test:
+      // 1. Retrieve user credentials from the firestore.
+      // 3. Retrieve project credentials json from secretmanager.
+      // 4. Convert user credentials to an AccessCredentials object.
+      // 5. Convert project credentials json to a ClientId.
+      // 6. Use ClientId & AccessCredentials to create the AutoRefreshingAuthClient.
+
       // Create test data.
-      final exampleAccessCredentials = auth_test_data.accessCredentials;
+      final exampleCredentialsJson = auth_test_data.credentialsJson;
+      final exampleGoogleUserCredentials = auth_test_data.googleUserCredentials;
+
       // Create test doubles.
-      final fakeSecretmanagerApi = SecretmanagerApiFake();
-      final fakeFirestoreService = FirestoreServiceFake();
+      final fakeFirestoreService = FirestoreServiceFake(
+          googleUserCredentials: exampleGoogleUserCredentials);
+      final fakeSecretmanagerApi =
+          SecretmanagerApiFake(payloadData: exampleCredentialsJson);
 
       // Create the subject under test.
       final authService = await AuthService();
@@ -27,18 +38,12 @@ void main() {
         fakeSecretmanagerApi,
       );
 
-      // 1. Retrieve user credentials from the firestore.
-      // 2. Create an AccessCredentials object.
-      // 3. Retrieve project credentials json from secretmanager.
-      // 4. Convert project credentials json to an object.
-      // 5. Convert project credentials to a ClientId.
-      // 6. Use ClientId & AccessCredentials to create the AutoRefreshingAuthClient.
-
       expect(userClient.credentials.refreshToken,
-          exampleAccessCredentials.refreshToken);
-      expect(userClient.credentials.idToken, exampleAccessCredentials.idToken);
-      expect(userClient.credentials.accessToken,
-          exampleAccessCredentials.accessToken);
+          exampleGoogleUserCredentials.refreshToken);
+      expect(userClient.credentials.idToken,
+          null); // idToken isn't used to create the client
+      expect(userClient.credentials.accessToken.data,
+          exampleGoogleUserCredentials.accessToken);
     });
   });
 }

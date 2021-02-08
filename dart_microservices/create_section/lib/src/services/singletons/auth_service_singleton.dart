@@ -35,7 +35,7 @@ class AuthServiceSingleton {
   Future<AutoRefreshingAuthClient> getUserClient(String userId) async {
     final firestoreService = FirestoreService(_serviceClient);
     final userCredentials =
-        await firestoreService.getGoogleUserCredential(userId);
+        await firestoreService.getGoogleUserCredentials(userId);
 
     final accessToken = AccessToken(
         userCredentials.tokenType,
