@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/fake.dart';
 
-import '../test-data/auth_test_data.dart' as auth_test_data;
+import '../test_data/auth_test_data.dart' as auth_test_data;
 
 /// The [SecretPayloadFake] passed in the constructor will be passed on to each
 /// returned object so that calling

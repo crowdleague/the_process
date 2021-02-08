@@ -2,9 +2,9 @@ import 'package:create_section/src/services/auth_service.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/test.dart';
 
-import '../test-data/auth_test_data.dart' as auth_test_data;
-import '../test-doubles/firestore_service_fake.dart';
-import '../test-doubles/secretmanager_api_fakes.dart';
+import '../test_data/auth_test_data.dart' as auth_test_data;
+import '../test_doubles/firestore_service_fake.dart';
+import '../test_doubles/secretmanager_api_fakes.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
