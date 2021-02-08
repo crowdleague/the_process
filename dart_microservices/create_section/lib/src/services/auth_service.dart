@@ -15,29 +15,37 @@ class AuthService {
       String userId,
       FirestoreService firestoreService,
       SecretmanagerApi secretmanagerApi) async {
-    final userCredentials = await firestoreService.getUserCredential(userId);
+    // Retrieve user credentials from the firestore
+    final userCredentials =
+        await firestoreService.getGoogleUserCredential(userId);
 
-    final accessToken = AccessToken(
-        userCredentials.tokenType,
-        userCredentials.accessToken,
-        DateTime.fromMillisecondsSinceEpoch(userCredentials.expiryDate)
-            .toUtc());
+    // Create an AccessCredentials object.
+    final accessCredentials = AccessCredentials(
+      AccessToken(
+          userCredentials.tokenType,
+          userCredentials.accessToken,
+          DateTime.fromMillisecondsSinceEpoch(userCredentials.expiryDate)
+              .toUtc()),
+      userCredentials.refreshToken,
+      userCredentials.scope.split(' '),
+    );
 
-    final accessCredentials = AccessCredentials(accessToken,
-        userCredentials.refreshToken, userCredentials.scope.split(' '));
-
+    // Retrieve project credentials json from secretmanager
     final accessSecretVersionResponse = await secretmanagerApi
         .projects.secrets.versions
         .access('projects/256145062869/secrets/auth-providers/versions/latest');
 
-    final jsonString =
-        utf8.decode(accessSecretVersionResponse.payload.dataAsBytes);
+    // Convert project credentials json to an object.
+    final credentials = AuthProviderProjectCredentials.fromJson(
+      json.decode(
+        utf8.decode(accessSecretVersionResponse.payload.dataAsBytes),
+      ),
+    );
 
-    final credentials =
-        AuthProviderProjectCredentials.fromJson(json.decode(jsonString));
-
+    // Convert project credentials to a ClientId.
     final clientId = ClientId(credentials.google.id, credentials.google.secret);
 
+    // Use ClientId & AccessCredentials to create the AutoRefreshingAuthClient.
     return autoRefreshingClient(clientId, accessCredentials, http.IOClient());
   }
 }
