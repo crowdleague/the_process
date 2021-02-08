@@ -44,13 +44,20 @@ void main() {
         fakeSecretmanagerApi,
       );
 
-      // Check that the user credentials became part of the client's credentials
+      // Check that the user credentials provided by the firestoreApi became
+      // part of the client's credentials.
       expect(userClient.credentials.refreshToken,
           exampleGoogleUserCredentials.refreshToken);
-      expect(userClient.credentials.idToken,
-          null); // the idToken isn't used to create the client
+      // -- The idToken isn't used to create the client in our case.
+      expect(userClient.credentials.idToken, null);
+      // -- The access token is created from several members of the data
+      // provided by the firestoreApi (after conversion to json).
       expect(userClient.credentials.accessToken.data,
           exampleGoogleUserCredentials.accessToken);
+      expect(userClient.credentials.accessToken.type,
+          exampleGoogleUserCredentials.tokenType);
+      expect(userClient.credentials.accessToken.expiry.millisecondsSinceEpoch,
+          exampleGoogleUserCredentials.expiryDate);
 
       // Convert the string that we passed in to the fakeSecretmanagerApi
       // into json and check the relevant members become the ClientId that
