@@ -3,42 +3,51 @@ import 'package:test/fake.dart';
 
 class FirestoreApiFake implements FirestoreApi {
   final Document? _getDocument;
-  FirestoreApiFake({Document? getDocument}) : _getDocument = getDocument;
+  final Exception? _getException;
+  FirestoreApiFake({Document? getDocument, Exception? getException})
+      : _getDocument = getDocument,
+        _getException = getException;
 
   @override
   ProjectsResourceApi get projects =>
-      ProjectsResourceApiFake(getDocument: _getDocument);
+      ProjectsResourceApiFake(_getDocument, _getException);
 }
 
 class ProjectsResourceApiFake extends Fake implements ProjectsResourceApi {
   final Document? _getDocument;
-  ProjectsResourceApiFake({Document? getDocument}) : _getDocument = getDocument;
+  final Exception? _getException;
+  ProjectsResourceApiFake(this._getDocument, this._getException);
 
   @override
   ProjectsDatabasesResourceApi get databases =>
-      ProjectsDatabasesResourceApiFake(getDocument: _getDocument);
+      ProjectsDatabasesResourceApiFake(_getDocument, _getException);
 }
 
 class ProjectsDatabasesResourceApiFake extends Fake
     implements ProjectsDatabasesResourceApi {
   final Document? _getDocument;
-  ProjectsDatabasesResourceApiFake({Document? getDocument})
-      : _getDocument = getDocument;
+  final Exception? _getException;
+  ProjectsDatabasesResourceApiFake(this._getDocument, this._getException);
   @override
   ProjectsDatabasesDocumentsResourceApi get documents =>
-      ProjectsDatabasesDocumentsResourceApiFake(_getDocument);
+      ProjectsDatabasesDocumentsResourceApiFake(_getDocument, _getException);
 }
 
 class ProjectsDatabasesDocumentsResourceApiFake extends Fake
     implements ProjectsDatabasesDocumentsResourceApi {
-  final Document? _document;
-  ProjectsDatabasesDocumentsResourceApiFake(this._document);
+  final Document? _getDocument;
+  final Exception? _getException;
+  ProjectsDatabasesDocumentsResourceApiFake(
+      this._getDocument, this._getException);
   @override
   Future<Document> get(String name,
       {List<String>? mask_fieldPaths,
       String? transaction,
       String? readTime,
       String? $fields}) {
-    return Future.value(_document);
+    if (_getException != null) {
+      throw _getException!;
+    }
+    return Future.value(_getDocument);
   }
 }

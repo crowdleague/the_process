@@ -1,7 +1,7 @@
 import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:shared_models/shared_models.dart' show GoogleUserCredentials;
-import 'package:create_section/src/extensions/firestore_document_extensions.dart';
+import 'package:create_section/src/extensions/googleapis/firestore_document_extensions.dart';
 
 class FirestoreService {
   final FirestoreApi _firestoreApi;

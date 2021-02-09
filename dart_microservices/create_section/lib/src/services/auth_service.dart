@@ -7,7 +7,7 @@ import 'package:http/io_client.dart' as http;
 import 'package:shared_models/shared_models.dart'
     show AuthProviderProjectCredentials;
 import 'package:create_section/src/extensions/models/google_user_credentials_extensions.dart';
-import 'package:create_section/src/extensions/secret_payload_extensions.dart';
+import 'package:create_section/src/extensions/googleapis/secret_payload_extensions.dart';
 
 class AuthService {
   AuthService();
