@@ -4,8 +4,10 @@ import 'package:create_section/src/services/auth_service.dart';
 import 'package:create_section/src/services/drive_service.dart';
 import 'package:create_section/src/services/firestore_service.dart';
 import 'package:functions_framework/functions_framework.dart';
-import 'package:googleapis/firestore/v1.dart';
-import 'package:googleapis/secretmanager/v1.dart';
+import 'package:googleapis/docs/v1.dart' as docs;
+import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:googleapis/firestore/v1.dart' as firestore;
+import 'package:googleapis/secretmanager/v1.dart' as secretmanager;
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
 import 'package:create_section/src/extensions/string_extensions.dart';
@@ -16,19 +18,21 @@ const parentFolderId = '1sxujioDIdBpaLdwzwdn6rxSH9NbpZorF';
 @CloudFunction()
 FutureOr<Response> function(Request request) async {
   // create a database entry object that will be added to and finally saved
-  final firestoreSectionDoc = Document();
+  final firestoreSectionDoc = firestore.Document();
   try {
     // Create services and a client that will authenticate as the given user.
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-    final firestoreService = FirestoreService(FirestoreApi(serviceClient));
+    final firestoreService =
+        FirestoreService(firestore.FirestoreApi(serviceClient));
     final authService = AuthService();
     final userClient = await authService.getUserClient(
       enspyrTesterId,
       firestoreService,
-      SecretmanagerApi(serviceClient),
+      secretmanager.SecretmanagerApi(serviceClient),
     );
-    final driveService = DriveService(userClient);
+    final driveService =
+        DriveService(drive.DriveApi(userClient), docs.DocsApi(userClient));
 
     // Add the id of the user creating the section to the firestore document.
     firestoreSectionDoc.fields = {};

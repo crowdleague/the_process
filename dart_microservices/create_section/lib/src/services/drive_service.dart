@@ -1,23 +1,20 @@
 import 'package:googleapis/docs/v1.dart';
 import 'package:googleapis/drive/v3.dart';
-import 'package:googleapis_auth/auth_io.dart';
 
 class DriveService {
-  final AutoRefreshingAuthClient _userClient;
+  final DriveApi _driveApi;
+  final DocsApi _docsApi;
 
-  DriveService(this._userClient);
+  DriveService(this._driveApi, this._docsApi);
 
   Future<File> saveDoc(
       {required String parentId, required String docTitle}) async {
-    final driveApi = DriveApi(_userClient);
-    final docsApi = DocsApi(_userClient);
-
     // create a google doc
     final doc = Document()..title = docTitle;
-    final savedDoc = await docsApi.documents.create(doc);
+    final savedDoc = await _docsApi.documents.create(doc);
 
     // move the doc inside the folder
-    return await driveApi.files
+    return await _driveApi.files
         .update(File(), savedDoc.documentId, addParents: parentId);
   }
 
@@ -31,6 +28,6 @@ class DriveService {
       newFolder.parents = [parentId];
     }
 
-    return await DriveApi(_userClient).files.create(newFolder);
+    return await _driveApi.files.create(newFolder);
   }
 }
