@@ -5,8 +5,11 @@ import 'package:test/fake.dart';
 
 class FirestoreServiceFake extends Fake implements FirestoreService {
   final GoogleUserCredentials _googleUserCredentials;
+  final Exception? _getGoogleUserCredentialsException;
 
-  FirestoreServiceFake({GoogleUserCredentials? googleUserCredentials})
+  FirestoreServiceFake(
+      {GoogleUserCredentials? googleUserCredentials,
+      Exception? getGoogleUserCredentialsException})
       : _googleUserCredentials = googleUserCredentials ??
             GoogleUserCredentials(
                 accessToken: 'accessToken',
@@ -14,11 +17,16 @@ class FirestoreServiceFake extends Fake implements FirestoreService {
                 idToken: 'idToken',
                 refreshToken: 'refreshToken',
                 scope: 'scope',
-                tokenType: 'Bearer');
+                tokenType: 'Bearer'),
+        _getGoogleUserCredentialsException = getGoogleUserCredentialsException;
 
   @override
-  Future<GoogleUserCredentials> getGoogleUserCredentials(String userId) =>
-      Future.value(_googleUserCredentials);
+  Future<GoogleUserCredentials> getGoogleUserCredentials(String userId) {
+    if (_getGoogleUserCredentialsException != null) {
+      throw _getGoogleUserCredentialsException!;
+    }
+    return Future.value(_googleUserCredentials);
+  }
 
   @override
   Future<Document> saveSection(Document doc) {
