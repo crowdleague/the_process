@@ -4,10 +4,9 @@ import 'package:shared_models/shared_models.dart' show GoogleUserCredentials;
 import 'package:create_section/src/extensions/firestore_document_extensions.dart';
 
 class FirestoreService {
-  final _firestoreApi;
+  final FirestoreApi _firestoreApi;
 
-  FirestoreService(AutoRefreshingAuthClient client)
-      : _firestoreApi = FirestoreApi(client);
+  FirestoreService(this._firestoreApi);
 
   /// Retrieves the user credentials from the Firestore and creates a
   /// [GoogleUserCredentials] for returning.

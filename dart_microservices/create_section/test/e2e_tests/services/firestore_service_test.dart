@@ -18,7 +18,7 @@ void main() {
           'useCasesDocId': Value()..stringValue = 'testUseCasesDocId',
         };
 
-      final firestoreService = FirestoreService(adcClient);
+      final firestoreService = FirestoreService(FirestoreApi(adcClient));
       final responseDoc = await firestoreService.saveSection(requestDoc);
 
       print(responseDoc);

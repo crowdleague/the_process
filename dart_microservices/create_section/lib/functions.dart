@@ -21,7 +21,7 @@ FutureOr<Response> function(Request request) async {
     // Create services and a client that will authenticate as the given user.
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-    final firestoreService = FirestoreService(serviceClient);
+    final firestoreService = FirestoreService(FirestoreApi(serviceClient));
     final authService = AuthService();
     final userClient = await authService.getUserClient(
       enspyrTesterId,

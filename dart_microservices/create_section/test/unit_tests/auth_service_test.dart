@@ -17,12 +17,17 @@ void main() {
     test(
         '.getUserClient() turns project & user credentials into authenticated client',
         () async {
-      // -- Order of evnts we want to test:
+      // -- Order of events we want to test:
       // 1. Retrieve user credentials from the firestore.
       // 3. Retrieve project credentials json from secretmanager.
       // 4. Convert user credentials to an AccessCredentials object.
       // 5. Convert project credentials json to a ClientId.
       // 6. Use ClientId & AccessCredentials to create the AutoRefreshingAuthClient.
+      // -- What could go wrong?
+      // 1. Calling the firestore service throws an error.
+      // 2. Calling secretmanager throws an error.
+      // 3. Bad user credentials causes an error.
+      // 4. Bad project credentials causes an error.
 
       // Create test data.
       final exampleCredentialsJson = auth_test_data.credentialsJson;

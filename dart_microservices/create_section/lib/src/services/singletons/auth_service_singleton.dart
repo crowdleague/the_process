@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:create_section/src/services/firestore_service.dart';
+import 'package:googleapis/firestore/v1.dart';
 import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
@@ -33,7 +34,7 @@ class AuthServiceSingleton {
   final AutoRefreshingAuthClient _serviceClient;
 
   Future<AutoRefreshingAuthClient> getUserClient(String userId) async {
-    final firestoreService = FirestoreService(_serviceClient);
+    final firestoreService = FirestoreService(FirestoreApi(_serviceClient));
     final userCredentials =
         await firestoreService.getGoogleUserCredentials(userId);
 
