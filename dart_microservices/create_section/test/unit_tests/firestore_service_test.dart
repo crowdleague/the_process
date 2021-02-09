@@ -63,7 +63,7 @@ void main() {
     });
 
     test(
-        'getGoogleUserCredentials() throws CastError when given malformed data',
+        'getGoogleUserCredentials() throws TypeError when given malformed data',
         () async {
       final exampleUserId = 'uid';
       final exampleDoc = firestore_document_test_data.basicDoc;
@@ -75,7 +75,7 @@ void main() {
 
       // Run the function we are testing.
       expect(firestoreService.getGoogleUserCredentials(exampleUserId),
-          throwsA(const TypeMatcher<CastError>()));
+          throwsA(const TypeMatcher<TypeError>()));
     });
   });
 }
