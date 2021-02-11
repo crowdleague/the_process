@@ -18,7 +18,9 @@ void main() {
     // 1. The DocsApi call could fail.
     // 2. The DriveApi call could fail.
 
-    test('createDocInFolder() ', () async {
+    test(
+        'createDocInFolder() calls DriveAPI\'s update() and returns the result',
+        () async {
       final exampleParentId = 'exampleParentId';
       final exampleDocumentId = 'exampleDocumentId';
 
@@ -41,13 +43,24 @@ void main() {
           parentId: exampleParentId, docTitle: 'testDocTitle');
 
       // Check that the document returned by the DriveAPI when 'update' is called
-      // is called is what we get back from the service.
+      // is what we get back from the service.
       expect(result.parents, contains(exampleParentId));
     });
 
-    test('createFolder() throws when ...', () async {});
+    test('createFolder() throws when driveApi throws', () async {
+      // Setup a DriveApi fake that throws when 'create' is called.
+      final fakeDriveApi = DriveApiFake(updateException: Exception('example'));
 
-    test('createFolder() throws when ...', () async {});
+      // Create the subject under test.
+      final service = await DriveService(fakeDriveApi,
+          DocsApiFake(onCreate: Document()..documentId = 'exampleDocumentId'));
+
+      // Run the function we are testing.
+      expect(
+          service.createDocInFolder(
+              parentId: 'exampleParentId', docTitle: 'testDocTitle'),
+          throwsA(const TypeMatcher<Exception>()));
+    });
 
     test('createDocInFolder() throws when ...', () async {});
 
@@ -59,7 +72,23 @@ void main() {
     // -- What could go wrong?
     // 1. The DriveApi call could fail.
 
-    test('createFolder() ', () async {});
+    test('createFolder() ', () async {
+      final exampleFolderName = 'exampleFolderName';
+      final exampleFileId = 'exampleFileId';
+
+      final fakeDriveApi = DriveApiFake(onCreate: File()..id = exampleFileId);
+      final fakeDocsApi = DocsApiFake();
+
+      // Create the subject under test.
+      final service = await DriveService(fakeDriveApi, fakeDocsApi);
+
+      // Run the function we are testing.
+      final result = await service.createFolder(name: exampleFolderName);
+
+      // Check that the File returned by the DriveAPI when 'create' is called
+      // is what we get back from the service.
+      expect(result.id, exampleFileId);
+    });
 
     test('createFolder() throws when ...', () async {});
   });

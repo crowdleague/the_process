@@ -4,18 +4,32 @@ import 'package:test/fake.dart';
 class DriveApiFake extends Fake implements DriveApi {
   final File? _createReturnFile;
   final File? _updateReturnFile;
-  DriveApiFake({File? onCreate, File? onUpdate})
+  final Exception? _createException;
+  final Exception? _updateException;
+
+  DriveApiFake(
+      {File? onCreate,
+      File? onUpdate,
+      Exception? createException,
+      Exception? updateException})
       : _createReturnFile = onCreate,
-        _updateReturnFile = onUpdate;
+        _updateReturnFile = onUpdate,
+        _createException = createException,
+        _updateException = updateException;
+
   @override
-  FilesResourceApi get files =>
-      FilesResourceApiFake(_createReturnFile, _updateReturnFile);
+  FilesResourceApi get files => FilesResourceApiFake(
+      _createReturnFile, _updateReturnFile, _createException, _updateException);
 }
 
 class FilesResourceApiFake extends Fake implements FilesResourceApi {
   final File? _createReturnFile;
   final File? _updateReturnFile;
-  FilesResourceApiFake(this._createReturnFile, this._updateReturnFile);
+  final Exception? _createException;
+  final Exception? _updateException;
+
+  FilesResourceApiFake(this._createReturnFile, this._updateReturnFile,
+      this._createException, this._updateException);
 
   @override
   Future<File> create(File request,
@@ -30,6 +44,9 @@ class FilesResourceApiFake extends Fake implements FilesResourceApi {
       String? $fields,
       UploadOptions? uploadOptions = UploadOptions.Default,
       Media? uploadMedia}) {
+    if (_createException != null) {
+      throw _createException!;
+    }
     return Future.value(_createReturnFile ?? File());
   }
 
@@ -47,6 +64,9 @@ class FilesResourceApiFake extends Fake implements FilesResourceApi {
       String? $fields,
       UploadOptions? uploadOptions = UploadOptions.Default,
       Media? uploadMedia}) {
+    if (_updateException != null) {
+      throw _updateException!;
+    }
     return Future.value(_updateReturnFile ?? File());
   }
 }
