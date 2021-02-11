@@ -7,7 +7,11 @@ class DriveService {
 
   DriveService(this._driveApi, this._docsApi);
 
-  Future<File> saveDoc(
+  // 1. Create a Document object with the given title.
+  // 2. Use the DocsApi to create the remote doc.
+  // 3. Use the DriveApi to move the remote doc to the given folder.
+  // 4. Return the updated File object.
+  Future<File> createDocInFolder(
       {required String parentId, required String docTitle}) async {
     // create a google doc
     final doc = Document()..title = docTitle;

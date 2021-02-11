@@ -52,8 +52,8 @@ FutureOr<Response> function(Request request) async {
     firestoreSectionDoc.fields['folderId'] = folder.id.asValue();
 
     // Create our use cases doc and move inside the section folder.
-    final useCasesDriveDoc =
-        await driveService.saveDoc(parentId: folder.id, docTitle: docTitle);
+    final useCasesDriveDoc = await driveService.createDocInFolder(
+        parentId: folder.id, docTitle: docTitle);
 
     // Add the doc id to and save the firestore document.
     firestoreSectionDoc.fields['useCasesDocId'] = useCasesDriveDoc.id.asValue();
