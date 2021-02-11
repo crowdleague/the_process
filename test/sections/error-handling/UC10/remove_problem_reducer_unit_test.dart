@@ -10,7 +10,7 @@ void main() {
     final problem = Problem(errorString: 'Problem error message');
     final problemPageData = ProblemPageData(problem: problem);
     test(
-        'Removes Problem from appState.problems and ProblemPageData from appState.pagesData',
+        'removes Problem from appState.problems and ProblemPageData from appState.pagesData',
         () {
       final appState = AppState.init().rebuild(
           (b) => b..pagesData.add(problemPageData)..problems.add(problem));
