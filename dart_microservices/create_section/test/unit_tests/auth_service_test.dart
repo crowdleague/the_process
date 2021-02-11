@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:create_section/src/services/auth_service.dart';
 import 'package:create_section/src/services/firestore_service.dart';
 import 'package:googleapis/firestore/v1.dart';
-import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/test.dart';
 import 'package:googleapis_auth/src/auth_http_utils.dart'
     show AutoRefreshingClient;

@@ -16,4 +16,6 @@ class SecretManagerService {
   SecretManagerService(this._userId);
 
   final String _userId;
+
+  String getUserId() => _userId;
 }
