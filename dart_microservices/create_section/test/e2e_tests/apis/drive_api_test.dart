@@ -7,7 +7,7 @@ import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
-import '../../test_doubles/firestore_service_fake.dart';
+import '../../test_doubles/services/firestore_service_fake.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 

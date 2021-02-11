@@ -9,9 +9,9 @@ import 'package:googleapis_auth/src/auth_http_utils.dart'
     show AutoRefreshingClient;
 
 import '../test_data/auth_test_data.dart' as auth_test_data;
-import '../test_doubles/firestore_api_fake.dart';
-import '../test_doubles/firestore_service_fake.dart';
-import '../test_doubles/secretmanager_api_fakes.dart';
+import '../test_doubles/apis/firestore_api_fake.dart';
+import '../test_doubles/services/firestore_service_fake.dart';
+import '../test_doubles/apis/secretmanager_api_fakes.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 

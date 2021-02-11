@@ -3,8 +3,8 @@ import 'package:googleapis/docs/v1.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:test/test.dart';
 
-import '../test_doubles/docs_api_fake.dart';
-import '../test_doubles/drive_api_fake.dart';
+import '../test_doubles/apis/docs_api_fake.dart';
+import '../test_doubles/apis/drive_api_fake.dart';
 
 void main() {
   group('DriveService', () {

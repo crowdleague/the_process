@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 import '../test_data/firestore_document_test_data.dart'
     as firestore_document_test_data;
-import '../test_doubles/firestore_api_fake.dart';
+import '../test_doubles/apis/firestore_api_fake.dart';
 
 void main() {
   group('FirestoreService', () {
