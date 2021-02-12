@@ -1,9 +1,11 @@
 import 'package:create_section/src/services/firestore_service.dart';
+import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../test_data/firestore_document_test_data.dart'
     as firestore_document_test_data;
-import '../test_doubles/apis/firestore_api_fake.dart';
+import '../test_doubles/apis/firestore_api_test_doubles.dart';
+import '../test_doubles/apis/firestore_api_test_doubles.mocks.dart';
 
 void main() {
   group('FirestoreService', () {
@@ -22,10 +24,11 @@ void main() {
       final exampleUserId = 'uid';
       final exampleDoc = firestore_document_test_data.userCredentialsDoc;
 
-      final fakeFirestoreApi = FirestoreApiFake(getDocument: exampleDoc);
+      final mockFirestoreApi = createFirestoreApiMockThatReturns(
+          document: exampleDoc, onCalling: FirestoreFunctionNamed.documentsGet);
 
       // Create the subject under test.
-      final firestoreService = await FirestoreService(fakeFirestoreApi);
+      final firestoreService = await FirestoreService(mockFirestoreApi);
 
       // Run the function we are testing.
       final googleUserCredentials =
@@ -51,11 +54,14 @@ void main() {
     test('getGoogleUserCredentials() throws when firestore api throws',
         () async {
       final exampleUserId = 'uid';
+      final exampleExceptionMessage = 'exampleExceptionMessage';
 
-      final fakeFirestoreApi = FirestoreApiFake(getException: Exception('yo!'));
+      final mockFirestoreApi = MockFirestoreApi();
+      when(mockFirestoreApi.projects)
+          .thenThrow(Exception(exampleExceptionMessage));
 
       // Create the subject under test.
-      final firestoreService = await FirestoreService(fakeFirestoreApi);
+      final firestoreService = await FirestoreService(mockFirestoreApi);
 
       // Run the function we are testing.
       expect(firestoreService.getGoogleUserCredentials(exampleUserId),
@@ -68,10 +74,11 @@ void main() {
       final exampleUserId = 'uid';
       final exampleDoc = firestore_document_test_data.basicDoc;
 
-      final fakeFirestoreApi = FirestoreApiFake(getDocument: exampleDoc);
+      final mockFirestoreApi = createFirestoreApiMockThatReturns(
+          document: exampleDoc, onCalling: FirestoreFunctionNamed.documentsGet);
 
       // Create the subject under test.
-      final firestoreService = await FirestoreService(fakeFirestoreApi);
+      final firestoreService = await FirestoreService(mockFirestoreApi);
 
       // Run the function we are testing.
       expect(firestoreService.getGoogleUserCredentials(exampleUserId),

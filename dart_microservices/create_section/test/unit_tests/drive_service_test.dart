@@ -4,10 +4,10 @@ import 'package:googleapis/drive/v3.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../test_doubles/apis/docs_api_fake.dart';
+import '../test_doubles/apis/docs_api_test_doubles.dart';
 import '../test_doubles/apis/docs_api_test_doubles.mocks.dart';
+import '../test_doubles/apis/drive_api_test_doubles.dart';
 import '../test_doubles/apis/drive_api_test_doubles.mocks.dart';
-import '../test_doubles/apis/drive_api_fake.dart';
 
 void main() {
   group('DriveService', () {
@@ -33,33 +33,15 @@ void main() {
       final exampleDocument = Document()..documentId = exampleDocumentId;
 
       // Create the test doubles.
-      final mockDriveApi = MockDriveApi();
-      final mockFilesResourceApi = MockFilesResourceApi();
-      final mockDocsApi = MockDocsApi();
-      final mockDocumentsResourceApi = MockDocumentsResourceApi();
 
       // Stub the DriveApi mock to return a FilesResourceApi mock that in turn
       // retruns a File, with the given id and parents when 'update' is called.
-      when(mockDriveApi.files).thenReturn(mockFilesResourceApi);
-      when(mockFilesResourceApi.update(any, any,
-              addParents: anyNamed('addParents'),
-              enforceSingleParent: anyNamed('enforceSingleParent'),
-              includePermissionsForView: anyNamed('includePermissionsForView'),
-              keepRevisionForever: anyNamed('keepRevisionForever'),
-              ocrLanguage: anyNamed('ocrLanguage'),
-              removeParents: anyNamed('removeParents'),
-              supportsAllDrives: anyNamed('supportsAllDrives'),
-              supportsTeamDrives: anyNamed('supportsTeamDrives'),
-              useContentAsIndexableText: anyNamed('useContentAsIndexableText'),
-              $fields: anyNamed('\$fields'),
-              uploadOptions: anyNamed('uploadOptions'),
-              uploadMedia: anyNamed('uploadMedia')))
-          .thenAnswer((_) => Future.value(exampleFile));
+      final mockDriveApi = createDriveApiMockThatReturns(
+          file: exampleFile, onCalling: DriveFunctionNamed.update);
       // Stub the DocsApi mock to return a DocumentsResourceApi mock that in turn
       // returns a Document with a given id when 'create' is called.
-      when(mockDocsApi.documents).thenReturn(mockDocumentsResourceApi);
-      when(mockDocumentsResourceApi.create(any))
-          .thenAnswer((_) => Future.value(exampleDocument));
+      final mockDocsApi = createDocsApiMockThatReturns(
+          document: exampleDocument, onCalling: DocsFunctionNamed.create);
 
       // Create the subject under test.
       final service = await DriveService(mockDriveApi, mockDocsApi);
@@ -73,13 +55,14 @@ void main() {
       expect(result.parents, contains(exampleParentId));
     });
 
-    test('createFolder() throws when driveApi throws', () async {
-      // Setup a DriveApi fake that throws when 'create' is called.
-      final fakeDriveApi = DriveApiFake(updateException: Exception('example'));
+    test('createFolder() throws when docsApi throws', () async {
+      final mockDriveApi = MockDriveApi();
+      final mockDocsApi = MockDocsApi();
+
+      when(mockDocsApi.documents).thenThrow(Exception('Whoop!'));
 
       // Create the subject under test.
-      final service = await DriveService(fakeDriveApi,
-          DocsApiFake(onCreate: Document()..documentId = 'exampleDocumentId'));
+      final service = await DriveService(mockDriveApi, mockDocsApi);
 
       // Run the function we are testing.
       expect(
@@ -87,8 +70,6 @@ void main() {
               parentId: 'exampleParentId', docTitle: 'testDocTitle'),
           throwsA(const TypeMatcher<Exception>()));
     });
-
-    test('createDocInFolder() throws when ...', () async {});
 
     ////////////// createFolder
     // -- Order of events we want to test:
@@ -101,12 +82,20 @@ void main() {
     test('createFolder() ', () async {
       final exampleFolderName = 'exampleFolderName';
       final exampleFileId = 'exampleFileId';
+      final exampleFile = File()..id = exampleFileId;
+      final exampleDocumentId = 'exampleDocumentId';
+      final exampleDocument = Document()..documentId = exampleDocumentId;
 
-      final fakeDriveApi = DriveApiFake(onCreate: File()..id = exampleFileId);
-      final fakeDocsApi = DocsApiFake();
+      final mockDriveApi = createDriveApiMockThatReturns(
+          file: exampleFile, onCalling: DriveFunctionNamed.create);
+
+      // Stub the DocsApi mock to return a DocumentsResourceApi mock that in turn
+      // returns a Document with a given id when 'create' is called.
+      final mockDocsApi = createDocsApiMockThatReturns(
+          document: exampleDocument, onCalling: DocsFunctionNamed.create);
 
       // Create the subject under test.
-      final service = await DriveService(fakeDriveApi, fakeDocsApi);
+      final service = await DriveService(mockDriveApi, mockDocsApi);
 
       // Run the function we are testing.
       final result = await service.createFolder(name: exampleFolderName);
