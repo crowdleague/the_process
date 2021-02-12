@@ -19,7 +19,8 @@ import '../../../utils/testing/app_widget_harness.dart';
 
 void main() {
   group('ProblemPage', () {
-    final problem = Problem(errorString: 'Problem error message');
+    final problem =
+        Problem(errorString: 'Problem error message', traceString: null);
     testWidgets('has \'Dismiss\' button', (WidgetTester tester) async {
       final problemPage = ProblemPage(problem);
 
@@ -43,9 +44,7 @@ void main() {
       expect(find.byType(ProblemPage), findsOneWidget);
 
       store.updateState((b) => b..pagesData.remove(problemPageData));
-      print(store.state.pagesData);
 
-      await tester.pump();
       await tester.pump();
 
       expect(find.byType(ProblemPage), findsNothing);
@@ -89,7 +88,6 @@ void main() {
 
       await tester.pump();
 
-      // Expect to find the item on screen.
       expect(find.byType(ProblemPage), findsNothing);
     });
   });
