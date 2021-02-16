@@ -255,31 +255,3 @@ class MockAccessSecretVersionResponse extends _i1.Mock
       (super.noSuchMethod(Invocation.method(#toJson, []),
           returnValue: <String, Object>{}) as Map<String, Object>);
 }
-
-/// A class which mocks [SecretPayload].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSecretPayload extends _i1.Mock implements _i2.SecretPayload {
-  MockSecretPayload() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  String get data =>
-      (super.noSuchMethod(Invocation.getter(#data), returnValue: '') as String);
-  @override
-  set data(String? _data) => super.noSuchMethod(Invocation.setter(#data, _data),
-      returnValueForMissingStub: null);
-  @override
-  List<int> get dataAsBytes =>
-      (super.noSuchMethod(Invocation.getter(#dataAsBytes), returnValue: <int>[])
-          as List<int>);
-  @override
-  set dataAsBytes(List<int>? _bytes) =>
-      super.noSuchMethod(Invocation.setter(#dataAsBytes, _bytes),
-          returnValueForMissingStub: null);
-  @override
-  Map<String, Object> toJson() =>
-      (super.noSuchMethod(Invocation.method(#toJson, []),
-          returnValue: <String, Object>{}) as Map<String, Object>);
-}

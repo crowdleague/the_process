@@ -7,7 +7,7 @@ import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:test/test.dart';
 
-import '../../test_doubles/services/firestore_service_fake.dart';
+import '../../test_doubles/services/fake_firestore_service.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
@@ -17,7 +17,7 @@ void main() {
         await clientViaApplicationDefaultCredentials(scopes: []);
     final secretManagerApi = SecretmanagerApi(serviceClient);
     final authService = await AuthService();
-    final fakeFirestoreService = FirestoreServiceFake();
+    final fakeFirestoreService = FakeFirestoreService();
     final userClient = await authService.getUserClient(
       enspyrTesterId,
       fakeFirestoreService,

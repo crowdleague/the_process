@@ -8,9 +8,9 @@ import 'package:googleapis_auth/src/auth_http_utils.dart'
     show AutoRefreshingClient;
 
 import '../test_data/auth_test_data.dart' as auth_test_data;
-import '../test_doubles/apis/firestore_api_fake.dart';
-import '../test_doubles/services/firestore_service_fake.dart';
-import '../test_doubles/apis/secretmanager_api_fakes.dart';
+import '../test_doubles/apis/firestore_api_test_doubles.dart';
+import '../test_doubles/apis/secretmanager_api_test_doubles.dart';
+import '../test_doubles/services/fake_firestore_service.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
@@ -41,20 +41,18 @@ void main() {
       final exampleGoogleUserCredentials = auth_test_data.googleUserCredentials;
 
       // Create test doubles.
-      final fakeFirestoreService = FirestoreServiceFake(
+      final fakeFirestoreService = FakeFirestoreService(
           googleUserCredentials: exampleGoogleUserCredentials);
-      final fakeSecretmanagerApi =
-          SecretmanagerApiFake(payloadData: exampleCredentialsJson);
+      final mockSecretmanagerApi = createSecretmanagerApiMockThatReturns(
+          payload: createSecretPayloadFrom(json: exampleCredentialsJson),
+          onCalling: SecretmanagerFunctionNamed.access);
 
       // Create the subject under test.
       final authService = await AuthService();
 
       // Run the function we are testing.
       final userClient = await authService.getUserClient(
-        'testUserId',
-        fakeFirestoreService,
-        fakeSecretmanagerApi,
-      );
+          'testUserId', fakeFirestoreService, mockSecretmanagerApi);
 
       // Check that the user credentials provided by the firestoreApi became
       // part of the client's credentials.
@@ -85,10 +83,11 @@ void main() {
       final exampleCredentialsJson = auth_test_data.credentialsJson;
 
       // Create test doubles.
-      final fakeFirestoreService = FirestoreServiceFake(
+      final fakeFirestoreService = FakeFirestoreService(
           getGoogleUserCredentialsException: Exception('yo!'));
-      final fakeSecretmanagerApi =
-          SecretmanagerApiFake(payloadData: exampleCredentialsJson);
+      final mockSecretmanagerApi = createSecretmanagerApiMockThatReturns(
+          payload: createSecretPayloadFrom(json: exampleCredentialsJson),
+          onCalling: SecretmanagerFunctionNamed.access);
 
       // Create the subject under test.
       final authService = await AuthService();
@@ -96,7 +95,7 @@ void main() {
       // Run the function we are testing.
       expect(
           authService.getUserClient(
-              'testUserId', fakeFirestoreService, fakeSecretmanagerApi),
+              'testUserId', fakeFirestoreService, mockSecretmanagerApi),
           throwsException);
     });
 
@@ -104,12 +103,13 @@ void main() {
         () async {
       // Create test data.
       final exampleGoogleUserCredentials = auth_test_data.googleUserCredentials;
+      final exampleException = Exception('An Exception!');
 
       // Create test doubles.
-      final fakeFirestoreService = FirestoreServiceFake(
+      final fakeFirestoreService = FakeFirestoreService(
           googleUserCredentials: exampleGoogleUserCredentials);
-      final fakeSecretmanagerApi =
-          SecretmanagerApiFake(accessException: Exception('yo!'));
+      final mockSecretmanagerApi =
+          createSecretmanagerApiMockThatThrows(exception: exampleException);
 
       // Create the subject under test.
       final authService = await AuthService();
@@ -117,7 +117,7 @@ void main() {
       // Run the function we are testing.
       expect(
           authService.getUserClient(
-              'testUserId', fakeFirestoreService, fakeSecretmanagerApi),
+              'testUserId', fakeFirestoreService, mockSecretmanagerApi),
           throwsException);
     });
 
@@ -128,10 +128,11 @@ void main() {
       final exampleGoogleUserCredentials = auth_test_data.googleUserCredentials;
 
       // Create test doubles.
-      final fakeFirestoreService = FirestoreServiceFake(
+      final fakeFirestoreService = FakeFirestoreService(
           googleUserCredentials: exampleGoogleUserCredentials);
-      final fakeSecretmanagerApi =
-          SecretmanagerApiFake(payloadData: exampleCredentialsJson);
+      final mockSecretmanagerApi = createSecretmanagerApiMockThatReturns(
+          payload: createSecretPayloadFrom(json: exampleCredentialsJson),
+          onCalling: SecretmanagerFunctionNamed.access);
 
       // Create the subject under test.
       final authService = await AuthService();
@@ -139,7 +140,7 @@ void main() {
       // Run the function we are testing.
       expect(
           authService.getUserClient(
-              'testUserId', fakeFirestoreService, fakeSecretmanagerApi),
+              'testUserId', fakeFirestoreService, mockSecretmanagerApi),
           throwsException);
     });
 
@@ -149,11 +150,14 @@ void main() {
       final exampleCredentialsJson = auth_test_data.credentialsJson;
       final exampleDoc = Document();
 
+      final mockFirestoreApi = createFirestoreApiMockThatReturns(
+          document: exampleDoc, onCalling: FirestoreFunctionNamed.documentsGet);
+
       // Create test doubles.
-      final fakeFirestoreService =
-          FirestoreService(FirestoreApiFake(getDocument: exampleDoc));
-      final fakeSecretmanagerApi =
-          SecretmanagerApiFake(payloadData: exampleCredentialsJson);
+      final fakeFirestoreService = FirestoreService(mockFirestoreApi);
+      final mockSecretmanagerApi = createSecretmanagerApiMockThatReturns(
+          payload: createSecretPayloadFrom(json: exampleCredentialsJson),
+          onCalling: SecretmanagerFunctionNamed.access);
 
       // Create the subject under test.
       final authService = await AuthService();
@@ -161,7 +165,7 @@ void main() {
       // Run the function we are testing.
       expect(
           authService.getUserClient(
-              'testUserId', fakeFirestoreService, fakeSecretmanagerApi),
+              'testUserId', fakeFirestoreService, mockSecretmanagerApi),
           throwsA(const TypeMatcher<NoSuchMethodError>()));
     });
   });

@@ -3,11 +3,11 @@ import 'package:shared_models/src/google_user_credentials.dart';
 import 'package:googleapis/firestore/v1.dart';
 import 'package:test/fake.dart';
 
-class FirestoreServiceFake extends Fake implements FirestoreService {
+class FakeFirestoreService extends Fake implements FirestoreService {
   final GoogleUserCredentials _googleUserCredentials;
   final Exception? _getGoogleUserCredentialsException;
 
-  FirestoreServiceFake(
+  FakeFirestoreService(
       {GoogleUserCredentials? googleUserCredentials,
       Exception? getGoogleUserCredentialsException})
       : _googleUserCredentials = googleUserCredentials ??
