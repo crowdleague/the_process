@@ -16,8 +16,6 @@ class FirestoreService {
         .projects.databases.documents
         .get(credentialsDocumentName);
 
-    print(credentialsDoc.toJson());
-
     return credentialsDoc.toGoogleUserCredentials();
   }
 

@@ -21,7 +21,7 @@ void main() {
       final firestoreService = FirestoreService(FirestoreApi(adcClient));
       final responseDoc = await firestoreService.saveSection(requestDoc);
 
-      // print(responseDoc);
+      print(responseDoc);
     });
 
     test('retrieves credentials for a given user', () async {
@@ -33,7 +33,7 @@ void main() {
       final credentials =
           await firestoreService.getGoogleUserCredentials(enspyrTesterId);
 
-      // print(credentials);
+      print(credentials);
     });
   });
 }
