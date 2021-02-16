@@ -4,8 +4,8 @@ import 'package:mockito/annotations.dart';
 import 'drive_api_test_doubles.mocks.dart';
 
 @GenerateMocks([DriveApi, FilesResourceApi])
-class DriveApiDoubles {
-  DriveApiDoubles();
+class DriveApiTestDoubles {
+  DriveApiTestDoubles();
 }
 
 enum DriveFunctionNamed { update, create }
