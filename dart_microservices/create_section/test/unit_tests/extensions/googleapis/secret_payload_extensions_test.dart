@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:googleapis/secretmanager/v1.dart';
 import 'package:test/test.dart';
 
 import 'package:create_section/src/extensions/googleapis/secret_payload_extensions.dart';

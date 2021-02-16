@@ -58,8 +58,8 @@ void main() {
       // part of the client's credentials.
       expect(userClient.credentials.refreshToken,
           exampleGoogleUserCredentials.refreshToken);
-      // -- The idToken isn't used to create the client in our case.
-      expect(userClient.credentials.idToken, null);
+      expect(
+          userClient.credentials.idToken, exampleGoogleUserCredentials.idToken);
       // -- The access token is created from several members of the data
       // provided by the firestoreApi (after conversion to json).
       expect(userClient.credentials.accessToken.data,
