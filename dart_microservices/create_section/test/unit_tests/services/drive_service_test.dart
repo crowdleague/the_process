@@ -4,10 +4,10 @@ import 'package:googleapis/drive/v3.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../test_doubles/apis/docs_api_test_doubles.dart';
-import '../test_doubles/apis/docs_api_test_doubles.mocks.dart';
-import '../test_doubles/apis/drive_api_test_doubles.dart';
-import '../test_doubles/apis/drive_api_test_doubles.mocks.dart';
+import '../../test_doubles/apis/docs_api_test_doubles.dart';
+import '../../test_doubles/apis/docs_api_test_doubles.mocks.dart';
+import '../../test_doubles/apis/drive_api_test_doubles.dart';
+import '../../test_doubles/apis/drive_api_test_doubles.mocks.dart';
 
 void main() {
   group('DriveService', () {

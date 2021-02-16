@@ -27,3 +27,7 @@ Document get userCredentialsDoc => Document()
           'scope': 'scope'.asValue()
         }),
   };
+
+final enspyrTesterFakeCredentialsJson = '''
+{createTime: 2021-01-05T11:31:45.446094Z, fields: {google: {mapValue: {fields: {refresh_token: {stringValue: fake_refresh_token}, token_type: {stringValue: Bearer}, id_token: {stringValue: fake_id_token}, scope: {stringValue: https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/documents.readonly openid https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/documents}, expiry_date: {integerValue: 1609849902335}, access_token: {stringValue: fake_access_token}}}}, asana: {mapValue: {fields: {access_token: {stringValue: fake_asana_access_token}, expires_in: {integerValue: 3600}, refresh_token: {stringValue: fake_asana_refresh_token}}}}}, name: projects/the-process-tool/databases/(default)/documents/credentials/ayl3FcuCUVUmwpDGAvwI47ujyY32, updateTime: 2021-01-06T12:52:06.855889Z}
+''';

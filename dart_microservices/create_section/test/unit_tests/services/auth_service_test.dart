@@ -7,10 +7,10 @@ import 'package:test/test.dart';
 import 'package:googleapis_auth/src/auth_http_utils.dart'
     show AutoRefreshingClient;
 
-import '../test_data/auth_test_data.dart' as auth_test_data;
-import '../test_doubles/apis/firestore_api_test_doubles.dart';
-import '../test_doubles/apis/secretmanager_api_test_doubles.dart';
-import '../test_doubles/services/fake_firestore_service.dart';
+import '../../test_data/auth_test_data.dart' as auth_test_data;
+import '../../test_doubles/apis/firestore_api_test_doubles.dart';
+import '../../test_doubles/apis/secretmanager_api_test_doubles.dart';
+import '../../test_doubles/services/fake_firestore_service.dart';
 
 final enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
 
