@@ -12,8 +12,8 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
 import 'package:create_section/src/extensions/string_extensions.dart';
 
-const enspyrTesterId = 'ayl3FcuCUVUmwpDGAvwI47ujyY32';
-const parentFolderId = '1sxujioDIdBpaLdwzwdn6rxSH9NbpZorF';
+const adminUserId = '5rKQnmyI79WdJdSmblAuWbcybtw2';
+const parentFolderId = '12K8H-Wb6WK_VRKAhl4XXZKkATciqie42';
 
 @CloudFunction()
 FutureOr<Response> function(Request request) async {
@@ -27,7 +27,7 @@ FutureOr<Response> function(Request request) async {
         FirestoreService(firestore.FirestoreApi(serviceClient));
     final authService = AuthService();
     final userClient = await authService.getUserClient(
-      enspyrTesterId,
+      adminUserId,
       firestoreService,
       secretmanager.SecretmanagerApi(serviceClient),
     );
@@ -36,7 +36,7 @@ FutureOr<Response> function(Request request) async {
 
     // Add the id of the user creating the section to the firestore document.
     firestoreSectionDoc.fields = {};
-    firestoreSectionDoc.fields['createdBy'] = enspyrTesterId.asValue();
+    firestoreSectionDoc.fields['createdBy'] = adminUserId.asValue();
 
     // Extract section name, update firestore doc and construct title strings
     final sectionName = request.requestedUri.queryParameters['name']!;
