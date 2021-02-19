@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
 
   # auth
-  firebase_auth: ^0.21.0-nullsafety.0
+  firebase_auth: ^0.21.0-1.1.nullsafety.1
   google_sign_in: ^5.0.0-nullsafety
   sign_in_with_apple: ^3.0.0-nullsafety.0
 
@@ -33,13 +33,13 @@ dependencies:
   cloud_firestore: ^0.17.0-1.0.nullsafety.0
 
   # firebase 
-  firebase_core: ^0.8.0-nullsafety.1
+  firebase_core: ^0.8.0-1.0.nullsafety.1
 
-  # messaging 
-  firebase_messaging: ^9.0.0-1.0.nullsafety.0
+  # # messaging 
+  # firebase_messaging: ^9.0.0-1.0.nullsafety.0
 
   # platform 
-  url_launcher: ^6.0.0-nullsafety.1
+  url_launcher: ^6.0.0-nullsafety.7
 
   # redux
   redux:
