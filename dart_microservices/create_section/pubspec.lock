@@ -258,7 +258,7 @@ packages:
     source: hosted
     version: "2.2.0"
   http_parser:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: http_parser
       url: "https://pub.dartlang.org"
@@ -400,9 +400,11 @@ packages:
   shared_models:
     dependency: "direct main"
     description:
-      path: "../../shared_models"
-      relative: true
-    source: path
+      path: shared_models
+      ref: HEAD
+      resolved-ref: "0e581fb89ca4fe63f0611285f81b9d7c0a9ea4b6"
+      url: "https://github.com/enspyrco/the_process"
+    source: git
     version: "0.0.0"
   shelf:
     dependency: "direct main"
@@ -543,7 +545,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.0+1"
   watcher:
     dependency: transitive
     description:

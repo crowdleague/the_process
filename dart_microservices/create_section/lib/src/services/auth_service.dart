@@ -18,7 +18,7 @@ class AuthService {
   Future<AutoRefreshingAuthClient> getUserClient(
       String userId,
       FirestoreService firestoreService,
-      SecretmanagerApi secretmanagerApi) async {
+      SecretManagerApi secretmanagerApi) async {
     // Retrieve user credentials from the firestore
     final googleUserCredentials =
         await firestoreService.getGoogleUserCredentials(userId);

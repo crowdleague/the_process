@@ -15,7 +15,7 @@ void main() {
   test('DriveAPI', () async {
     final serviceClient =
         await clientViaApplicationDefaultCredentials(scopes: []);
-    final secretManagerApi = SecretmanagerApi(serviceClient);
+    final secretManagerApi = SecretManagerApi(serviceClient);
     final authService = await AuthService();
     final fakeFirestoreService = FakeFirestoreService();
     final userClient = await authService.getUserClient(

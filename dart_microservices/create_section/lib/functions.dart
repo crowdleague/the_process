@@ -7,7 +7,7 @@ import 'package:functions_framework/functions_framework.dart';
 import 'package:googleapis/docs/v1.dart' as docs;
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:googleapis/firestore/v1.dart' as firestore;
-import 'package:googleapis/secretmanager/v1.dart' as secretmanager;
+import 'package:googleapis/secretmanager/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:shelf/shelf.dart';
 import 'package:create_section/src/extensions/string_extensions.dart';
@@ -29,7 +29,7 @@ FutureOr<Response> function(Request request) async {
     final userClient = await authService.getUserClient(
       adminUserId,
       firestoreService,
-      secretmanager.SecretmanagerApi(serviceClient),
+      SecretManagerApi(serviceClient),
     );
     final driveService =
         DriveService(drive.DriveApi(userClient), docs.DocsApi(userClient));
