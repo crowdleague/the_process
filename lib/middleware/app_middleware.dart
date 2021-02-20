@@ -43,7 +43,7 @@ List<Middleware<AppState>> createAppMiddleware({
     GetAuthorizedMiddleware(databaseService, platformService),
     ObserveProfileDataMiddleware(databaseService),
     // Sections
-    CreateSectionMiddleware(databaseService),
+    CreateSectionMiddleware(platformService),
     // Shared
     ConnectDatabaseMiddleware(databaseService),
   ];

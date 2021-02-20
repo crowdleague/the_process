@@ -13,7 +13,7 @@ class NewSectionItem extends StatelessWidget {
       children: [
         SizedBox(width: 15),
         SizedBox(
-          width: 200,
+          width: 100,
           child: TextFormField(
             autofocus: true,
             decoration: InputDecoration(
@@ -23,7 +23,7 @@ class NewSectionItem extends StatelessWidget {
           ),
         ),
         MaterialButton(
-          child: Text('GO'),
+          child: Text('+'),
           onPressed: () => context.dispatch(CreateSection()),
         )
       ],
