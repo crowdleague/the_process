@@ -33,16 +33,6 @@ class PlatformService {
     return PlatformEnum.unknown;
   }
 
-  Future<void> createSection({required String name}) async {
-    final url = 'https://dartimageresize-v6exb2sdca-uc.a.run.app?name=$name';
-
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   Future<void> getAuthorized(
       {required ProviderName provider, required String state}) async {
     String url;
