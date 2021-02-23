@@ -8,7 +8,7 @@ class HttpService {
   Future<void> createSection({required String name}) async {
     final queryParameters = {'name': name};
     final uri = Uri.https(
-        'dartimageresize-v6exb2sdca-uc.a.run.app', '', queryParameters);
+        'section-creation-v6exb2sdca-uc.a.run.app', '', queryParameters);
     final response = await _client.post(uri);
     if (response.statusCode != 200) {
       throw '${response.statusCode} : ${response.reasonPhrase}';
