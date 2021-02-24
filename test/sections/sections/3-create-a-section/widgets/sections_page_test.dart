@@ -5,7 +5,7 @@ import 'package:the_process/widgets/sections/new_section_item.dart';
 import 'package:the_process/widgets/sections/sections_page.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
-import '../../../utils/widget_test_harness.dart';
+import '../../../../utils/widget_test_harness.dart';
 
 void main() {
   testWidgets('SectionsPage updates on creatingNewSection change',

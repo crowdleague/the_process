@@ -4,7 +4,7 @@ import 'package:the_process/actions/sections/create_section.dart';
 import 'package:the_process/actions/sections/update_new_section_v_m.dart';
 import 'package:the_process/widgets/sections/new_section_item.dart';
 
-import '../../../utils/widget_test_harness.dart';
+import '../../../../utils/widget_test_harness.dart';
 
 void main() {
   testWidgets('NewSectionItem dispatches UpdateNewSectionVM on text entry',

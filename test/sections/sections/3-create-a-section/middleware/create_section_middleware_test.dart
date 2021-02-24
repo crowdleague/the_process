@@ -4,9 +4,9 @@ import 'package:the_process/actions/sections/create_section.dart';
 import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/middleware/sections/create_section.dart';
 
-import '../../../data/models/auth_user_data_examples.dart';
-import '../../../mocks/redux/fake_store.dart';
-import '../../../mocks/services/http_service_mock.dart';
+import '../../../../data/models/auth_user_data_examples.dart';
+import '../../../../mocks/redux/fake_store.dart';
+import '../../../../mocks/services/http_service_mock.dart';
 
 void main() {
   group('CreateSectionMiddleware', () {
