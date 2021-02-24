@@ -18,11 +18,11 @@ import 'package:the_process/widgets/auth/auth_page_buttons/apple_sign_in_button.
 import 'package:the_process/widgets/sections/new_section_item.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
-import '../../../../mocks/firebase/firebase_auth_fake.dart';
-import '../../../../mocks/firebase/firebase_firestore_fake.dart';
-import '../../../../mocks/http/fake_client.dart';
-import '../../../../mocks/services/platform_service_mock.dart';
-import '../../../../utils/testing/app_widget_harness.dart';
+import '../../../mocks/firebase/firebase_auth_fake.dart';
+import '../../../mocks/firebase/firebase_firestore_fake.dart';
+import '../../../mocks/http/fake_client.dart';
+import '../../../mocks/services/platform_service_mock.dart';
+import '../../../utils/testing/app_widget_harness.dart';
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
