@@ -10,16 +10,9 @@ class SectionFolderButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // if (folderId == null) return
     final folderURL = 'https://drive.google.com/drive/folders/$folderId';
-    return RawMaterialButton(
+    return IconButton(
+      icon: Icon(Icons.folder_open_outlined),
       onPressed: () => context.dispatch(LaunchUrl(url: folderURL)),
-      elevation: 0.0,
-      fillColor: Colors.white,
-      child: CircleAvatar(
-          radius: 17,
-          backgroundColor: Color(0xffbbaFb9),
-          child: Icon(Icons.folder_open_outlined)),
-      padding: EdgeInsets.all(5.0),
-      shape: CircleBorder(),
     );
   }
 }

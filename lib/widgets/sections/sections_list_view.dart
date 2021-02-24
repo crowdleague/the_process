@@ -10,10 +10,13 @@ class SectionsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: sections.length,
-      itemBuilder: (context, index) => SectionsListItem(sections[index]),
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: sections.length,
+        itemBuilder: (context, index) => SectionsListItem(sections[index]),
+      ),
     );
   }
 }

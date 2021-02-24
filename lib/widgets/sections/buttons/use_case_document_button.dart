@@ -10,16 +10,9 @@ class UseCaseDocumentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // if (folderId == null) return
     final documentURL = 'https://docs.google.com/document/d/$documentId/edit';
-    return RawMaterialButton(
+    return IconButton(
+      icon: Icon(Icons.text_snippet),
       onPressed: () => context.dispatch(LaunchUrl(url: documentURL)),
-      elevation: 0.0,
-      fillColor: Colors.white,
-      child: CircleAvatar(
-          radius: 17,
-          backgroundColor: Color(0xffbbaFb9),
-          child: Icon(Icons.pageview_outlined)),
-      padding: EdgeInsets.all(5.0),
-      shape: CircleBorder(),
     );
   }
 }

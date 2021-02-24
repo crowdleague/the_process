@@ -10,35 +10,32 @@ class SectionsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: Text(_section.name),
-          ),
-          Row(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0.0),
+      child: Container(
+        height: 65,
+        child: Card(
+          color: Colors.black12,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              UseCaseDocumentButton(_section.useCasesDocId),
-              SectionFolderButton(_section.folderId),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  _section.name,
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Row(
+                children: [
+                  UseCaseDocumentButton(_section.useCasesDocId),
+                  SectionFolderButton(_section.folderId),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
-
-    //   ListTile(
-    //       title: Text(_section.name),
-    //       trailing: SizedBox(
-    //         width: 100,
-    //         child: Row(
-    //           children: [
-    //             UseCaseDocumentButton(_section.useCasesDocId),
-    //             SectionFolderButton(_section.folderId),
-    //           ],
-    //         ),
-    //       )),
-    // );
   }
 }
