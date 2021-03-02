@@ -28,6 +28,7 @@ dependencies:
   # built_value
   built_collection: 5.0.0-nullsafety.0
   built_value: 8.0.0-nullsafety.0
+  freezed_annotation: ^0.13.0-nullsafety.0
   
   # database
   cloud_firestore: ^0.17.0-1.0.nullsafety.0
@@ -61,7 +62,9 @@ dev_dependencies:
   mockito: ^5.0.0-nullsafety.1
   
   build_runner: ^1.0.0
-  built_value_generator: 8.0.0-nullsafety.0
+  # built_value_generator: 8.0.0-nullsafety.0
+  freezed: ^0.14.0-nullsafety.0
+  
 
 flutter:
   uses-material-design: true
