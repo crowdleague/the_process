@@ -26,7 +26,7 @@ class _$ProfileDataTearOff {
       String? photoURL,
       String? firstName,
       String? lastName,
-      required Map<String, String> authorizationStatus}) {
+      required Map<ProviderName, AuthorizationStep> authorizationStatus}) {
     return _ProfileData(
       id: id,
       displayName: displayName,
@@ -52,7 +52,7 @@ mixin _$ProfileData {
   String? get photoURL => throw _privateConstructorUsedError;
   String? get firstName => throw _privateConstructorUsedError;
   String? get lastName => throw _privateConstructorUsedError;
-  Map<String, String> get authorizationStatus =>
+  Map<ProviderName, AuthorizationStep> get authorizationStatus =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,7 +72,7 @@ abstract class $ProfileDataCopyWith<$Res> {
       String? photoURL,
       String? firstName,
       String? lastName,
-      Map<String, String> authorizationStatus});
+      Map<ProviderName, AuthorizationStep> authorizationStatus});
 }
 
 /// @nodoc
@@ -101,7 +101,7 @@ class _$ProfileDataCopyWithImpl<$Res> implements $ProfileDataCopyWith<$Res> {
       lastName: lastName == freezed ? _value.lastName : lastName as String?,
       authorizationStatus: authorizationStatus == freezed
           ? _value.authorizationStatus
-          : authorizationStatus as Map<String, String>,
+          : authorizationStatus as Map<ProviderName, AuthorizationStep>,
     ));
   }
 }
@@ -119,7 +119,7 @@ abstract class _$ProfileDataCopyWith<$Res>
       String? photoURL,
       String? firstName,
       String? lastName,
-      Map<String, String> authorizationStatus});
+      Map<ProviderName, AuthorizationStep> authorizationStatus});
 }
 
 /// @nodoc
@@ -150,7 +150,7 @@ class __$ProfileDataCopyWithImpl<$Res> extends _$ProfileDataCopyWithImpl<$Res>
       lastName: lastName == freezed ? _value.lastName : lastName as String?,
       authorizationStatus: authorizationStatus == freezed
           ? _value.authorizationStatus
-          : authorizationStatus as Map<String, String>,
+          : authorizationStatus as Map<ProviderName, AuthorizationStep>,
     ));
   }
 }
@@ -181,7 +181,7 @@ class _$_ProfileData implements _ProfileData {
   @override
   final String? lastName;
   @override
-  final Map<String, String> authorizationStatus;
+  final Map<ProviderName, AuthorizationStep> authorizationStatus;
 
   @override
   String toString() {
@@ -234,12 +234,13 @@ class _$_ProfileData implements _ProfileData {
 
 abstract class _ProfileData implements ProfileData {
   factory _ProfileData(
-      {required String id,
-      String? displayName,
-      String? photoURL,
-      String? firstName,
-      String? lastName,
-      required Map<String, String> authorizationStatus}) = _$_ProfileData;
+          {required String id,
+          String? displayName,
+          String? photoURL,
+          String? firstName,
+          String? lastName,
+          required Map<ProviderName, AuthorizationStep> authorizationStatus}) =
+      _$_ProfileData;
 
   factory _ProfileData.fromJson(Map<String, dynamic> json) =
       _$_ProfileData.fromJson;
@@ -255,7 +256,7 @@ abstract class _ProfileData implements ProfileData {
   @override
   String? get lastName => throw _privateConstructorUsedError;
   @override
-  Map<String, String> get authorizationStatus =>
+  Map<ProviderName, AuthorizationStep> get authorizationStatus =>
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:the_process/models/auth/auth_user_data.dart';
 
 class AuthUserDataExamples {
@@ -8,5 +7,5 @@ class AuthUserDataExamples {
       lastSignedInOn: DateTime.fromMillisecondsSinceEpoch(1607774928554),
       isAnonymous: false,
       emailVerified: false,
-      providers: BuiltList());
+      providers: []);
 }

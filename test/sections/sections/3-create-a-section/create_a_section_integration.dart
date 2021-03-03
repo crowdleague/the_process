@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
-import 'package:the_process/actions/auth/store_auth_step.dart';
+import 'package:the_process/actions/auth/store_auth_step_action.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 import 'package:the_process/middleware/app_middleware.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:the_process/actions/auth/sign_out.dart';
-import 'package:the_process/actions/profile/disregard_profile_data.dart';
-import 'package:the_process/actions/profile/observe_profile_data.dart';
+import 'package:the_process/actions/auth/sign_out_action.dart';
+import 'package:the_process/actions/profile/disregard_profile_data_action.dart';
+import 'package:the_process/actions/profile/observe_profile_data_action.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/auth/provider_name.dart';
 import 'package:the_process/extensions/flutter_extensions.dart';
@@ -26,8 +26,8 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Center(
           child: StoreConnector<AppState, ProfileData?>(
-        onInit: (store) => store.dispatch(ObserveProfileData()),
-        onDispose: (store) => store.dispatch(DisregardProfileData()),
+        onInit: (store) => store.dispatch(ObserveProfileDataAction()),
+        onDispose: (store) => store.dispatch(DisregardProfileDataAction()),
         distinct: true,
         converter: (store) => store.state.profileData,
         builder: (context, profileData) {
@@ -45,23 +45,23 @@ class ProfilePage extends StatelessWidget {
                       CircularProgressIndicator()
                     else
                       GoogleAuthorizationButton(
-                          step: profileData
-                                  .authorizationStatus[ProviderName.google] ??
+                          step: profileData.authorizationStatus[
+                                  ProviderName.google.toString()] ??
                               AuthorizationStep.unknown),
                     if (profileData.authorizationStatus[ProviderName.asana] ==
-                        AuthorizationStep.gettingAuthorized)
+                        AuthorizationStep.gettingAuthorized.toString())
                       CircularProgressIndicator()
                     else
                       AsanaAuthorizationButton(
-                          step: profileData
-                                  .authorizationStatus[ProviderName.asana] ??
+                          step: profileData.authorizationStatus[
+                                  ProviderName.asana.toString()] ??
                               AuthorizationStep.unknown)
                   ],
                 ),
               ],
               MaterialButton(
                   child: Text('Sign Out'),
-                  onPressed: () => context.dispatch(SignOut())),
+                  onPressed: () => context.dispatch(SignOutAction())),
             ],
           );
         },

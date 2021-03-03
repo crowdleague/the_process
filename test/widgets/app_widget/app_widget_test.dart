@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:the_process/actions/app_init/plumb_streams.dart';
-import 'package:the_process/actions/auth/observe_auth_state.dart';
-import 'package:the_process/actions/platform/detect_platform.dart';
+import 'package:the_process/actions/app_init/plumb_streams_action.dart';
+import 'package:the_process/actions/auth/observe_auth_state_action.dart';
+import 'package:the_process/actions/platform/detect_platform_action.dart';
 import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
