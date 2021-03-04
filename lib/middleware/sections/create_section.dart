@@ -3,19 +3,19 @@ import 'package:the_process/actions/sections/create_section.dart';
 import 'package:the_process/actions/sections/update_sections_v_m.dart';
 import 'package:the_process/extensions/redux_extensions.dart';
 import 'package:the_process/models/app_state/app_state.dart';
-import 'package:the_process/services/database_service.dart';
+import 'package:the_process/services/http_service.dart';
 
 class CreateSectionMiddleware extends TypedMiddleware<AppState, CreateSection> {
-  CreateSectionMiddleware(DatabaseService databaseService)
+  CreateSectionMiddleware(HttpService httpService)
       : super((store, action, next) async {
           next(action);
 
           try {
             store.dispatch(UpdateSectionsVM(creatingNewSection: true));
 
-            await databaseService.createSection(
-                uid: store.state.authUserData?.uid ?? '-',
-                name: store.state.sections?.newSection.name ?? '-');
+            await httpService.createSection(
+              name: store.state.sections?.newSection.name ?? '-',
+            );
           } catch (error, trace) {
             store.dispatchProblem(error, trace);
           }
