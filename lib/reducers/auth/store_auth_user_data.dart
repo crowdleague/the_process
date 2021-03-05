@@ -9,13 +9,12 @@ class StoreAuthUserDataReducer
       : super((state, action) {
           // guard statement to avoid further null checks
           if (action.authUserData == null) {
-            return state.rebuild((b) => b
-              ..authUserData = null
-              ..authStep = AuthStep.waitingForInput);
+            return state.copyWith(
+                authUserData: null, authStep: AuthStep.waitingForInput);
           }
 
-          return state.rebuild((b) => b
-            ..authUserData = action.authUserData?.toBuilder()
-            ..authStep = AuthStep.waitingForInput);
+          return state.copyWith(
+              authUserData: action.authUserData,
+              authStep: AuthStep.waitingForInput);
         });
 }

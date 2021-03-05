@@ -4,6 +4,5 @@ import 'package:the_process/models/app_state/app_state.dart';
 
 class StoreAuthStepReducer extends TypedReducer<AppState, StoreAuthStepAction> {
   StoreAuthStepReducer()
-      : super(
-            (state, action) => state.rebuild((b) => b..authStep = action.step));
+      : super((state, action) => state.copyWith(authStep: action.step));
 }

@@ -4,5 +4,5 @@ import 'package:the_process/models/app_state/app_state.dart';
 
 class SignOutReducer extends TypedReducer<AppState, SignOutAction> {
   SignOutReducer()
-      : super((state, action) => state.rebuild((b) => b..profileData = null));
+      : super((state, action) => state.copyWith(profileData: null));
 }
