@@ -3,6 +3,7 @@ import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/auth/provider_name.dart';
 import 'package:the_process/models/profile/profile_data.dart';
 import 'package:the_process/models/sections/section.dart';
+import 'package:the_process/extensions/string_extensions.dart';
 
 extension ConvertDocumentSnapshot on DocumentSnapshot {
   ProfileData toProfileData() {
@@ -15,9 +16,9 @@ extension ConvertDocumentSnapshot on DocumentSnapshot {
         data()?['authorizationStatus'] as Map<String, String>? ??
             <String, String>{};
 
-    final authorizationStatus =
-        authorizationStatusAsStrings.map<ProviderName, AuthorizationStep>(
-            (name, step) => MapEntry(name, step));
+    final authorizationStatus = authorizationStatusAsStrings
+        .map<ProviderName, AuthorizationStep>((name, step) => MapEntry(
+            name.toProviderNameEnum(), step.toAuthorizationStepEnum()));
 
     return ProfileData(
         id: id,
