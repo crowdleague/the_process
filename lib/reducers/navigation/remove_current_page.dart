@@ -7,6 +7,7 @@ class RemoveCurrentPageReducer
     extends TypedReducer<AppState, RemoveCurrentPageAction> {
   RemoveCurrentPageReducer()
       : super((state, action) => (state.pagesData.length > 1)
-            ? state.rebuild((b) => b..pagesData.removeLast())
+            ? state.copyWith(pagesData: pagesData.removeLast())
+            rebuild((b) => b..pagesData.removeLast())
             : state);
 }
