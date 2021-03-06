@@ -126,8 +126,9 @@ class __$AddProblemActionCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_AddProblemAction implements _AddProblemAction {
-  _$_AddProblemAction({required this.errorString, this.traceString, this.info});
+class _$_AddProblemAction extends _AddProblemAction {
+  _$_AddProblemAction({required this.errorString, this.traceString, this.info})
+      : super._();
 
   factory _$_AddProblemAction.fromJson(Map<String, dynamic> json) =>
       _$_$_AddProblemActionFromJson(json);
@@ -176,7 +177,8 @@ class _$_AddProblemAction implements _AddProblemAction {
   }
 }
 
-abstract class _AddProblemAction implements AddProblemAction {
+abstract class _AddProblemAction extends AddProblemAction {
+  _AddProblemAction._() : super._();
   factory _AddProblemAction(
       {required String errorString,
       String? traceString,

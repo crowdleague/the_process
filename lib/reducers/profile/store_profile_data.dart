@@ -5,6 +5,5 @@ import 'package:the_process/models/app_state/app_state.dart';
 class StoreProfileDataReducer
     extends TypedReducer<AppState, StoreProfileDataAction> {
   StoreProfileDataReducer()
-      : super((state, action) =>
-            state.rebuild((b) => b..profileData.replace(action.data)));
+      : super((state, action) => state.copyWith(profileData: action.data));
 }
