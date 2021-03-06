@@ -27,7 +27,7 @@ class _$AppStateTearOff {
       required List<PageData> pagesData,
       required List<Problem> problems,
       ProfileData? profileData,
-      SectionsVM? sections,
+      required SectionsVM sections,
       required Settings settings}) {
     return _AppState(
       teamMember: teamMember,
@@ -68,7 +68,7 @@ mixin _$AppState {
   ProfileData? get profileData => throw _privateConstructorUsedError;
 
   /// Sections
-  SectionsVM? get sections => throw _privateConstructorUsedError;
+  SectionsVM get sections => throw _privateConstructorUsedError;
 
   /// Settings
   Settings get settings => throw _privateConstructorUsedError;
@@ -90,13 +90,13 @@ abstract class $AppStateCopyWith<$Res> {
       List<PageData> pagesData,
       List<Problem> problems,
       ProfileData? profileData,
-      SectionsVM? sections,
+      SectionsVM sections,
       Settings settings});
 
   $TeamMemberCopyWith<$Res>? get teamMember;
   $AuthUserDataCopyWith<$Res>? get authUserData;
   $ProfileDataCopyWith<$Res>? get profileData;
-  $SectionsVMCopyWith<$Res>? get sections;
+  $SectionsVMCopyWith<$Res> get sections;
   $SettingsCopyWith<$Res> get settings;
 }
 
@@ -133,7 +133,7 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
       profileData: profileData == freezed
           ? _value.profileData
           : profileData as ProfileData?,
-      sections: sections == freezed ? _value.sections : sections as SectionsVM?,
+      sections: sections == freezed ? _value.sections : sections as SectionsVM,
       settings: settings == freezed ? _value.settings : settings as Settings,
     ));
   }
@@ -172,12 +172,8 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
   }
 
   @override
-  $SectionsVMCopyWith<$Res>? get sections {
-    if (_value.sections == null) {
-      return null;
-    }
-
-    return $SectionsVMCopyWith<$Res>(_value.sections!, (value) {
+  $SectionsVMCopyWith<$Res> get sections {
+    return $SectionsVMCopyWith<$Res>(_value.sections, (value) {
       return _then(_value.copyWith(sections: value));
     });
   }
@@ -202,7 +198,7 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       List<PageData> pagesData,
       List<Problem> problems,
       ProfileData? profileData,
-      SectionsVM? sections,
+      SectionsVM sections,
       Settings settings});
 
   @override
@@ -212,7 +208,7 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
   @override
   $ProfileDataCopyWith<$Res>? get profileData;
   @override
-  $SectionsVMCopyWith<$Res>? get sections;
+  $SectionsVMCopyWith<$Res> get sections;
   @override
   $SettingsCopyWith<$Res> get settings;
 }
@@ -251,7 +247,7 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
       profileData: profileData == freezed
           ? _value.profileData
           : profileData as ProfileData?,
-      sections: sections == freezed ? _value.sections : sections as SectionsVM?,
+      sections: sections == freezed ? _value.sections : sections as SectionsVM,
       settings: settings == freezed ? _value.settings : settings as Settings,
     ));
   }
@@ -268,7 +264,7 @@ class _$_AppState implements _AppState {
       required this.pagesData,
       required this.problems,
       this.profileData,
-      this.sections,
+      required this.sections,
       required this.settings});
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
@@ -299,7 +295,7 @@ class _$_AppState implements _AppState {
   @override
 
   /// Sections
-  final SectionsVM? sections;
+  final SectionsVM sections;
   @override
 
   /// Settings
@@ -371,7 +367,7 @@ abstract class _AppState implements AppState {
       required List<PageData> pagesData,
       required List<Problem> problems,
       ProfileData? profileData,
-      SectionsVM? sections,
+      required SectionsVM sections,
       required Settings settings}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
@@ -401,7 +397,7 @@ abstract class _AppState implements AppState {
   @override
 
   /// Sections
-  SectionsVM? get sections => throw _privateConstructorUsedError;
+  SectionsVM get sections => throw _privateConstructorUsedError;
   @override
 
   /// Settings

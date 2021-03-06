@@ -31,7 +31,7 @@ class AppState with _$AppState {
     ProfileData? profileData,
 
     /// Sections
-    SectionsVM? sections,
+    required SectionsVM sections,
 
     /// Settings
     required Settings settings,

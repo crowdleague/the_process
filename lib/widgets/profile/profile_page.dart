@@ -49,19 +49,20 @@ class ProfilePage extends StatelessWidget {
                                   ProviderName.google.toString()] ??
                               AuthorizationStep.unknown),
                     if (profileData.authorizationStatus[ProviderName.asana] ==
-                        AuthorizationStep.gettingAuthorized.toString())
+                        AuthorizationStep.gettingAuthorized)
                       CircularProgressIndicator()
                     else
                       AsanaAuthorizationButton(
-                          step: profileData.authorizationStatus[
-                                  ProviderName.asana.toString()] ??
+                          step: profileData
+                                  .authorizationStatus[ProviderName.asana] ??
                               AuthorizationStep.unknown)
                   ],
                 ),
               ],
               MaterialButton(
-                  child: Text('Sign Out'),
-                  onPressed: () => context.dispatch(SignOutAction())),
+                onPressed: () => context.dispatch(SignOutAction()),
+                child: Text('Sign Out'),
+              ),
             ],
           );
         },

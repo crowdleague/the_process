@@ -5,6 +5,6 @@ import 'package:the_process/models/app_state/app_state.dart';
 class UpdateSectionsVMReducer
     extends TypedReducer<AppState, UpdateSectionsVMAction> {
   UpdateSectionsVMReducer()
-      : super((state, action) => state
-          ..sections?.copyWith(creatingNewSection: action.creatingNewSection));
+      : super((state, action) => state.copyWith
+            .sections(creatingNewSection: action.creatingNewSection));
 }

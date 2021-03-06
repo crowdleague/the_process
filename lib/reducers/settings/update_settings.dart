@@ -6,5 +6,5 @@ class UpdateSettingsReducer
     extends TypedReducer<AppState, UpdateSettingsAction> {
   UpdateSettingsReducer()
       : super((state, action) =>
-            state..settings.copyWith(platform: action.platform));
+            state.copyWith.settings(platform: action.platform));
 }

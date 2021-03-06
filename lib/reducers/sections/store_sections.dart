@@ -4,5 +4,5 @@ import 'package:the_process/models/app_state/app_state.dart';
 
 class StoreSectionsReducer extends TypedReducer<AppState, StoreSectionsAction> {
   StoreSectionsReducer()
-      : super((state, action) => state..sections?.copyWith(list: action.list));
+      : super((state, action) => state.copyWith.sections(list: action.list));
 }

@@ -5,9 +5,7 @@ import 'package:the_process/models/app_state/app_state.dart';
 class PushPageReducer extends TypedReducer<AppState, PushPageAction> {
   PushPageReducer()
       : super((state, action) {
-          // final immutableList = UnmodifiableListView(state.pagesData);
-          // immutableList.add(action.data);
           state.pagesData.add(action.data);
-          return state.copyWith(pagesData: state.pagesData);
+          return state;
         });
 }
