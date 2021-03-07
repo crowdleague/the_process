@@ -11,6 +11,27 @@ import 'package:the_process/models/team/team_member.dart';
 part 'app_state.freezed.dart';
 part 'app_state.g.dart';
 
+/// Teams
+/// [TeamMember]? teamMember,
+///
+/// Auth
+/// required [AuthStep] authStep,
+/// [AuthUserData]? authUserData,
+///
+/// Navigation
+/// required [List<PageData>] pagesData,
+///
+/// Problems
+/// required [List<Problem>] problems,
+///
+/// Profile
+/// [ProfileData]? profileData,
+///
+/// Sections
+/// required [SectionsVM] sections,
+///
+/// Settings
+/// required [Settings] settings,
 @freezed
 class AppState with _$AppState {
   factory AppState({

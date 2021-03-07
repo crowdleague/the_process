@@ -64,7 +64,7 @@ void main() {
     expect(find.byType(InitializingErrorPage), findsNothing);
     expect(find.byType(WaitingIndicator), findsOneWidget);
 
-    store.dispatch(StoreAuthStep(step: AuthStep.waitingForInput));
+    store.dispatch(StoreAuthStepAction(step: AuthStep.waitingForInput));
 
     await tester.pump();
 
