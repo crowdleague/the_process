@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:the_process/actions/sections/create_section.dart';
-import 'package:the_process/actions/sections/update_sections_v_m.dart';
+import 'package:the_process/actions/sections/create_section_action.dart';
+import 'package:the_process/actions/sections/update_sections_v_m_action.dart';
 import 'package:the_process/middleware/sections/create_section.dart';
 
 import '../../../data/models/auth_user_data_examples.dart';
@@ -21,10 +21,10 @@ void main() {
 
       // Create then invoke the middleware under test.
       final middleware = CreateSectionMiddleware(httpServiceMock);
-      await middleware(fakeStore, CreateSection(), nullDispatcher);
+      await middleware(fakeStore, CreateSectionAction(), nullDispatcher);
 
       verifyInOrder<dynamic>(<dynamic>[
-        fakeStore.dispatch(UpdateSectionsVM(creatingNewSection: true)),
+        fakeStore.dispatch(UpdateSectionsVMAction(creatingNewSection: true)),
       ]);
 
       verify(httpServiceMock.createSection(name: 'testy'));
