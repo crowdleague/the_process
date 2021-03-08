@@ -6,5 +6,6 @@ import 'package:the_process/models/app_state/app_state.dart';
 class RemoveCurrentPageReducer
     extends TypedReducer<AppState, RemoveCurrentPageAction> {
   RemoveCurrentPageReducer()
-      : super((state, action) => state..pagesData.removeLast());
+      : super((state, action) =>
+            state.copyWith(pagesData: state.pagesData.copyAndRemoveLast()));
 }

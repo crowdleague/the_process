@@ -24,8 +24,8 @@ class _$AppStateTearOff {
       {TeamMember? teamMember,
       required AuthStep authStep,
       AuthUserData? authUserData,
-      required List<PageData> pagesData,
-      required List<Problem> problems,
+      required ImmutableList<PageData> pagesData,
+      required ImmutableList<Problem> problems,
       ProfileData? profileData,
       required SectionsVM sections,
       required Settings settings}) {
@@ -59,10 +59,10 @@ mixin _$AppState {
   AuthUserData? get authUserData => throw _privateConstructorUsedError;
 
   /// Navigation
-  List<PageData> get pagesData => throw _privateConstructorUsedError;
+  ImmutableList<PageData> get pagesData => throw _privateConstructorUsedError;
 
   /// Problems
-  List<Problem> get problems => throw _privateConstructorUsedError;
+  ImmutableList<Problem> get problems => throw _privateConstructorUsedError;
 
   /// Profile
   ProfileData? get profileData => throw _privateConstructorUsedError;
@@ -87,8 +87,8 @@ abstract class $AppStateCopyWith<$Res> {
       {TeamMember? teamMember,
       AuthStep authStep,
       AuthUserData? authUserData,
-      List<PageData> pagesData,
-      List<Problem> problems,
+      ImmutableList<PageData> pagesData,
+      ImmutableList<Problem> problems,
       ProfileData? profileData,
       SectionsVM sections,
       Settings settings});
@@ -126,10 +126,12 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
       authUserData: authUserData == freezed
           ? _value.authUserData
           : authUserData as AuthUserData?,
-      pagesData:
-          pagesData == freezed ? _value.pagesData : pagesData as List<PageData>,
-      problems:
-          problems == freezed ? _value.problems : problems as List<Problem>,
+      pagesData: pagesData == freezed
+          ? _value.pagesData
+          : pagesData as ImmutableList<PageData>,
+      problems: problems == freezed
+          ? _value.problems
+          : problems as ImmutableList<Problem>,
       profileData: profileData == freezed
           ? _value.profileData
           : profileData as ProfileData?,
@@ -195,8 +197,8 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       {TeamMember? teamMember,
       AuthStep authStep,
       AuthUserData? authUserData,
-      List<PageData> pagesData,
-      List<Problem> problems,
+      ImmutableList<PageData> pagesData,
+      ImmutableList<Problem> problems,
       ProfileData? profileData,
       SectionsVM sections,
       Settings settings});
@@ -240,10 +242,12 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
       authUserData: authUserData == freezed
           ? _value.authUserData
           : authUserData as AuthUserData?,
-      pagesData:
-          pagesData == freezed ? _value.pagesData : pagesData as List<PageData>,
-      problems:
-          problems == freezed ? _value.problems : problems as List<Problem>,
+      pagesData: pagesData == freezed
+          ? _value.pagesData
+          : pagesData as ImmutableList<PageData>,
+      problems: problems == freezed
+          ? _value.problems
+          : problems as ImmutableList<Problem>,
       profileData: profileData == freezed
           ? _value.profileData
           : profileData as ProfileData?,
@@ -283,11 +287,11 @@ class _$_AppState implements _AppState {
   @override
 
   /// Navigation
-  final List<PageData> pagesData;
+  final ImmutableList<PageData> pagesData;
   @override
 
   /// Problems
-  final List<Problem> problems;
+  final ImmutableList<Problem> problems;
   @override
 
   /// Profile
@@ -364,8 +368,8 @@ abstract class _AppState implements AppState {
       {TeamMember? teamMember,
       required AuthStep authStep,
       AuthUserData? authUserData,
-      required List<PageData> pagesData,
-      required List<Problem> problems,
+      required ImmutableList<PageData> pagesData,
+      required ImmutableList<Problem> problems,
       ProfileData? profileData,
       required SectionsVM sections,
       required Settings settings}) = _$_AppState;
@@ -385,11 +389,11 @@ abstract class _AppState implements AppState {
   @override
 
   /// Navigation
-  List<PageData> get pagesData => throw _privateConstructorUsedError;
+  ImmutableList<PageData> get pagesData => throw _privateConstructorUsedError;
   @override
 
   /// Problems
-  List<Problem> get problems => throw _privateConstructorUsedError;
+  ImmutableList<Problem> get problems => throw _privateConstructorUsedError;
   @override
 
   /// Profile

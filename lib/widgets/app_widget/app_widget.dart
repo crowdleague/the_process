@@ -98,7 +98,7 @@ class _AppWidgetState extends State<AppWidget> {
             themeMode: MakeThemeMode.from(settings.brightnessMode),
             home: StoreConnector<AppState, List<PageData>>(
               distinct: true,
-              converter: (store) => store.state.pagesData,
+              converter: (store) => store.state.pagesData.copyToList(),
               builder: (context, pagesData) => Navigator(
                   pages: pagesData.toPages(),
                   onPopPage: (route, dynamic result) {

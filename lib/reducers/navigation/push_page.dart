@@ -4,8 +4,6 @@ import 'package:the_process/models/app_state/app_state.dart';
 
 class PushPageReducer extends TypedReducer<AppState, PushPageAction> {
   PushPageReducer()
-      : super((state, action) {
-          state.pagesData.add(action.data);
-          return state;
-        });
+      : super((state, action) =>
+            state.copyWith(pagesData: state.pagesData.copyAndAdd(action.data)));
 }

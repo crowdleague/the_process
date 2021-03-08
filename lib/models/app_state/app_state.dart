@@ -7,6 +7,7 @@ import 'package:the_process/models/profile/profile_data.dart';
 import 'package:the_process/models/sections/sections_v_m.dart';
 import 'package:the_process/models/settings/settings.dart';
 import 'package:the_process/models/team/team_member.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 
 part 'app_state.freezed.dart';
 part 'app_state.g.dart';
@@ -43,10 +44,10 @@ class AppState with _$AppState {
     AuthUserData? authUserData,
 
     /// Navigation
-    required List<PageData> pagesData,
+    required ImmutableList<PageData> pagesData,
 
     /// Problems
-    required List<Problem> problems,
+    required ImmutableList<Problem> problems,
 
     /// Profile
     ProfileData? profileData,
@@ -62,8 +63,8 @@ class AppState with _$AppState {
       _$AppStateFromJson(json);
 
   factory AppState.init() => AppState(
-      problems: [],
-      pagesData: <PageData>[InitialPageData()],
+      problems: ImmutableList(),
+      pagesData: ImmutableList(from: <PageData>[InitialPageData()]),
       authStep: AuthStep.checking,
       settings: Settings.init(),
       sections: SectionsVM.init());

@@ -37,7 +37,7 @@ void main() {
       final problemPageData = ProblemPageData(problem);
 
       final state = AppState.init();
-      state.copyWith(pagesData: [...state.pagesData, problemPageData]);
+      state.copyWith(pagesData: state.pagesData.copyAndAdd(problemPageData));
       final store = FakeStore(state: state);
       final appWidget = AppWidgetHarness(store: store).widget;
 
