@@ -24,6 +24,9 @@ part 'immutable_list.g.dart';
 ///   - except in the private constructor
 /// - the private constructor is only used after copying a list
 /// - we never mutate _list
+/// - functions with side effects clone the list and act on the clone
+/// - functions that return an iterable that may allow side effects first clones
+///   the list
 ///
 @JsonSerializable()
 class ImmutableList<T> implements Iterable<T> {
@@ -78,7 +81,7 @@ class ImmutableList<T> implements Iterable<T> {
 
   @override
   Iterable<E> expand<E>(Iterable<E> Function(T element) f) =>
-      _list.expand((element) => f(element));
+      [..._list].expand((element) => f(element));
 
   @override
   T firstWhere(bool Function(T element) test, {T Function()? orElse}) =>
@@ -86,7 +89,7 @@ class ImmutableList<T> implements Iterable<T> {
 
   @override
   E fold<E>(E initialValue, E Function(E previousValue, T element) combine) =>
-      _list.fold(initialValue, combine);
+      [..._list].fold(initialValue, combine);
 
   @override
   Iterable<T> followedBy(Iterable<T> other) => [..._list].followedBy(other);
