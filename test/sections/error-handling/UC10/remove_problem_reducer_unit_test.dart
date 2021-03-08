@@ -14,19 +14,19 @@ void main() {
         'removes Problem from state.problems and ProblemPageData from state.pagesData',
         () {
       final state = AppState.init();
-      state.copyWith(
+      final updatedState = state.copyWith(
           pagesData: state.pagesData.copyAndAdd(problemPageData),
           problems: state.problems.copyAndAdd(problem));
 
-      expect(state.problems.length, 1);
-      expect(state.pagesData.length, 2);
+      expect(updatedState.problems.length, 1);
+      expect(updatedState.pagesData.length, 2);
 
       // Invoke the reducer to rebuild AppState.
-      final AppState newState = RemoveProblemReducer()
-          .reducer(state, RemoveProblemAction(problem: problem));
+      final reducedState = RemoveProblemReducer()
+          .reducer(updatedState, RemoveProblemAction(problem: problem));
 
-      expect(newState.problems.length, 0);
-      expect(newState.pagesData.length, 1);
+      expect(reducedState.problems.length, 0);
+      expect(reducedState.pagesData.length, 1);
     });
   });
 }

@@ -85,7 +85,7 @@ void main() {
 
     expect(find.byType(WaitingIndicator), findsNothing);
 
-    final submitButton = find.byType(MaterialButton);
+    final submitButton = find.byType(FloatingActionButton);
     expect(submitButton, findsOneWidget);
     await tester.tap(submitButton);
 
@@ -93,7 +93,7 @@ void main() {
 
     expect(find.byType(WaitingIndicator), findsOneWidget);
     expect(find.byType(TextFormField), findsNothing);
-    expect(find.byType(MaterialButton), findsNothing);
+    expect(find.byType(FloatingActionButton), findsNothing);
 
     fakeDatabase.emitSectionsSnapshot();
 
@@ -101,6 +101,6 @@ void main() {
 
     expect(find.byType(WaitingIndicator), findsNothing);
     expect(find.byType(TextFormField), findsOneWidget);
-    expect(find.byType(MaterialButton), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 }

@@ -17,7 +17,7 @@ void main() {
     await tester.pumpWidget(harness.widget);
 
     final textField = find.byType(TextField);
-    final button = find.byType(MaterialButton);
+    final button = find.byType(FloatingActionButton);
 
     expect(textField, findsOneWidget);
     expect(button, findsOneWidget);
@@ -32,13 +32,13 @@ void main() {
       (WidgetTester tester) async {
     // setup the harness and check it is in the initial state
     final harness = WidgetTestHarness(widgetUnderTest: NewSectionItem());
-    expect(harness.state.sections.newSection.name, 'testy');
+    expect(harness.state.sections.newSection.name, '');
 
     // Build the widget tree.
     await tester.pumpWidget(harness.widget);
 
     final textField = find.byType(TextField);
-    final button = find.byType(MaterialButton);
+    final button = find.byType(FloatingActionButton);
 
     expect(textField, findsOneWidget);
     expect(button, findsOneWidget);

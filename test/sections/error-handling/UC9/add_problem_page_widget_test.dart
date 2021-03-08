@@ -37,8 +37,9 @@ void main() {
       final problemPageData = ProblemPageData(problem);
 
       final state = AppState.init();
-      state.copyWith(pagesData: state.pagesData.copyAndAdd(problemPageData));
-      final store = FakeStore(state: state);
+      final updatedState = state.copyWith(
+          pagesData: state.pagesData.copyAndAdd(problemPageData));
+      final store = FakeStore(state: updatedState);
       final appWidget = AppWidgetHarness(store: store).widget;
 
       await tester.pumpWidget(appWidget);

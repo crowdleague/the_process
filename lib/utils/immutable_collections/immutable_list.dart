@@ -4,6 +4,11 @@ import 'hash_utils.dart';
 
 part 'immutable_list.g.dart';
 
+/// At the time of writing (8 Mar 2021) this class was built quickly as a
+/// solution to freezed lacking a good solution for immutable collections.
+/// It has not been tested (tasks have been created) and should be treated
+/// with suspicion.
+///
 /// Performs a shallow copy of [from] so if T is immutable then
 /// ImmutableList<T> is immutable but if T is mutable then
 /// ImmutableList<T> is technically mutable (as the caller can potentially

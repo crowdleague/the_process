@@ -21,10 +21,10 @@ void main() {
       /// Build a test harness that updates the app state so the [InitialPage]
       /// builds the [HomePage].
       final state = AppState.init();
-      state.copyWith(
+      final updatedState = state.copyWith(
           authUserData: AuthUserDataExamples.minimal,
           authStep: AuthStep.waitingForInput);
-      final fakeAuthenticatedStore = FakeStore(state: state);
+      final fakeAuthenticatedStore = FakeStore(state: updatedState);
       final harness = AppWidgetHarness(store: fakeAuthenticatedStore);
 
       // Build the widget tree.
