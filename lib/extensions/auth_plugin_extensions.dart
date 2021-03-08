@@ -10,6 +10,7 @@ import 'package:the_process/models/auth/apple_id_credential.dart';
 import 'package:the_process/models/auth/auth_provider_data.dart';
 import 'package:the_process/models/auth/auth_user_data.dart';
 import 'package:the_process/models/auth/google_sign_in_credential.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 
 extension GoogleSignInAuthenticationExt on GoogleSignInAuthentication {
   GoogleSignInCredential toModel() => GoogleSignInCredential(
@@ -49,19 +50,17 @@ extension ConnectAndConvert on FirebaseAuth {
 
 extension FirebaseUserExt on User {
   AuthUserData toModel() => AuthUserData(
-        uid: uid,
-        displayName: displayName,
-        photoURL: photoURL,
-        email: email,
-        phoneNumber: phoneNumber,
-        createdOn: metadata.creationTime?.toUtc(),
-        lastSignedInOn: metadata.lastSignInTime?.toUtc(),
-        isAnonymous: isAnonymous,
-        emailVerified: emailVerified,
-        providers: providerData
-            .map<AuthProviderData>((userInfo) => userInfo.toModel())
-            .toList(),
-      );
+      uid: uid,
+      displayName: displayName,
+      photoURL: photoURL,
+      email: email,
+      phoneNumber: phoneNumber,
+      createdOn: metadata.creationTime?.toUtc(),
+      lastSignedInOn: metadata.lastSignInTime?.toUtc(),
+      isAnonymous: isAnonymous,
+      emailVerified: emailVerified,
+      providers: ImmutableList.fromIterable(providerData
+          .map<AuthProviderData>((userInfo) => userInfo.toModel())));
 }
 
 extension UserInfoExt on UserInfo {

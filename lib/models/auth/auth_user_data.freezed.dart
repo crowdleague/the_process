@@ -30,7 +30,7 @@ class _$AuthUserDataTearOff {
       DateTime? lastSignedInOn,
       required bool isAnonymous,
       required bool emailVerified,
-      required List<AuthProviderData> providers}) {
+      required ImmutableList<AuthProviderData> providers}) {
     return _AuthUserData(
       uid: uid,
       displayName: displayName,
@@ -64,7 +64,8 @@ mixin _$AuthUserData {
   DateTime? get lastSignedInOn => throw _privateConstructorUsedError;
   bool get isAnonymous => throw _privateConstructorUsedError;
   bool get emailVerified => throw _privateConstructorUsedError;
-  List<AuthProviderData> get providers => throw _privateConstructorUsedError;
+  ImmutableList<AuthProviderData> get providers =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -87,7 +88,7 @@ abstract class $AuthUserDataCopyWith<$Res> {
       DateTime? lastSignedInOn,
       bool isAnonymous,
       bool emailVerified,
-      List<AuthProviderData> providers});
+      ImmutableList<AuthProviderData> providers});
 }
 
 /// @nodoc
@@ -131,7 +132,7 @@ class _$AuthUserDataCopyWithImpl<$Res> implements $AuthUserDataCopyWith<$Res> {
           : emailVerified as bool,
       providers: providers == freezed
           ? _value.providers
-          : providers as List<AuthProviderData>,
+          : providers as ImmutableList<AuthProviderData>,
     ));
   }
 }
@@ -153,7 +154,7 @@ abstract class _$AuthUserDataCopyWith<$Res>
       DateTime? lastSignedInOn,
       bool isAnonymous,
       bool emailVerified,
-      List<AuthProviderData> providers});
+      ImmutableList<AuthProviderData> providers});
 }
 
 /// @nodoc
@@ -199,7 +200,7 @@ class __$AuthUserDataCopyWithImpl<$Res> extends _$AuthUserDataCopyWithImpl<$Res>
           : emailVerified as bool,
       providers: providers == freezed
           ? _value.providers
-          : providers as List<AuthProviderData>,
+          : providers as ImmutableList<AuthProviderData>,
     ));
   }
 }
@@ -242,7 +243,7 @@ class _$_AuthUserData implements _AuthUserData {
   @override
   final bool emailVerified;
   @override
-  final List<AuthProviderData> providers;
+  final ImmutableList<AuthProviderData> providers;
 
   @override
   String toString() {
@@ -319,7 +320,7 @@ abstract class _AuthUserData implements AuthUserData {
       DateTime? lastSignedInOn,
       required bool isAnonymous,
       required bool emailVerified,
-      required List<AuthProviderData> providers}) = _$_AuthUserData;
+      required ImmutableList<AuthProviderData> providers}) = _$_AuthUserData;
 
   factory _AuthUserData.fromJson(Map<String, dynamic> json) =
       _$_AuthUserData.fromJson;
@@ -343,7 +344,8 @@ abstract class _AuthUserData implements AuthUserData {
   @override
   bool get emailVerified => throw _privateConstructorUsedError;
   @override
-  List<AuthProviderData> get providers => throw _privateConstructorUsedError;
+  ImmutableList<AuthProviderData> get providers =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AuthUserDataCopyWith<_AuthUserData> get copyWith =>

@@ -20,7 +20,7 @@ StoreSectionsAction _$StoreSectionsActionFromJson(Map<String, dynamic> json) {
 class _$StoreSectionsActionTearOff {
   const _$StoreSectionsActionTearOff();
 
-  _StoreSectionsAction call({required List<Section> list}) {
+  _StoreSectionsAction call({required ImmutableList<Section> list}) {
     return _StoreSectionsAction(
       list: list,
     );
@@ -36,7 +36,7 @@ const $StoreSectionsAction = _$StoreSectionsActionTearOff();
 
 /// @nodoc
 mixin _$StoreSectionsAction {
-  List<Section> get list => throw _privateConstructorUsedError;
+  ImmutableList<Section> get list => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +49,7 @@ abstract class $StoreSectionsActionCopyWith<$Res> {
   factory $StoreSectionsActionCopyWith(
           StoreSectionsAction value, $Res Function(StoreSectionsAction) then) =
       _$StoreSectionsActionCopyWithImpl<$Res>;
-  $Res call({List<Section> list});
+  $Res call({ImmutableList<Section> list});
 }
 
 /// @nodoc
@@ -66,7 +66,7 @@ class _$StoreSectionsActionCopyWithImpl<$Res>
     Object? list = freezed,
   }) {
     return _then(_value.copyWith(
-      list: list == freezed ? _value.list : list as List<Section>,
+      list: list == freezed ? _value.list : list as ImmutableList<Section>,
     ));
   }
 }
@@ -78,7 +78,7 @@ abstract class _$StoreSectionsActionCopyWith<$Res>
           $Res Function(_StoreSectionsAction) then) =
       __$StoreSectionsActionCopyWithImpl<$Res>;
   @override
-  $Res call({List<Section> list});
+  $Res call({ImmutableList<Section> list});
 }
 
 /// @nodoc
@@ -97,7 +97,7 @@ class __$StoreSectionsActionCopyWithImpl<$Res>
     Object? list = freezed,
   }) {
     return _then(_StoreSectionsAction(
-      list: list == freezed ? _value.list : list as List<Section>,
+      list: list == freezed ? _value.list : list as ImmutableList<Section>,
     ));
   }
 }
@@ -112,7 +112,7 @@ class _$_StoreSectionsAction implements _StoreSectionsAction {
       _$_$_StoreSectionsActionFromJson(json);
 
   @override
-  final List<Section> list;
+  final ImmutableList<Section> list;
 
   @override
   String toString() {
@@ -144,14 +144,14 @@ class _$_StoreSectionsAction implements _StoreSectionsAction {
 }
 
 abstract class _StoreSectionsAction implements StoreSectionsAction {
-  factory _StoreSectionsAction({required List<Section> list}) =
+  factory _StoreSectionsAction({required ImmutableList<Section> list}) =
       _$_StoreSectionsAction;
 
   factory _StoreSectionsAction.fromJson(Map<String, dynamic> json) =
       _$_StoreSectionsAction.fromJson;
 
   @override
-  List<Section> get list => throw _privateConstructorUsedError;
+  ImmutableList<Section> get list => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$StoreSectionsActionCopyWith<_StoreSectionsAction> get copyWith =>

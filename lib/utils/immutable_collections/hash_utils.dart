@@ -1,3 +1,4 @@
+// from https://github.com/flutter/engine/blob/master/lib/ui/hash_codes.dart
 class _Jenkins {
   static int combine(int hash, Object? o) {
     assert(o is! Iterable);

@@ -22,7 +22,7 @@ class _$SectionsVMTearOff {
 
   _SectionsVM call(
       {required NewSectionVM newSection,
-      required List<Section> list,
+      required ImmutableList<Section> list,
       required bool creatingNewSection}) {
     return _SectionsVM(
       newSection: newSection,
@@ -42,7 +42,7 @@ const $SectionsVM = _$SectionsVMTearOff();
 /// @nodoc
 mixin _$SectionsVM {
   NewSectionVM get newSection => throw _privateConstructorUsedError;
-  List<Section> get list => throw _privateConstructorUsedError;
+  ImmutableList<Section> get list => throw _privateConstructorUsedError;
   bool get creatingNewSection => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,7 +57,9 @@ abstract class $SectionsVMCopyWith<$Res> {
           SectionsVM value, $Res Function(SectionsVM) then) =
       _$SectionsVMCopyWithImpl<$Res>;
   $Res call(
-      {NewSectionVM newSection, List<Section> list, bool creatingNewSection});
+      {NewSectionVM newSection,
+      ImmutableList<Section> list,
+      bool creatingNewSection});
 
   $NewSectionVMCopyWith<$Res> get newSection;
 }
@@ -80,7 +82,7 @@ class _$SectionsVMCopyWithImpl<$Res> implements $SectionsVMCopyWith<$Res> {
       newSection: newSection == freezed
           ? _value.newSection
           : newSection as NewSectionVM,
-      list: list == freezed ? _value.list : list as List<Section>,
+      list: list == freezed ? _value.list : list as ImmutableList<Section>,
       creatingNewSection: creatingNewSection == freezed
           ? _value.creatingNewSection
           : creatingNewSection as bool,
@@ -102,7 +104,9 @@ abstract class _$SectionsVMCopyWith<$Res> implements $SectionsVMCopyWith<$Res> {
       __$SectionsVMCopyWithImpl<$Res>;
   @override
   $Res call(
-      {NewSectionVM newSection, List<Section> list, bool creatingNewSection});
+      {NewSectionVM newSection,
+      ImmutableList<Section> list,
+      bool creatingNewSection});
 
   @override
   $NewSectionVMCopyWith<$Res> get newSection;
@@ -128,7 +132,7 @@ class __$SectionsVMCopyWithImpl<$Res> extends _$SectionsVMCopyWithImpl<$Res>
       newSection: newSection == freezed
           ? _value.newSection
           : newSection as NewSectionVM,
-      list: list == freezed ? _value.list : list as List<Section>,
+      list: list == freezed ? _value.list : list as ImmutableList<Section>,
       creatingNewSection: creatingNewSection == freezed
           ? _value.creatingNewSection
           : creatingNewSection as bool,
@@ -151,7 +155,7 @@ class _$_SectionsVM implements _SectionsVM {
   @override
   final NewSectionVM newSection;
   @override
-  final List<Section> list;
+  final ImmutableList<Section> list;
   @override
   final bool creatingNewSection;
 
@@ -195,7 +199,7 @@ class _$_SectionsVM implements _SectionsVM {
 abstract class _SectionsVM implements SectionsVM {
   factory _SectionsVM(
       {required NewSectionVM newSection,
-      required List<Section> list,
+      required ImmutableList<Section> list,
       required bool creatingNewSection}) = _$_SectionsVM;
 
   factory _SectionsVM.fromJson(Map<String, dynamic> json) =
@@ -204,7 +208,7 @@ abstract class _SectionsVM implements SectionsVM {
   @override
   NewSectionVM get newSection => throw _privateConstructorUsedError;
   @override
-  List<Section> get list => throw _privateConstructorUsedError;
+  ImmutableList<Section> get list => throw _privateConstructorUsedError;
   @override
   bool get creatingNewSection => throw _privateConstructorUsedError;
   @override

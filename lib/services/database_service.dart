@@ -11,6 +11,7 @@ import 'package:the_process/enums/database/database_section.dart';
 import 'package:the_process/extensions/firestore_extensions.dart';
 import 'package:the_process/extensions/stream_extensions.dart';
 import 'package:the_process/models/sections/section.dart';
+import 'package:the_process/extensions/list_extensions.dart';
 
 class DatabaseService {
   /// The [FirebaseFirestore] instance
@@ -122,7 +123,8 @@ class DatabaseService {
           }
           _eventsController
               .add(UpdateSectionsVMAction(creatingNewSection: false));
-          _eventsController.add(StoreSectionsAction(list: list));
+          _eventsController
+              .add(StoreSectionsAction(list: list.toImmutableList()));
         } catch (error, trace) {
           _eventsController.addProblem(error, trace);
         }

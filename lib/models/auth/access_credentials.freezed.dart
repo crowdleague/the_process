@@ -24,7 +24,7 @@ class _$AccessCredentialsTearOff {
       {required String accessToken,
       required String refreshToken,
       required String idToken,
-      required List<String> scopes}) {
+      required ImmutableList<String> scopes}) {
     return _AccessCredentials(
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -55,7 +55,7 @@ mixin _$AccessCredentials {
   String get idToken => throw _privateConstructorUsedError;
 
   /// Scopes these credentials are valid for.
-  List<String> get scopes => throw _privateConstructorUsedError;
+  ImmutableList<String> get scopes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -72,7 +72,7 @@ abstract class $AccessCredentialsCopyWith<$Res> {
       {String accessToken,
       String refreshToken,
       String idToken,
-      List<String> scopes});
+      ImmutableList<String> scopes});
 }
 
 /// @nodoc
@@ -98,7 +98,8 @@ class _$AccessCredentialsCopyWithImpl<$Res>
           ? _value.refreshToken
           : refreshToken as String,
       idToken: idToken == freezed ? _value.idToken : idToken as String,
-      scopes: scopes == freezed ? _value.scopes : scopes as List<String>,
+      scopes:
+          scopes == freezed ? _value.scopes : scopes as ImmutableList<String>,
     ));
   }
 }
@@ -114,7 +115,7 @@ abstract class _$AccessCredentialsCopyWith<$Res>
       {String accessToken,
       String refreshToken,
       String idToken,
-      List<String> scopes});
+      ImmutableList<String> scopes});
 }
 
 /// @nodoc
@@ -142,7 +143,8 @@ class __$AccessCredentialsCopyWithImpl<$Res>
           ? _value.refreshToken
           : refreshToken as String,
       idToken: idToken == freezed ? _value.idToken : idToken as String,
-      scopes: scopes == freezed ? _value.scopes : scopes as List<String>,
+      scopes:
+          scopes == freezed ? _value.scopes : scopes as ImmutableList<String>,
     ));
   }
 }
@@ -177,7 +179,7 @@ class _$_AccessCredentials implements _AccessCredentials {
   @override
 
   /// Scopes these credentials are valid for.
-  final List<String> scopes;
+  final ImmutableList<String> scopes;
 
   @override
   String toString() {
@@ -225,7 +227,7 @@ abstract class _AccessCredentials implements AccessCredentials {
       {required String accessToken,
       required String refreshToken,
       required String idToken,
-      required List<String> scopes}) = _$_AccessCredentials;
+      required ImmutableList<String> scopes}) = _$_AccessCredentials;
 
   factory _AccessCredentials.fromJson(Map<String, dynamic> json) =
       _$_AccessCredentials.fromJson;
@@ -247,7 +249,7 @@ abstract class _AccessCredentials implements AccessCredentials {
   @override
 
   /// Scopes these credentials are valid for.
-  List<String> get scopes => throw _privateConstructorUsedError;
+  ImmutableList<String> get scopes => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$AccessCredentialsCopyWith<_AccessCredentials> get copyWith =>

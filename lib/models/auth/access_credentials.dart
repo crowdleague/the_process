@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 
 part 'access_credentials.freezed.dart';
 part 'access_credentials.g.dart';
@@ -18,7 +19,7 @@ class AccessCredentials with _$AccessCredentials {
     required String idToken,
 
     /// Scopes these credentials are valid for.
-    required List<String> scopes,
+    required ImmutableList<String> scopes,
   }) = _AccessCredentials;
 
   factory AccessCredentials.fromJson(Map<String, dynamic> json) =>

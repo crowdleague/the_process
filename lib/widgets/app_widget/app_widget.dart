@@ -10,6 +10,7 @@ import 'package:the_process/extensions/settings_extensions.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/navigation/page_data/page_data.dart';
 import 'package:the_process/models/settings/settings.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 import 'package:the_process/utils/wrappers/firebase_wrapper.dart';
 import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
@@ -96,9 +97,9 @@ class _AppWidgetState extends State<AppWidget> {
             theme: MakeThemeData.from(settings.lightTheme),
             darkTheme: MakeThemeData.from(settings.darkTheme),
             themeMode: MakeThemeMode.from(settings.brightnessMode),
-            home: StoreConnector<AppState, List<PageData>>(
+            home: StoreConnector<AppState, ImmutableList<PageData>>(
               distinct: true,
-              converter: (store) => store.state.pagesData.copyToList(),
+              converter: (store) => store.state.pagesData,
               builder: (context, pagesData) => Navigator(
                   pages: pagesData.toPages(),
                   onPopPage: (route, dynamic result) {

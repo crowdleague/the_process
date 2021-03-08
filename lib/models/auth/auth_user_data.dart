@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:the_process/models/auth/auth_provider_data.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 
 part 'auth_user_data.freezed.dart';
 part 'auth_user_data.g.dart';
@@ -16,7 +17,7 @@ class AuthUserData with _$AuthUserData {
     DateTime? lastSignedInOn,
     required bool isAnonymous,
     required bool emailVerified,
-    required List<AuthProviderData> providers,
+    required ImmutableList<AuthProviderData> providers,
   }) = _AuthUserData;
 
   factory AuthUserData.fromJson(Map<String, dynamic> json) =>

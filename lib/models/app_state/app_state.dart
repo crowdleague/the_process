@@ -8,6 +8,7 @@ import 'package:the_process/models/sections/sections_v_m.dart';
 import 'package:the_process/models/settings/settings.dart';
 import 'package:the_process/models/team/team_member.dart';
 import 'package:the_process/utils/immutable_collections/immutable_list.dart';
+import 'package:the_process/extensions/list_extensions.dart';
 
 part 'app_state.freezed.dart';
 part 'app_state.g.dart';
@@ -64,7 +65,7 @@ class AppState with _$AppState {
 
   factory AppState.init() => AppState(
       problems: ImmutableList(),
-      pagesData: ImmutableList(from: <PageData>[InitialPageData()]),
+      pagesData: <PageData>[InitialPageData()].toImmutableList(),
       authStep: AuthStep.checking,
       settings: Settings.init(),
       sections: SectionsVM.init());

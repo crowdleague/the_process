@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:the_process/models/sections/new_section_v_m.dart';
 import 'package:the_process/models/sections/section.dart';
+import 'package:the_process/utils/immutable_collections/immutable_list.dart';
 
 part 'sections_v_m.freezed.dart';
 part 'sections_v_m.g.dart';
@@ -9,7 +10,7 @@ part 'sections_v_m.g.dart';
 class SectionsVM with _$SectionsVM {
   factory SectionsVM({
     required NewSectionVM newSection,
-    required List<Section> list,
+    required ImmutableList<Section> list,
     required bool creatingNewSection,
   }) = _SectionsVM;
 
@@ -17,5 +18,7 @@ class SectionsVM with _$SectionsVM {
       _$SectionsVMFromJson(json);
 
   factory SectionsVM.init() => SectionsVM(
-      list: [], newSection: NewSectionVM(name: ''), creatingNewSection: false);
+      list: ImmutableList(),
+      newSection: NewSectionVM(name: ''),
+      creatingNewSection: false);
 }
