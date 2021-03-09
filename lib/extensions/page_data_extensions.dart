@@ -13,25 +13,6 @@ extension NavigatorEntriesExt on ImmutableList<PageData> {
   List<MaterialPage> toPages() {
     final materialPages = <MaterialPage>[];
 
-    // for (var i = 0; i < length; i++) {
-    //   if (this[i] is InitialPageData) {
-    //     materialPages.add(MaterialPage<InitialPage>(
-    //       key: ValueKey(InitialPage),
-    //       child: InitialPage(),
-    //     ));
-    //   } else if (this[i] is ProfilePageData) {
-    //     materialPages.add(MaterialPage<ProfilePage>(
-    //       key: ValueKey(ProfilePage),
-    //       child: ProfilePage(),
-    //     ));
-    //   } else if (this[i] is ProblemPageData) {
-    //     materialPages.add(MaterialPage<ProblemPage>(
-    //       key: ValueKey(ProblemPage),
-    //       child: ProblemPage(this[i].problem),
-    //     ));
-    //   }
-    // }
-
     for (final pageData in this) {
       if (pageData is InitialPageData) {
         materialPages.add(MaterialPage<InitialPage>(
