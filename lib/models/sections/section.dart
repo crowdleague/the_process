@@ -4,7 +4,6 @@ part 'section.freezed.dart';
 part 'section.g.dart';
 
 @freezed
-@JsonSerializable(explicitToJson: true)
 class Section with _$Section {
   factory Section({
     required String name,
