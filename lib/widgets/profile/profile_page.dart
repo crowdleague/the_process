@@ -45,8 +45,8 @@ class ProfilePage extends StatelessWidget {
                       CircularProgressIndicator()
                     else
                       GoogleAuthorizationButton(
-                          step: profileData.authorizationStatus[
-                                  ProviderName.google.toString()] ??
+                          step: profileData
+                                  .authorizationStatus[ProviderName.google] ??
                               AuthorizationStep.unknown),
                     if (profileData.authorizationStatus[ProviderName.asana] ==
                         AuthorizationStep.gettingAuthorized)
