@@ -12,7 +12,7 @@ class UseCaseDocumentButton extends StatelessWidget {
     final documentURL = 'https://docs.google.com/document/d/$documentId/edit';
     return IconButton(
       icon: Icon(Icons.text_snippet),
-      onPressed: () => context.dispatch(LaunchUrlAction(url: documentURL)),
+      onPressed: () => context.dispatch(LaunchURLAction(url: documentURL)),
     );
   }
 }

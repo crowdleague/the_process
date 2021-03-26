@@ -4,7 +4,7 @@ import 'package:the_process/models/app_state/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/services/platform_service.dart';
 
-class LaunchURLMiddleware extends TypedMiddleware<AppState, LaunchUrlAction> {
+class LaunchURLMiddleware extends TypedMiddleware<AppState, LaunchURLAction> {
   LaunchURLMiddleware(PlatformService platformService)
       : super((store, action, next) async {
           next(action);
