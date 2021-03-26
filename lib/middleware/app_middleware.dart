@@ -41,7 +41,7 @@ List<Middleware<AppState>> createAppMiddleware({
     SignOutMiddleware(authService),
     // Platform
     DetectPlatformMiddleware(platformService),
-    LaunchURLMiddleware(platformService),
+    LaunchUrlMiddleware(platformService),
     // Profile
     DisregardProfileDataMiddleware(databaseService),
     GetAuthorizedMiddleware(databaseService, platformService),
