@@ -11,6 +11,7 @@ import 'package:the_process/actions/platform/launch_url_action.dart';
 import 'package:the_process/actions/problems/add_problem_action.dart';
 import 'package:the_process/actions/profile/disregard_profile_data_action.dart';
 import 'package:the_process/actions/profile/observe_profile_data_action.dart';
+import 'package:the_process/actions/sections/create_section_action.dart';
 import 'package:the_process/actions/shared/connect_database_action.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/auth/provider_name.dart';
@@ -25,15 +26,17 @@ import 'package:the_process/middleware/platform/launch_url.dart';
 import 'package:the_process/middleware/profile/disregard_profile_data.dart';
 import 'package:the_process/middleware/profile/get_authorized.dart';
 import 'package:the_process/middleware/profile/observe_profile_data.dart';
+import 'package:the_process/middleware/sections/create_section.dart';
 import 'package:the_process/middleware/shared/connect_database.dart';
 
 import '../mocks/redux/fake_store.dart';
 import '../mocks/services/auth_service_mock.dart';
 import '../mocks/services/database_service_mock.dart';
+import '../mocks/services/http_service_mock.dart';
 import '../mocks/services/platform_service_mock.dart';
 
 void main() {
-  group('Middleware', () {
+  group('Middleware ', () {
     test('PlumStreams catches error', () {
       // Create the middleware and mocks.
       final authServiceMock = AuthServiceMock();
@@ -245,25 +248,25 @@ void main() {
       expect(fakeStore.dispatchedActions.last is AddProblemAction, true);
     });
 
-    // test('CreateSection catches error', () {
-    //   // Setup the middleware and mocks.
-    //   final httpServiceMock = HttpServiceMock();
-    //   final middleware = CreateSectionMiddleware(httpServiceMock);
+    test('CreateSection catches error', () {
+      // Setup the middleware and mocks.
+      final httpServiceMock = HttpServiceMock();
+      final middleware = CreateSectionMiddleware(httpServiceMock);
 
-    //   // Create the middleware dependencies.
-    //   final fakeStore = FakeStore();
-    //   final action = CreateSectionAction();
-    //   final nullDispatcher = (dynamic _) => null;
+      // Create the middleware dependencies.
+      final fakeStore = FakeStore();
+      final action = CreateSectionAction();
+      final nullDispatcher = (dynamic _) => null;
 
-    //   // Create the error to catch.
-    //   when(httpServiceMock.createSection(name: 'section')).thenThrow('error');
+      // Create the error to catch.
+      when(httpServiceMock.createSection(name: 'section')).thenThrow('error');
 
-    //   // Call the middleware.
-    //   middleware.call(fakeStore, action, nullDispatcher);
+      // Call the middleware.
+      middleware.call(fakeStore, action, nullDispatcher);
 
-    //   // Error should be caught and AddProblemAction dispatched.
-    //   expect(fakeStore.dispatchedActions.last is AddProblemAction, true);
-    // });
+      // Error should be caught and AddProblemAction dispatched.
+      expect(fakeStore.dispatchedActions.last is AddProblemAction, true);
+    }, skip: true);
 
     test('ConnectDatabase catches error', () {
       // Setup the middleware and mocks.
