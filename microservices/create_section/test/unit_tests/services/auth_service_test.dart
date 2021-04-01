@@ -166,7 +166,7 @@ void main() {
       expect(
           authService.getUserClient(
               'testUserId', fakeFirestoreService, mockSecretmanagerApi),
-          throwsA(const TypeMatcher<NoSuchMethodError>()));
+          throwsA(TypeMatcher<TypeError>()));
     });
   });
 }
