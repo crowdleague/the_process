@@ -4,14 +4,14 @@ import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/widgets/sections/sections_page.dart';
 import 'package:the_process/widgets/shared/profile_avatar.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+class ProjectSelectionPage extends StatefulWidget {
+  ProjectSelectionPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProjectSelectionPageState createState() => _ProjectSelectionPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProjectSelectionPageState extends State<ProjectSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

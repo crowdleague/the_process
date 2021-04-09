@@ -4,7 +4,7 @@ import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/auth/auth_user_data.dart';
 import 'package:the_process/widgets/auth/auth_page.dart';
-import 'package:the_process/widgets/home/home_page.dart';
+import 'package:the_process/widgets/project-selection/project_selection_page.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 class InitialPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class InitialPage extends StatelessWidget {
                   distinct: true,
                   converter: (store) => store.state.authUserData,
                   builder: (context, userData) =>
-                      (userData == null) ? AuthPage() : HomePage());
+                      (userData == null) ? AuthPage() : ProjectSelectionPage());
             default:
               return Container();
           }
