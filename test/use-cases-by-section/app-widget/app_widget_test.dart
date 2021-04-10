@@ -20,11 +20,10 @@ void main() {
         (WidgetTester tester) async {
       /// Build a test harness that updates the app state so the [InitialPage]
       /// builds the [HomePage].
-      final state = AppState.init();
-      final updatedState = state.copyWith(
-          authUserData: AuthUserDataExamples.minimal,
-          authStep: AuthStep.waitingForInput);
-      final fakeAuthenticatedStore = FakeStore(state: updatedState);
+      final fakeAuthenticatedStore = FakeStore(
+          state: AppState.init().copyWith(
+              authUserData: AuthUserDataExamples.minimal,
+              authStep: AuthStep.waitingForInput));
       final harness = AppWidgetHarness(store: fakeAuthenticatedStore);
 
       // Build the widget tree.
