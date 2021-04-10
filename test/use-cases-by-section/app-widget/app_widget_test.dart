@@ -6,7 +6,7 @@ import 'package:the_process/enums/auth/auth_step.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
-import 'package:the_process/widgets/sections/new_section_item.dart';
+import 'package:the_process/widgets/home/project-selection/sections/new_section_item.dart';
 
 import '../../test-data/models/auth_user_data_examples.dart';
 import '../../test-doubles/redux/fake_store.dart';
