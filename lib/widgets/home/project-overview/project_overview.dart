@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:the_process/models/app_state/app_state.dart';
-import 'package:the_process/widgets/home/project-selection/sections/sections_page.dart';
+import 'package:the_process/widgets/home/project-overview/sections/sections_page.dart';
 import 'package:the_process/widgets/shared/profile_avatar.dart';
 
-class ProjectSelectionPage extends StatefulWidget {
-  ProjectSelectionPage({Key? key}) : super(key: key);
+class ProjectOverview extends StatefulWidget {
+  ProjectOverview({Key? key}) : super(key: key);
 
   @override
-  _ProjectSelectionPageState createState() => _ProjectSelectionPageState();
+  _ProjectOverviewState createState() => _ProjectOverviewState();
 }
 
-class _ProjectSelectionPageState extends State<ProjectSelectionPage> {
+class _ProjectOverviewState extends State<ProjectOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

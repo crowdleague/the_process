@@ -6,7 +6,7 @@ import 'package:the_process/actions/platform/detect_platform_action.dart';
 import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
 import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
 import 'package:the_process/widgets/home/home_page.dart';
-import 'package:the_process/widgets/home/project-selection/project_selection_page.dart';
+import 'package:the_process/widgets/home/project-overview/project_overview.dart';
 import 'package:the_process/widgets/home/section-detail/section_detail_page.dart';
 
 import '../../test-doubles/redux/fake_store.dart';
@@ -55,11 +55,11 @@ void main() {
       expect(find.byType(InitializingIndicator), findsNothing);
       expect(find.byType(InitializingErrorPage), findsNothing);
 
-      expect(find.byType(ProjectSelectionPage), findsOneWidget);
+      expect(find.byType(ProjectOverview), findsOneWidget);
       expect(find.byType(SectionDetailPage), findsOneWidget);
     });
 
-    testWidgets('shows ProjectSelectionPage only on small screens',
+    testWidgets('shows ProjectOverview only on small screens',
         (WidgetTester tester) async {
       /// Build a test harness that updates the app state so the [InitialPage]
       /// builds the [HomePage].
@@ -79,7 +79,7 @@ void main() {
       expect(find.byType(InitializingIndicator), findsNothing);
       expect(find.byType(InitializingErrorPage), findsNothing);
 
-      expect(find.byType(ProjectSelectionPage), findsOneWidget);
+      expect(find.byType(ProjectOverview), findsOneWidget);
       expect(find.byType(SectionDetailPage), findsOneWidget);
     });
 
