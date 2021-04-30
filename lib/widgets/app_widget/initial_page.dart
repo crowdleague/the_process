@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:the_process/enums/auth/auth_step.dart';
+import 'package:the_process/enums/auth/auth_step_enum.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/auth/auth_user_data.dart';
 import 'package:the_process/widgets/auth/auth_page.dart';
@@ -10,20 +10,20 @@ import 'package:the_process/widgets/shared/waiting_indicator.dart';
 class InitialPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, AuthStep>(
+    return StoreConnector<AppState, AuthStepEnum>(
         distinct: true,
         converter: (store) => store.state.authStep,
         builder: (context, authStep) {
           switch (authStep) {
-            case AuthStep.checking:
+            case AuthStepEnum.checking:
               return WaitingIndicator('Checking where we\'re at...');
-            case AuthStep.contactingApple:
+            case AuthStepEnum.contactingApple:
               return WaitingIndicator('Contacting Apple...');
-            case AuthStep.contactingGoogle:
+            case AuthStepEnum.contactingGoogle:
               return WaitingIndicator('Contacting Google...');
-            case AuthStep.signingInWithFirebase:
+            case AuthStepEnum.signingInWithFirebase:
               return WaitingIndicator('Preparing your Adventure...');
-            case AuthStep.waitingForInput:
+            case AuthStepEnum.waitingForInput:
               return StoreConnector<AppState, AuthUserData?>(
                   distinct: true,
                   converter: (store) => store.state.authUserData,

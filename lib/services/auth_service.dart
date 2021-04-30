@@ -41,10 +41,10 @@ class AuthService {
     }
   }
 
-  Future<String?> getCurrentUserId() async {
-    final user = _firebaseAuth.currentUser;
-    return user?.uid;
-  }
+  String? getCurrentUserId() => _firebaseAuth.currentUser?.uid;
+
+  Future<String>? getCurrentUserIdToken() =>
+      _firebaseAuth.currentUser?.getIdToken();
 
   void disconnectAuthState() {
     _firebaseAuthStateSubscription?.cancel();

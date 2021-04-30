@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/redux_action.dart';
-import 'package:the_process/enums/auth/auth_step.dart';
+import 'package:the_process/enums/auth/auth_step_enum.dart';
 import 'package:the_process/models/app_state/app_state.dart';
 
 import '../../test-data/models/auth_user_data_examples.dart';
@@ -21,7 +21,7 @@ class FakeStore implements Store<AppState> {
   FakeStore.authenticated()
       : _state = AppState.init().copyWith(
             authUserData: AuthUserDataExamples.minimal,
-            authStep: AuthStep.waitingForInput),
+            authStep: AuthStepEnum.waitingForInput),
         _changeController = StreamController<AppState>.broadcast(),
         reducer = EmptyReducer();
 
