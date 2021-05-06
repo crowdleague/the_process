@@ -44,6 +44,7 @@ dependencies:
   fast_immutable_collections: any
 
 dev_dependencies:
+  flutter_lints:
   integration_test:
     sdk: flutter
   flutter_test:
