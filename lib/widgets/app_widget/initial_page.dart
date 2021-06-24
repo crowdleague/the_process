@@ -8,6 +8,8 @@ import 'package:the_process/widgets/home/home_page.dart';
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 class InitialPage extends StatelessWidget {
+  const InitialPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AuthStepEnum>(
@@ -16,19 +18,19 @@ class InitialPage extends StatelessWidget {
         builder: (context, authStep) {
           switch (authStep) {
             case AuthStepEnum.checking:
-              return WaitingIndicator('Checking where we\'re at...');
+              return const WaitingIndicator('Checking where we\'re at...');
             case AuthStepEnum.contactingApple:
-              return WaitingIndicator('Contacting Apple...');
+              return const WaitingIndicator('Contacting Apple...');
             case AuthStepEnum.contactingGoogle:
-              return WaitingIndicator('Contacting Google...');
+              return const WaitingIndicator('Contacting Google...');
             case AuthStepEnum.signingInWithFirebase:
-              return WaitingIndicator('Preparing your Adventure...');
+              return const WaitingIndicator('Preparing your Adventure...');
             case AuthStepEnum.waitingForInput:
               return StoreConnector<AppState, AuthUserData?>(
                   distinct: true,
                   converter: (store) => store.state.authUserData,
                   builder: (context, userData) =>
-                      (userData == null) ? AuthPage() : HomePage());
+                      (userData == null) ? const AuthPage() : const HomePage());
             default:
               return Container();
           }

@@ -39,6 +39,7 @@ class FakeStore implements Store<AppState> {
   // We must override the reducer as a var in order to extend Store
   // but in our case it is always null.
   @override
+  // ignore: prefer_typing_uninitialized_variables
   var reducer;
 
   // We keep our own state so we can have a default value

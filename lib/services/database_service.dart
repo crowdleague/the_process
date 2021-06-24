@@ -43,7 +43,7 @@ class DatabaseService {
   /// [DocumentSnapshot] into a [ReduxAction] then send to the store using the
   /// passed in [StreamController].
   void connectProfileData({required String uid}) {
-    final dbSection = DatabaseSectionEnum.profileData;
+    const dbSection = DatabaseSectionEnum.profileData;
 
     try {
       // connect the database to the store and keep the subscription
@@ -85,7 +85,7 @@ class DatabaseService {
         'section': {'name': name}
       });
 
-      final dbSection = DatabaseSectionEnum.newEntries;
+      const dbSection = DatabaseSectionEnum.newEntries;
       subscriptions[dbSection] =
           _firestore.doc('new/$uid').snapshots().listen((doc) {
         try {
@@ -108,7 +108,7 @@ class DatabaseService {
   /// [CollectionSnapshot] into a [ReduxAction] then send to the store using the
   /// passed in [StreamController].
   void connectSections() {
-    final dbSection = DatabaseSectionEnum.sections;
+    const dbSection = DatabaseSectionEnum.sections;
 
     try {
       // connect the database to the store and keep the subscription

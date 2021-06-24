@@ -9,7 +9,7 @@ import 'package:the_process/widgets/home/project-overview/sections-view/sections
 import 'package:the_process/widgets/shared/waiting_indicator.dart';
 
 class SectionsView extends StatelessWidget {
-  const SectionsView();
+  const SectionsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SectionsVM?>(
@@ -19,12 +19,12 @@ class SectionsView extends StatelessWidget {
       converter: (store) => store.state.sections,
       builder: (context, vm) {
         if (vm == null || vm.creatingNewSection) {
-          return WaitingIndicator('Creating...');
+          return const WaitingIndicator('Creating...');
         }
         return Column(
           children: [
             SectionsListView(vm.list),
-            NewSectionItem(),
+            const NewSectionItem(),
           ],
         );
       },

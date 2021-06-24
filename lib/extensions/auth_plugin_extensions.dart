@@ -39,7 +39,6 @@ extension ConnectAndConvert on FirebaseAuth {
     // dispatch to the store with the controller
     return authStateChanges().listen((User? firebaseUser) {
       try {
-        firebaseUser?.getIdToken().then(print);
         controller.add(
             StoreAuthUserDataAction(authUserData: firebaseUser?.toModel()));
       } catch (error, trace) {

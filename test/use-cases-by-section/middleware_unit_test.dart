@@ -42,7 +42,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = PlumbStreamsAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(authServiceMock.connectAuthStateToStore()).thenThrow('error');
@@ -62,7 +62,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = ObserveAuthStateAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(authServiceMock.connectAuthStateToStore()).thenThrow('error');
@@ -82,7 +82,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = SignInWithAppleAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(authServiceMock.getAppleCredential()).thenThrow('error');
@@ -102,7 +102,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = SignInWithGoogleAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(authServiceMock.getGoogleCredential()).thenThrow('error');
@@ -122,7 +122,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = SignOutAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(authServiceMock.signOut()).thenThrow('error');
@@ -142,7 +142,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = DetectPlatformAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(platformServiceMock.detectPlatform()).thenThrow('error');
@@ -162,7 +162,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = LaunchUrlAction(url: 'url');
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(platformServiceMock.launchUrl(action.url)).thenThrow('error');
@@ -182,7 +182,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = DisregardProfileDataAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(databaseServiceMock.disconnect(DatabaseSectionEnum.profileData))
@@ -205,7 +205,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = GetAuthorizedAction(provider: ProviderName.google);
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(databaseServiceMock.updateAuthorizationStep(
@@ -229,7 +229,7 @@ void main() {
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
       final action = CreateSectionAction();
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(httpServiceMock.createSection(name: 'section')).thenThrow('error');
@@ -250,7 +250,7 @@ void main() {
       final fakeStore = FakeStore();
       final action =
           ConnectDatabaseAction(section: DatabaseSectionEnum.sections);
-      final nullDispatcher = (dynamic _) => null;
+      nullDispatcher(dynamic _) => null;
 
       // Create the error to catch.
       when(databaseServiceMock.connectSections()).thenThrow('error');

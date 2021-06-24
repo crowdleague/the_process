@@ -44,7 +44,7 @@ class AppState with _$AppState {
 
   factory AppState.init() => AppState(
       problems: IList(),
-      pagesData: <PageData>[InitialPageData()].lock,
+      pagesData: <PageData>[const InitialPageData()].lock,
       authStep: AuthStepEnum.checking,
       settings: Settings.init(),
       sections: SectionsVM.init());
