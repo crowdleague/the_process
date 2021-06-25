@@ -39,7 +39,7 @@ List<Middleware<AppState>> createAppMiddleware({
     SignInWithGoogleMiddleware(authService),
     SignOutMiddleware(authService),
     // Platform
-    DetectPlatformMiddleware(platformService),
+    DetectPlatformMiddleware(authService, platformService),
     LaunchUrlMiddleware(platformService),
     // Profile
     GetAuthorizedMiddleware(databaseService, platformService),
