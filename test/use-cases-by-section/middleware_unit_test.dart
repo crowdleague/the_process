@@ -137,7 +137,9 @@ void main() {
     test('DetectPlatform catches error', () {
       // Setup the middleware and mocks.
       final platformServiceMock = MockPlatformService();
-      final middleware = DetectPlatformMiddleware(platformServiceMock);
+      final authServiceMock = MockAuthService();
+      final middleware =
+          DetectPlatformMiddleware(authServiceMock, platformServiceMock);
 
       // Create the middleware dependencies.
       final fakeStore = FakeStore();
