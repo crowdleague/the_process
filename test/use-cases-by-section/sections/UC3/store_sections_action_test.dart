@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:test/test.dart';
-import 'package:the_process/actions/sections/store_sections_action.dart';
-import 'package:the_process/models/sections/section.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:test/test.dart';
+import 'package:the_process/actions/sections/store_project_sections_action.dart';
+import 'package:the_process/models/sections/project_section.dart';
 
 void main() {
   group('StoreSectionsAction', () {

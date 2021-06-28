@@ -1,11 +1,11 @@
 import 'package:redux/redux.dart';
 import 'package:the_process/middleware/app_middleware.dart';
-import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/reducers/app_reducer.dart';
 import 'package:the_process/services/auth_service.dart';
 import 'package:the_process/services/database_service.dart';
 import 'package:the_process/services/http_service.dart';
 import 'package:the_process/services/platform_service.dart';
+import 'package:the_process/state/app/app_state.dart';
 
 import '../test-doubles/firebase/fake_firebase_auth.dart';
 import '../test-doubles/firebase/fake_firebase_firestore.dart';

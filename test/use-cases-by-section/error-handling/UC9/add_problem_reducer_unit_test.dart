@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_process/actions/problems/add_problem_action.dart';
-import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/navigation/page_data/page_data.dart';
 import 'package:the_process/models/problems/problem.dart';
 import 'package:the_process/reducers/problems/add_problem.dart';
+import 'package:the_process/state/app/app_state.dart';
 
 void main() {
   group('AddProblemReducer', () {

@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:redfire/types.dart';
 import 'package:redux/redux.dart';
-import 'package:the_process/actions/redux_action.dart';
 import 'package:the_process/enums/auth/auth_step_enum.dart';
-import 'package:the_process/models/app_state/app_state.dart';
+import 'package:the_process/state/app/app_state.dart';
 
 import '../../test-data/models/auth_user_data_examples.dart';
 import 'empty_reducer.dart';

@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-import 'package:the_process/models/app_state/app_state.dart';
+import 'package:the_process/state/app/app_state.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 import 'package:the_process/utils/wrappers/firebase_wrapper.dart';
 import 'package:the_process/widgets/app_widget/app_widget.dart';
 
-import '../../test-doubles/redux/fake_store.dart';
 import '../../test-doubles/firebase/firebase_test_doubles.mocks.dart';
 import '../../test-doubles/redux/fake_redux_bundle_completable.dart';
+import '../../test-doubles/redux/fake_store.dart';
 import '../../test-doubles/wrappers/fake_firebase_wrapper_completable.dart';
 
 /// A test harness to wrap the widget under test, (in this case the

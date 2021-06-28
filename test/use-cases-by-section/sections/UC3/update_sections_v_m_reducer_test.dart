@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:the_process/actions/sections/update_sections_v_m_action.dart';
-import 'package:the_process/models/app_state/app_state.dart';
-import 'package:the_process/reducers/sections/update_sections_v_m.dart';
+import 'package:the_process/reducers/sections/update_project_sections_v_m.dart';
+import 'package:the_process/state/app/app_state.dart';
 
 void main() {
   group('UpdateSectionsVMReducer', () {

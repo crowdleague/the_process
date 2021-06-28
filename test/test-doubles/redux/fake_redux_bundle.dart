@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:redux/src/store.dart';
-import 'package:the_process/models/app_state/app_state.dart';
+import 'package:the_process/state/app/app_state.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 
 /// The purpose of this class is to provide the [Store] that it is passed in as

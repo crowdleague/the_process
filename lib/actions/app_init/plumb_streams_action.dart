@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:the_process/actions/redux_action.dart';
+import 'package:redfire/types.dart';
 
 part 'plumb_streams_action.freezed.dart';
 part 'plumb_streams_action.g.dart';

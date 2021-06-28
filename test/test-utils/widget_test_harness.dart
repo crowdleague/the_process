@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:the_process/actions/redux_action.dart';
-import 'package:the_process/models/app_state/app_state.dart';
+import 'package:redfire/types.dart';
+import 'package:the_process/state/app/app_state.dart';
 
 import '../test-doubles/redux/fake_store.dart';
 

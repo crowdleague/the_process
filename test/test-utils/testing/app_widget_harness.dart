@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-import 'package:the_process/models/app_state/app_state.dart';
+import 'package:the_process/state/app/app_state.dart';
 import 'package:the_process/utils/redux_bundle.dart';
 import 'package:the_process/utils/wrappers/firebase_wrapper.dart';
 import 'package:the_process/widgets/app_widget/app_widget.dart';

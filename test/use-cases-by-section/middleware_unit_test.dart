@@ -10,7 +10,7 @@ import 'package:the_process/actions/platform/detect_platform_action.dart';
 import 'package:the_process/actions/platform/launch_url_action.dart';
 import 'package:the_process/actions/problems/add_problem_action.dart';
 import 'package:the_process/actions/profile/disregard_profile_data_action.dart';
-import 'package:the_process/actions/sections/create_section_action.dart';
+import 'package:the_process/actions/sections/add_section_to_project_action.dart';
 import 'package:the_process/actions/shared/connect_database_action.dart';
 import 'package:the_process/enums/auth/authorization_step.dart';
 import 'package:the_process/enums/auth/provider_name.dart';
@@ -24,7 +24,7 @@ import 'package:the_process/middleware/platform/detect_platform.dart';
 import 'package:the_process/middleware/platform/launch_url.dart';
 import 'package:the_process/middleware/profile/disregard_profile_data.dart';
 import 'package:the_process/middleware/profile/get_authorized.dart';
-import 'package:the_process/middleware/sections/create_section.dart';
+import 'package:the_process/middleware/sections/create_section_middleware.dart';
 import 'package:the_process/middleware/shared/open_database_sink.dart';
 
 import '../test-doubles/redux/fake_store.dart';

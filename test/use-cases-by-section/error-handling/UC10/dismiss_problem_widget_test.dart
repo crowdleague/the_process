@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:the_process/models/app_state/app_state.dart';
 import 'package:the_process/models/navigation/page_data/page_data.dart';
 import 'package:the_process/models/problems/problem.dart';
+import 'package:the_process/state/app/app_state.dart';
 import 'package:the_process/widgets/shared/problem_page.dart';
 
-import '../../../test-doubles/services/service_test_doubles.mocks.dart';
 import '../../../test-doubles/redux/fake_store.dart';
+import '../../../test-doubles/services/service_test_doubles.mocks.dart';
 import '../../../test-utils/store_with_faked_services.dart';
 import '../../../test-utils/testing/app_widget_harness.dart';
 
