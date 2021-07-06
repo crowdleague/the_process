@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:the_process/actions/auth/store_auth_step_action.dart';
-import 'package:the_process/enums/auth/auth_step_enum.dart';
-import 'package:the_process/services/auth_service.dart';
-import 'package:the_process/services/database_service.dart';
-import 'package:the_process/widgets/app_widget/initializing_error_page.dart';
-import 'package:the_process/widgets/app_widget/initializing_indicator.dart';
-import 'package:the_process/widgets/auth/auth_page_buttons/apple_sign_in_button.dart';
-import 'package:the_process/widgets/home/project-overview/sections-view/new_section_item.dart';
-import 'package:the_process/widgets/shared/waiting_indicator.dart';
-
-import '../../../test-doubles/firebase/fake_firebase_auth.dart';
-import '../../../test-doubles/firebase/fake_firebase_firestore.dart';
-import '../../../test-utils/store_with_faked_services.dart';
-import '../../../test-utils/testing/app_widget_harness.dart';
+import 'package:redfire/actions.dart';
+import 'package:redfire/types.dart';
+import 'package:redfire/widgets.dart';
+import 'package:redfire_test/redfire_test.dart';
+import 'package:the_process/main.dart';
 
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized()
       as IntegrationTestWidgetsFlutterBinding;
   testWidgets('create a section', (WidgetTester tester) async {
-    final fakeAuth = FakeFirebaseAuth();
-    final fakeDatabase = FakeFirebaseFirestore();
+    // final fakeAuth = FakeFirebaseAuth();
+    // final fakeDatabase = FakeFirebaseFirestore();
 
-    final store = StoreWithFakedServices(
-        authService: AuthService(auth: fakeAuth),
-        databaseService: DatabaseService(database: fakeDatabase));
+    // final store = StoreWithFakedServices(
+    //     authService: AuthService(auth: fakeAuth),
+    //     databaseService: DatabaseService(database: fakeDatabase));
+    // final harness = AppWidgetHarness(store: store);
 
-    final harness = AppWidgetHarness(store: store);
+    final services = ServicesHarnessForAuth();
+    final harness =
+        AppWidgetHarness.withMockedPlugins(AppState.init(), services);
 
     runApp(harness.widget);
 
@@ -49,7 +43,7 @@ void main() {
 
       expect(find.byType(WaitingIndicator), findsOneWidget);
 
-      store.dispatch(StoreAuthStepAction(step: AuthStepEnum.waitingForInput));
+      store.dispatch(StoreAuthStepAction(AuthenticationEnum.waitingForInput));
 
       await tester.pump();
 

@@ -3,6 +3,7 @@ import 'package:the_process/middleware/project_sections/create_project_section_m
 import 'package:the_process/services/http_service.dart';
 
 import '../main.dart';
+import 'project_sections/tap_project_sections_middleware.dart';
 
 /// Middleware is used for a variety of things:
 /// - Logging
@@ -19,5 +20,6 @@ List<Middleware<AppState>> createAppMiddleware({
   return [
     // Sections
     CreateProjectSectionMiddleware(httpService),
+    TapProjectSectionsMiddleware(),
   ];
 }

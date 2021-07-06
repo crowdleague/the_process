@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:redfire/extensions.dart';
 import 'package:redfire/services.dart';
-import 'package:redfire/src/redux/extensions/store_extensions.dart';
 import 'package:redfire/types.dart';
 import 'package:redux/redux.dart';
 import 'package:the_process/actions/project_sections/store_project_sections_action.dart';

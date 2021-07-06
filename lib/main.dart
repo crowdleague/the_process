@@ -17,12 +17,11 @@ part 'main.g.dart';
 @freezed
 class AppState with _$AppState, RedFireState {
   factory AppState({
+    /// RedFire
     required IList<PageData> pages,
     required IList<ProblemInfo> problems,
     required Settings settings,
     required AuthState auth,
-
-    /// Profile
     ProfileData? profile,
 
     /// Sections
