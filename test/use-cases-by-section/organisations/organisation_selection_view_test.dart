@@ -4,8 +4,6 @@ import 'package:the_process/widgets/home/project-overview/organisation-selection
 import 'package:the_process/widgets/home/project-overview/organisation-selection-view/organisation_selection_view.dart';
 import 'package:the_process/widgets/home/project-overview/shared_widgets/selection_label.dart';
 
-import '../../test-utils/widget_test_harness.dart';
-
 void main() {
   group('OrganisationSelectionView', () {
     testWidgets('lays out expected views', (WidgetTester tester) async {

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:the_process/actions/redux_action.dart';
+import 'package:redfire/types.dart';
 import 'package:the_process/enums/platform/platform_enum.dart';
 
 part 'update_settings_action.freezed.dart';
